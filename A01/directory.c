@@ -22,7 +22,7 @@ int main() {
           {"Select the option(s) appropriately by entering the number:\n"},
           {"\tEnter 1 for creating a directory\n"},
           {"\tEnter 2 for removing directory\n"},
-     {"\tEnter 3 for printing working directory\n"},
+          {"\tEnter 3 for printing working directory\n"},
           {"\tEnter 4 for changing directory one level up\n"},
           {"\tEnter 5 for reading the contents of directory\n"},
           {"\tEnter 6 for closing the directory\n"},
