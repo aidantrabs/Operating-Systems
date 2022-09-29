@@ -8,7 +8,6 @@ Email: trab5590@mylaurier.ca
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -18,6 +17,8 @@ Email: trab5590@mylaurier.ca
 #define NUM_STR 10
 
 int main() {
+
+     /* Array of strings holding the options */
      const char CHOICES[NUM_STR][MAX_LENGTH] = {
           {"Select the option(s) appropriately by entering the number:\n"},
           {"\tEnter 1 for creating a directory\n"},
@@ -29,105 +30,104 @@ int main() {
           {"\tEnter q to exit the program\n"}
      };
 
-     for (int i = 0; i < NUM_STR; i++) {
-          printf("%s", CHOICES[i]);
-     }
+     char option;  
 
-     char option;
-     scanf("%c", &option);
+     /* Check that user does not quit */
+     while (option != 'q') { 
 
-     while (option != 'q') {
-          if (option == '1') {
-               printf("Enter the name of the directory you want to create:\n");
+          fflush(stdout); 
+
+          for (int i = 0; i < NUM_STR; i++) {
+               printf("%s", CHOICES[i]);
+
+          }
+
+          scanf(" %c", &option); 
+
+          /* Check if user wants to create directory */
+          if (option == '1') { 
+               printf("Enter the Directory name you want to create:\n");
+
                char directory_name[100];
+
                scanf("%s", directory_name);
 
                int status = mkdir(directory_name, 0777);
 
-               if (status == 0) {
-                    printf("Directory created successfully\n");
+               if (status == 0) { 
+                    fprintf(stderr, "Directory is Created Successfully.\n");
                } else {
-                    printf("Directory was not created\n");
+                    fprintf(stderr, "Directory was not created or already exists.\n");
                }
           } 
-     
-          else if (option == '2') {
-               printf("Enter the name of the directory you want to remove:\n");
+
+          /* Check if user wants to remove directory */
+          else if (option == '2') { 
+               printf("Enter the Directory name you want to remove:\n");
+
                char directory_name[100];
+
                scanf("%s", directory_name);
 
                int status = rmdir(directory_name);
 
                if (status == 0) {
-                    printf("Directory removed successfully\n");
+                    fprintf(stderr, "Directory is removed Successfully.\n");
                } else {
-                    printf("Directory was not removed\n");
+                    fprintf(stderr, "Directory was not removed.\n");
                }
           } 
-          
+
+          /* Check if user wants to print current working directory */
           else if (option == '3') {
                char cwd[1024];
                getcwd(cwd, sizeof(cwd));
-               printf("Current working directory: %s\n", cwd);
+
+               printf("Current Working Directory is: %s\n", cwd);
           } 
-          
+
+          /* Check if user wants to change directory level */
           else if (option == '4') {
                char cwd[1024];
                getcwd(cwd, sizeof(cwd));
+
                printf("Working Directory Before Operation: %s\n", cwd);
 
                int status = chdir("..");
 
                if (status == 0) {
-                    printf("Directory changed successfully\n");
+                    fprintf(stderr, "Directory Changed Successfully.\n");
                } else {
-                    printf("Directory was not changed\n");
+                    fprintf(stderr, "Directory was not changed.\n");
                }
 
                getcwd(cwd, sizeof(cwd));
                printf("Working Directory After Operation: %s\n", cwd);
           } 
-          
+
+          /* Check if user wants to print current working directory */
           else if (option == '5') {
-               printf("Enter the name of the directory you want to read:\n");
-               char directory_name[100];
-               scanf("%s", directory_name);
+               char cwd[1024];
+               getcwd(cwd, sizeof(cwd));
 
-               DIR *dir = opendir(directory_name);
-
-               if (dir == NULL) {
-                    printf("Directory was not opened\n");
-               } else {
-                    printf("Directory opened successfully\n");
-               }
-
+               DIR *dir = opendir(cwd);
                struct dirent *entry;
+
                while ((entry = readdir(dir)) != NULL) {
-                    printf("%s", entry->d_name);
+                    printf("%s\n", entry->d_name);
                }
-
-               closedir(dir);
           } 
-          
+
+          /* Check if user wants to close current working directory */
           else if (option == '6') {
-               printf("Enter the name of the directory you want to close: ");
-               char directory_name[100];
-               scanf("%s", directory_name);
+               char cwd[1024];
+               getcwd(cwd, sizeof(cwd));
 
-               DIR *dir = opendir(directory_name);
+               DIR *dir = opendir(cwd);
+               closedir(dir);
 
-               if (dir == NULL) {
-                    printf("Directory was not opened");
-               } else {
-                    closedir(dir);
-               }
+               printf("Directory Closed Successfully.\n");
           }
-
-          for (int i = 0; i < NUM_STR; i++) {
-               printf("%s", CHOICES[i]);
-          }
-
-          scanf("%c", &option);
      }
      return 0;
 }
