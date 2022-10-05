@@ -23,12 +23,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     const char *name = argv[1];	// file name
-    const int SIZE = 4096;		// file size
-
-    const char *message0 = "Studying ";
-    const char *message1 = "Operating Systems ";
-    const char *message2 = "Is Fun!";
-    const char *msg_end  = "\n";
+    const int SIZE = 4096;		// file size - @TODO calculate file size?? 
 
     int shm_fd;		// file descriptor, from shm_open()
     char *shm_base;	// base address, from mmap()
@@ -40,6 +35,27 @@ int main(int argc, char *argv[]) {
         printf("prod: Shared memory failed: %s\n", strerror(errno));
         exit(1);
     }
-  
+
+    Teacher Process 
+    GTA1 = fork() -> finish
+    wait() 
+    GTA2 = fork() -> finish
+    wait()
+
+    // Teacher Process 
+        // info pull from pipe
+        // Spawn GTA Child Process
+            // get information 
+            // print information
+
+    // GTA Process
+        // info pull from pipe
+        // spawn child processes and have them write to their memory space 
     
+    // TA Process
+        // Open and read memory space 
+        // Open and read file 
+        // Read starting char -> increment to same char at next line up until no more file 
+        // Increment total -> get average
+        // pass up through pipe
 }
