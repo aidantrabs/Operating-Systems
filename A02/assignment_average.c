@@ -27,16 +27,17 @@ int main(int argc, char *argv[]) {
     int GTA1, GTA2, GTA3;
 
     // Teacher Process spawns GTA processes
-    printf(stdout, "1 \n");
+    
     int GTA1 = fork();
+    printf("GTA 1 %s \n", GTA1);
     wait();
     if (GTA1 == 0) {
-        printf(stdout, "2 \n");
         int GTA2 = fork();
+        printf("GTA 2 %s \n", GTA2);
         wait();
         if (GTA2 == 0) {
-            printf(stdout, "2 \n");
             int GTA3 = fork();
+            printf("GTA3 %s \n", GTA3);
             wait();
         }
     } 
