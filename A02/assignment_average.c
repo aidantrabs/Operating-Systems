@@ -22,25 +22,24 @@ int main(int argc, char *argv[]) {
         printf("Program must be run with only one arg being fileName")
         exit(EXIT_FAILURE);
     }
-    const char *name = argv[1];	// file name
-    const int SIZE = 4096;		// file size - @TODO calculate file size?? 
+    const char *name = "sample_in_grades.txt";	// file name
 
-    int shm_fd;		// file descriptor, from shm_open()
-    char *shm_base;	// base address, from mmap()
-    char *ptr;		// shm_base is fixed, ptr is movable
+    int GTA1, GTA2, GTA3;
 
-    /* create the shared memory segment as if it was a file */
-    shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-    if (shm_fd == -1) {
-        printf("prod: Shared memory failed: %s\n", strerror(errno));
-        exit(1);
-    }
-
-    Teacher Process 
-    GTA1 = fork() -> finish
-    wait() 
-    GTA2 = fork() -> finish
-    wait()
+    // Teacher Process spawns GTA processes
+    printf(stdout, "1 \n");
+    int GTA1 = fork();
+    wait();
+    if (GTA1 == 0) {
+        printf(stdout, "2 \n");
+        int GTA2 = fork();
+        wait();
+        if (GTA2 == 0) {
+            printf(stdout, "2 \n");
+            int GTA3 = fork();
+            wait();
+        }
+    } 
 
     // Teacher Process 
         // info pull from pipe
