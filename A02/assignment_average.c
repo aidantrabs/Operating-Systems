@@ -19,30 +19,32 @@ Emails: trab5590@mylaurier.ca &
 
 int main(int argc, char *argv[]) { 
     if (argc != 1) { 
-        printf("Program must be run with only one arg being fileName")
+        printf("Program must be run with only one arg being fileName");
         exit(EXIT_FAILURE);
     }
     const char *name = "sample_in_grades.txt";	// file name
 
     // int GTA1, GTA2, GTA3;
-    int child_pid;
+    
 
     // Teacher Process spawns GTA processes
     
     // int GTA1 = fork();
-    // printf("GTA 1 %s \n", GTA1);
+    // printf("GTA 1 %i \n", GTA1);
     // wait();
     // if (GTA1 == 0) {
     //     int GTA2 = fork();
-    //     printf("GTA 2 %s \n", GTA2);
+    //     printf("GTA 2 %i \n", GTA2);
     //     wait();
     //     if (GTA2 == 0) {
     //         int GTA3 = fork();
-    //         printf("GTA3 %s \n", GTA3);
+    //         printf("GTA3 %i \n", GTA3);
     //         wait();
     //     }
     // } 
 
+    int child_pid;
+    int i;  
     for (i = 0; i < 3; i++) {
         child_pid = fork();
 
@@ -50,7 +52,7 @@ int main(int argc, char *argv[]) {
             perror("fork() failed");
             return 1;
         } else if (child_pid == 0) {
-            printf("Child: PID: %d; PPID: %d\n", getpid(), getppid() );
+            printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
             sleep(3);
             printf("Child %d says bye!\n", getpid());
             return 0;
