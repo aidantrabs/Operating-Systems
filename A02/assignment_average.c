@@ -30,63 +30,33 @@ int main(int argc, char *argv[]) {
     
 
     // Teacher Process spawns GTA processes
-    
-    // int GTA1 = fork();
-    // printf("GTA 1 %i \n", GTA1);
-    // wait();
-    // if (GTA1 == 0) {
-    //     int GTA2 = fork();
-    //     printf("GTA 2 %i \n", GTA2);
-    //     wait();
-    //     if (GTA2 == 0) {
-    //         int GTA3 = fork();
-    //         printf("GTA3 %i \n", GTA3);
-    //         wait();
-    //     }
-    // } 
 
     printf("I am the Parent, my PID: %d, my PPID: %d \n", getpid(), getppid());
 
     // Parent process spawns 3 GTA processes
-    int child_pid, GTA_pid;
+    int GTA_pid, TA_PID;
     int i;  
     for (i = 0; i < 3; i++) {
-        child_pid = fork();
-        if (child_pid == 0) {
+        GTA_pid = fork();
+        if (GTA_pid == 0) {
             printf("Layer 1 Child: PID: %d; PPID: %d\n", getpid(), getppid());
             break;
         }
         wait();
     }
 
-    if (child_pid == 0) {
-        child_pid = fork();
-        if (child_pid == 0) {
-            printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
-            return 0;
+    // GTA processes spawns 3 TA processes
+     
+    if (GTA_pid == 0) {
+        for (i = 0; i < 2; i++) {
+            TA_PID = fork();
+            if (TA_PID == 0) {
+                printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
+                return 0;
+            }
+            wait();
         }
     }
-    wait();
-
-    // code here is for GTA process
-    // if (child_pid > 0) { 
-
-    // }
-
-    // for (i = 0; i < 3; i++) {
-    //     child_pid = wait(&status);
-    //     if (child_pid == -1) {
-    //         perror("wait() failed");
-    //         return 1;
-    //     }
-
-    //     if (WIFEXITED(status)) {
-    //         printf("Child %d exited with code %d\n", child_pid, WEXITSTATUS(status));
-    //     } else {
-    //         // Handle other cases here like WIFSIGNALED, WIFSTOPPED, etc...
-    //         // See `man 2 wait` for more information.
-    //     }
-    // }
 
     return 0;
 
