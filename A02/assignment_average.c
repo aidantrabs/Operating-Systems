@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     //     }
     // } 
 
-    printf("I am the Parent, my PID: %d\n", getpid());
+    printf("I am the Parent, my PID: %d, my PPID: %d \n", getpid(), getppid());
 
     // Parent process spawns 3 GTA processes
     int child_pid, GTA_pid;
@@ -56,6 +56,12 @@ int main(int argc, char *argv[]) {
             printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
             return 0;
         }
+    }
+
+    child_pid = fork();
+    if (child_pid == 0) {
+        printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
+        return 0;
     }
 
     // code here is for GTA process
