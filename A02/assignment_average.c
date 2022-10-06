@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
     int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
     char* TA_pipe_string; // string used to read/write for TA pipe
-    char* GTA_pipe_string; // string used to read/write for GTA pipe
+    // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
     int GTA_pid, TA_PID; // PIDs for 
      // Parent process spawns 3 GTA processes
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 close(TA_pipe[0]); // Close Reading end of TA_pipe for TA process
                 
-                TA_pipe_string = "Average of column goes here"
+                TA_pipe_string = "Average of column goes here";
                 write(TA_pipe[1], TA_pipe_string, strlen(TA_pipe_string) + 1);
                 return 0;
             }
@@ -94,12 +94,4 @@ int main(int argc, char *argv[]) {
         // Read starting char -> increment to same char at next line up until no more file 
         // Increment total -> get average
         // pass up through pipe
-}
-
-float avgOfColumnOfFile(int column_num, *char file_name) { 
-
-}
-
-int* createPipe() { 
-    pipe(fd1)
 }
