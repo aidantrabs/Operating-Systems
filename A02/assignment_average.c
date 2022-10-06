@@ -1,8 +1,8 @@
 /**
 --------------------------------------
 Authors: Aidan Traboulay & Aleksander Neceski
-IDs: 200115590 & 
-Emails: trab5590@mylaurier.ca & 
+IDs: 200115590 & 201851860
+Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 --------------------------------------
 **/
 #include <stdio.h>
