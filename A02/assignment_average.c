@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
     int i;  
     for (i = 0; i < 3; i++) {
         child_pid = fork();
-        } else if (child_pid == 0) {
+        if (child_pid == 0) {
             printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
             return 0;
         }
