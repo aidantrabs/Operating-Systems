@@ -23,6 +23,8 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     const char *name = "sample_in_grades.txt";	// file name
+    int status;
+
 
     // int GTA1, GTA2, GTA3;
     
@@ -43,36 +45,38 @@ int main(int argc, char *argv[]) {
     //     }
     // } 
 
-    // int child_pid;
-    // int i;  
-    // for (i = 0; i < 3; i++) {
-    //     child_pid = fork();
+    printf("I am the Parent, my PID: %d\n", getpid());
 
-    //     if (child_pid == -1) {
-    //         perror("fork() failed");
-    //         return 1;
-    //     } else if (child_pid == 0) {
-    //         printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
-    //         sleep(3);
-    //         printf("Child %d says bye!\n", getpid());
-    //         return 0;
-    //     }
-    // }
-
+    // Parent process spawns 3 GTA processes
+    int child_pid, GTA_pid;
+    int i;  
     for (i = 0; i < 3; i++) {
-        child_pid = wait(&status);
-        if (child_pid == -1) {
-            perror("wait() failed");
-            return 1;
-        }
-
-        if (WIFEXITED(status)) {
-            printf("Child %d exited with code %d\n", child_pid, WEXITSTATUS(status));
-        } else {
-            // Handle other cases here like WIFSIGNALED, WIFSTOPPED, etc...
-            // See `man 2 wait` for more information.
+        child_pid = fork();
+        } else if (child_pid == 0) {
+            printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
+            return 0;
         }
     }
+
+    // code here is for GTA process
+    // if (child_pid > 0) { 
+
+    // }
+
+    // for (i = 0; i < 3; i++) {
+    //     child_pid = wait(&status);
+    //     if (child_pid == -1) {
+    //         perror("wait() failed");
+    //         return 1;
+    //     }
+
+    //     if (WIFEXITED(status)) {
+    //         printf("Child %d exited with code %d\n", child_pid, WEXITSTATUS(status));
+    //     } else {
+    //         // Handle other cases here like WIFSIGNALED, WIFSTOPPED, etc...
+    //         // See `man 2 wait` for more information.
+    //     }
+    // }
 
     return 0;
 
