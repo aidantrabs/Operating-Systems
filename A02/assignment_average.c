@@ -54,14 +54,19 @@ int main(int argc, char *argv[]) {
         child_pid = fork();
         if (child_pid == 0) {
             printf("Layer 1 Child: PID: %d; PPID: %d\n", getpid(), getppid());
+            break;
         }
+        wait();
     }
 
-    child_pid = fork();
     if (child_pid == 0) {
-        printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
-        return 0;
+        child_pid = fork();
+        if (child_pid == 0) {
+            printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
+            return 0;
+        }
     }
+    wait();
 
     // code here is for GTA process
     // if (child_pid > 0) { 
