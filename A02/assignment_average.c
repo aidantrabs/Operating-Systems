@@ -24,23 +24,56 @@ int main(int argc, char *argv[]) {
     }
     const char *name = "sample_in_grades.txt";	// file name
 
-    int GTA1, GTA2, GTA3;
+    // int GTA1, GTA2, GTA3;
+    int child_pid;
 
     // Teacher Process spawns GTA processes
     
-    int GTA1 = fork();
-    printf("GTA 1 %s \n", GTA1);
-    wait();
-    if (GTA1 == 0) {
-        int GTA2 = fork();
-        printf("GTA 2 %s \n", GTA2);
-        wait();
-        if (GTA2 == 0) {
-            int GTA3 = fork();
-            printf("GTA3 %s \n", GTA3);
-            wait();
+    // int GTA1 = fork();
+    // printf("GTA 1 %s \n", GTA1);
+    // wait();
+    // if (GTA1 == 0) {
+    //     int GTA2 = fork();
+    //     printf("GTA 2 %s \n", GTA2);
+    //     wait();
+    //     if (GTA2 == 0) {
+    //         int GTA3 = fork();
+    //         printf("GTA3 %s \n", GTA3);
+    //         wait();
+    //     }
+    // } 
+
+    for (i = 0; i < 3; i++) {
+        child_pid = fork();
+
+        if (child_pid == -1) {
+            perror("fork() failed");
+            return 1;
+        } else if (child_pid == 0) {
+            printf("Child: PID: %d; PPID: %d\n", getpid(), getppid() );
+            sleep(3);
+            printf("Child %d says bye!\n", getpid());
+            return 0;
         }
-    } 
+    }
+
+    // for (i = 0; i < 3; i++) {
+    //     child_pid = wait(&status);
+    //     if (child_pid == -1) {
+    //         perror("wait() failed");
+    //         return 1;
+    //     }
+
+    //     if (WIFEXITED(status)) {
+    //         printf("Child %d exited with code %d\n", child_pid, WEXITSTATUS(status));
+    //     } else {
+    //         // Handle other cases here like WIFSIGNALED, WIFSTOPPED, etc...
+    //         // See `man 2 wait` for more information.
+    //     }
+    // }
+
+    return 0;
+}
 
     // Teacher Process 
         // info pull from pipe
