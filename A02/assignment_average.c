@@ -53,14 +53,13 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < 3; i++) {
         child_pid = fork();
         if (child_pid == 0) {
-            printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
-            return 0;
+            printf("Layer 1 Child: PID: %d; PPID: %d\n", getpid(), getppid());
         }
     }
 
     child_pid = fork();
     if (child_pid == 0) {
-        printf("Child: PID: %d; PPID: %d\n", getpid(), getppid());
+        printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
         return 0;
     }
 
