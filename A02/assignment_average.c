@@ -31,8 +31,6 @@ int main(int argc, char *argv[]) {
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
-    
-    pipe(TA_pipe);
 
     int GTA_pid, TA_PID; // PIDs for 
      // Parent process spawns 3 GTA processes
@@ -56,6 +54,7 @@ int main(int argc, char *argv[]) {
     // GTA processes spawn 3 TA processes
     if (GTA_pid == 0) {
         for (i = 0; i < 2; i++) {
+            pipe(TA_pipe); // open pipe between parent and child
             TA_PID = fork();
             if(TA_PID > 0) {
                 wait(NULL);
@@ -69,9 +68,9 @@ int main(int argc, char *argv[]) {
                 printf("TA_piped_array size: %d\n", n);
                 int j = 0;
                 for ( j = 0;j < n/4; j++)
-            
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
+                close(TA_pipe[0]);
             } 
             else if( TA_PID == 0 ) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
@@ -81,6 +80,7 @@ int main(int argc, char *argv[]) {
                 // duplicating fd[0] with standard output 1
                 // dup(TA_pipe[1]);  
                 write(TA_pipe[1], &arr, sizeof(arr));
+                close(TA_pipe[1]); 
                 return 0;
             } 
             else {
