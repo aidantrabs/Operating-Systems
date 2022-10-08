@@ -47,6 +47,7 @@ int main(int argc, char *argv[]) {
             // Pipe Ta_pipe_string up to Teacher
         }
         else {
+            printf("Layer 1 GTA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
             perror("error\n"); //fork()
         }
     }
@@ -86,8 +87,9 @@ int main(int argc, char *argv[]) {
                 return 0;
             } 
             else {
-            perror("error\n"); //fork()
-        }
+                printf("Layer 2 TA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
+                perror("error\n"); //fork()
+            }
         }
     }
 
