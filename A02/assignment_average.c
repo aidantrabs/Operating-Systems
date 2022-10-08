@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
-
+    
     int GTA_pid, TA_PID; // PIDs for 
      // Parent process spawns 3 GTA processes
     int i;  
@@ -40,7 +40,6 @@ int main(int argc, char *argv[]) {
         GTA_pid = fork();
         if (GTA_pid == 0) {
             printf("Layer 1 GTA: PID: %d; PPID: %d\n", getpid(), getppid());
-            pipe(TA_pipe); // Close writing end of TA_pipe for GTA process
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
