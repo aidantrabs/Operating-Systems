@@ -92,10 +92,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    close(TA_pipe[1]); 
-    close(TA_pipe[0]); 
-    close(TA_pipe[0]);
-    close(GTA_pipe[0]);
+    if (TA_PID == 0) {
+        close(TA_pipe[1]); 
+    } else if (TA_PID > 0) { 
+        close(TA_pipe[0]);
+    }
+    // close(GTA_pipe[0]);
+    // close(GTA_pipe[0]);
 
     return 0;
 
