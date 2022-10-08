@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
     int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
-    char* TA_pipe_string; // string used to read/write for TA pipe
+    // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
     int GTA_pid, TA_PID; // PIDs for 
@@ -40,18 +40,17 @@ int main(int argc, char *argv[]) {
         GTA_pid = fork();
         if (GTA_pid == 0) {
             printf("Layer 1 GTA: PID: %d; PPID: %d\n", getpid(), getppid());
-
-            // Open reading end of pipe between GTA and TA
-            if (pipe(TA_pipe) < 0) { 
+            if (pipe(TA_pipe) < 0) {
                 perror("pipe");
                 exit(EXIT_FAILURE);
             }
+            close(0); // closing the standard input 
             close(TA_pipe[1]); // Close writing end of TA_pipe for GTA process
-            break;
+            break; // GTA process doesn't continue operation
         }
-        wait(); // wait for execution of child process to complete
-        read(TA_pipe[0], TA_pipe_string, 100); // read information put into pipe
-        printf("TA_piped_string:  %s\n", TA_pipe_string);
+        if (GTA_pid > 0) { 
+            wait(); // wait for execution of child process to complete
+        }
         // Pipe Ta_pipe_string up to Teacher
     }
 
@@ -63,11 +62,22 @@ int main(int argc, char *argv[]) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 close(TA_pipe[0]); // Close Reading end of TA_pipe for TA process
                 
-                TA_pipe_string = "Average of column goes here";
-                write(TA_pipe[1], TA_pipe_string, strlen(TA_pipe_string) + 1);
+                int arr[] = {1, 2, 3, 4, 5};
+                // Write information to GTA process
+                write(TA_pipe[1], arr, sizeof(arr)); 
                 return 0;
             }
-            wait();
+            if (TA_PID > 0) { 
+                wait(NULL);
+                int arr[10];
+                int n = read(TA_pipe[0], arr, sizeof(arr)); // read information put into pipe
+                printf("TA_piped_array:");
+                for ( i = 0;i < n/4; i++)
+                    // printing the array received from child process
+                    printf("%d ", arr[i]); 
+
+                // write to parent process
+            }
         }
     }
 
