@@ -22,17 +22,18 @@ int main(int argc, char *argv[]) {
         printf("Program must be run with only one arg being fileName");
         exit(EXIT_FAILURE);
     }
-    const char *name = "sample_in_grades.txt";	// file name
-    int status;
+    // const char *name = "sample_in_grades.txt";	// file name
     
     // Teacher Process spawns GTA processes
     printf("I am the Parent, my PID: %d, my PPID: %d \n", getpid(), getppid());
 
-    int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
+    // int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
     
+    pipe(TA_pipe);
+
     int GTA_pid, TA_PID; // PIDs for 
      // Parent process spawns 3 GTA processes
     int i;  
