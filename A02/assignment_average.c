@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
                 dup(TA_pipe[0]); 
                 int arr[10];
                 // n stores the total bytes read successfully
-                int n = read(fd[0], arr, sizeof(arr));
+                int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
                 int j = 0;
                 for ( j = 0;j < n/4; j++)
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
             } 
-            else if( pid == 0 ) {
+            else if( TA_pipe == 0 ) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 int arr[] = {1, 2, 3, 4, 5};
                 // no need to use the read end of pipe here so close it
@@ -82,7 +82,7 @@ int main(int argc, char *argv[]) {
                 // closing the standard output
                 close(1);    
                 // duplicating fd[0] with standard output 1
-                dup(fd[1]);  
+                dup(TA_pipe[1]);  
                 write(1, arr, sizeof(arr));
                 return 0;
             } 
