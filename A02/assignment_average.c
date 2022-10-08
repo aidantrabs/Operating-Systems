@@ -58,12 +58,10 @@ int main(int argc, char *argv[]) {
             TA_PID = fork();
             if(TA_PID > 0) {
                 wait(NULL);
-                // closing the standard input 
-                close(0);
                 // no need to use the write end of pipe here so close it
                 close(TA_pipe[1]); 
                 // duplicating fd[0] with standard input 0
-                dup(TA_pipe[0]); 
+                // dup(TA_pipe[0]); 
                 int arr[10];
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
@@ -74,16 +72,14 @@ int main(int argc, char *argv[]) {
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
             } 
-            else if( TA_pipe == 0 ) {
+            else if( TA_PID == 0 ) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 int arr[] = {1, 2, 3, 4, 5};
                 // no need to use the read end of pipe here so close it
                 close(TA_pipe[0]); 
-                // closing the standard output
-                close(1);    
                 // duplicating fd[0] with standard output 1
-                dup(TA_pipe[1]);  
-                write(1, arr, sizeof(arr));
+                // dup(TA_pipe[1]);  
+                write(TA_pipe[1], &arr, sizeof(arr));
                 return 0;
             } 
             else {
