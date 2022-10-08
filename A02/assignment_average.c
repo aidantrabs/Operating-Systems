@@ -48,7 +48,7 @@ int main(int argc, char *argv[]) {
         }
         else {
             printf("Layer 1 GTA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
-            perror("error\n"); //fork()
+            perror("error"); //fork()
         }
     }
 
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
             } 
             else {
                 printf("Layer 2 TA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
-                perror("error\n"); //fork()
+                perror("error"); //fork()
             }
         }
     }
