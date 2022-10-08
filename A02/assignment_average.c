@@ -72,7 +72,8 @@ int main(int argc, char *argv[]) {
                 int arr[10];
                 int n = read(TA_pipe[0], arr, sizeof(arr)); // read information put into pipe
                 printf("TA_piped_array:");
-                for ( i = 0;i < n/4; i++)
+                int j = 0
+                for ( j = 0; j < n/4; j++)
                     // printing the array received from child process
                     printf("%d ", arr[i]); 
 
