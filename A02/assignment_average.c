@@ -55,8 +55,11 @@ int main(int argc, char *argv[]) {
     // GTA processes spawn 3 TA processes
     if (GTA_pid == 0) {
         for (i = 0; i < 2; i++) {
-            pipe(TA_pipe); // open pipe between parent and child
-            TA_PID = fork();
+             
+            if (GTA_pid == 0) {
+                pipe(TA_pipe); // open pipe between parent and child
+                TA_PID = fork();
+            }
             if(TA_PID > 0) {
                 wait(NULL);
                 // no need to use the write end of pipe here so close it
@@ -71,6 +74,7 @@ int main(int argc, char *argv[]) {
                 for ( j = 0;j < n/4; j++)
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
+                    if (j == 3) printf("\n");
                 close(TA_pipe[0]);
             } 
             else if( TA_PID == 0 ) {
