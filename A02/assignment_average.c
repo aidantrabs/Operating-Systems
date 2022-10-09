@@ -71,11 +71,12 @@ int main(int argc, char *argv[]) {
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
                 int j = 0;
-                for ( j = 0;j < n/4; j++)
+                for ( j = 0;j < n/4; j++) {
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
                     if (j == 4) printf("\n");
                     fflush(stdout);
+                }
                 close(TA_pipe[0]);
             } 
             else if( TA_PID == 0 ) {
