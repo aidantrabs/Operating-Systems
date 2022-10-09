@@ -42,8 +42,8 @@ int main(int argc, char *argv[]) {
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
-            printf('i in GTA generating loop: %d \n', i);
-            wait(); // wait for execution of child process to complete
+            printf("i in GTA generating loop: %d \n", i);
+            wait(NULL); // wait for execution of child process to complete
             // Pipe Ta_pipe_string up to Teacher
         }
         else {
