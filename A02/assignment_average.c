@@ -74,7 +74,8 @@ int main(int argc, char *argv[]) {
                 for ( j = 0;j < n/4; j++)
                     // printing the array received from child process
                     printf("%d ", arr[j]); 
-                    if (j == 3) printf("\n");
+                    if (j == 4) printf("\n");
+                    fflush(stdout);
                 close(TA_pipe[0]);
             } 
             else if( TA_PID == 0 ) {
@@ -96,7 +97,10 @@ int main(int argc, char *argv[]) {
     }
     // close(GTA_pipe[0]);
     // close(GTA_pipe[0]);
-
+    printf("\n");
+    fflush(stdout);
+    printf("\n");
+    fflush(stdout);
     return 0;
 
     // Teacher Process 
