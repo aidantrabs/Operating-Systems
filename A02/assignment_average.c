@@ -63,36 +63,32 @@ int main(int argc, char *argv[]) {
                 pipe(TA_pipe); // open pipe between parent and child
                 TA_PID = fork();
             }
-            if(TA_PID > 0) {
-                wait(NULL);
-                // no need to use the write end of pipe here so close it
+            if(TA_PID > 0) {        // inside of Teacher process
+                wait(NULL);         // Wait for GTA process completion
                 close(TA_pipe[1]); 
-                // duplicating fd[0] with standard input 0
-                // dup(TA_pipe[0]); 
-                int arr[10];
+
+                int arr[10];        
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
                 int j = 0;
-                for ( j = 0;j < n/4; j++) {
-                    // printing the array received from child process
+                for ( j = 0;j < n/4; j++) { // GTA processing goes here 
                     printf("%d ", arr[j]); 
                     if (j == 4) printf("\n");
                     fflush(stdout);
                 }
                 close(TA_pipe[0]);
-            } 
+            }
             else if( TA_PID == 0 ) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 int arr[] = {1, 2, 3, 4, 5};
-                // no need to use the read end of pipe here so close it
-                close(TA_pipe[0]); 
-                // duplicating fd[0] with standard output 1
-                // dup(TA_pipe[1]);  
+                
+                close(TA_pipe[0]); // close unused reading end 
+                 
                 write(TA_pipe[1], &arr, sizeof(arr));
                 close(TA_pipe[1]); 
                 return 0;
-            } 
+            }
             else {
                 printf("Layer 2 TA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
                 perror("error"); //fork()
