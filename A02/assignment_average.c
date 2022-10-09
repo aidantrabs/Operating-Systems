@@ -42,6 +42,7 @@ int main(int argc, char *argv[]) {
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
+            printf('i in GTA generating loop: %d \n', i);
             wait(); // wait for execution of child process to complete
             // Pipe Ta_pipe_string up to Teacher
         }
@@ -88,12 +89,6 @@ int main(int argc, char *argv[]) {
                 perror("error"); //fork()
             }
         }
-    }
-
-    if (TA_PID == 0) {
-        close(TA_pipe[1]); 
-    } else if (TA_PID > 0) { 
-        close(TA_pipe[0]);
     }
     // close(GTA_pipe[0]);
     // close(GTA_pipe[0]);
