@@ -1,8 +1,8 @@
 /**
 --------------------------------------
 Authors: Aidan Traboulay & Aleksander Neceski
-IDs: 200115590 & 
-Emails: trab5590@mylaurier.ca & 
+IDs: 200115590 & 201851860
+Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 --------------------------------------
 **/
 #include <stdio.h>
@@ -18,20 +18,14 @@ Emails: trab5590@mylaurier.ca &
 
 
 int main(int argc, char *argv[]) { 
-    if (argc != 1) { 
-        printf("Program must be run with only one arg being fileName");
-        exit(EXIT_FAILURE);
-    }
-    const char *name = "sample_in_grades.txt";	// file name
-    int status;
-
-
-    // int GTA1, GTA2, GTA3;
-    
-
     // Teacher Process spawns GTA processes
 
-    printf("I am the Parent, my PID: %d, my PPID: %d \n", getpid(), getppid());
+    int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
+    int TA_pipe[2];  // Used for pipe between GTA process and TA process
+    // char* TA_pipe_string; // string used to read/write for TA pipe
+    // char* GTA_pipe_string; // string used to read/write for GTA pipe
+
+    pipe(GTA_pipe);
 
     // Parent process spawns 3 GTA processes
     int GTA_pid, TA_PID;
@@ -39,25 +33,89 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < 3; i++) {
         GTA_pid = fork();
         if (GTA_pid == 0) {
-            printf("Layer 1 Child: PID: %d; PPID: %d\n", getpid(), getppid());
-            break;
+            break; // GTA process doesn't continue operation
         }
-        wait();
+        else if (GTA_pid > 0) { 
+            wait(NULL);         // Wait for GTA process completion
+            // close(TA_pipe[1]); 
+
+            // int arr[2];        
+            // // n stores the total bytes read successfully
+            // int n = read(TA_pipe[0], arr, sizeof(arr));
+            // Pipe Ta_pipe_string up to Teacher
+        }
+        else {
+            printf("Layer 1 GTA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
+            perror("error"); //fork()
+        }
     }
 
     // GTA processes spawns 3 TA processes
-     
+    float avg_assignment_grades[2];
     if (GTA_pid == 0) {
-        for (i = 0; i < 2; i++) {
-            TA_PID = fork();
-            if (TA_PID == 0) {
-                printf("Layer 2 Child: PID: %d; PPID: %d\n", getpid(), getppid());
+        int j = 0; 
+        for (j = 0; j < 2; j++) {
+            if (GTA_pid == 0) {
+                pipe(TA_pipe); // open pipe between parent and child
+                TA_PID = fork();
+            }
+            if(TA_PID > 0) {        // inside of Teacher process
+                wait(NULL);         // Wait for GTA process completion
+                close(TA_pipe[1]); 
+
+                int arr[100];        
+                // n stores the total bytes read successfully
+                int n = read(TA_pipe[0], arr, sizeof(arr));
+                int k = 0;
+                float total = 0;
+                int num_grades = n/4; 
+                for ( k = 0;k < num_grades; k++) { // GTA processing goes here 
+                    total = total + arr[k];
+                    fflush(stdout);
+                }
+                avg_assignment_grades[j] = total / num_grades;
+                printf("Assignment %d - Average = %.1f\n", 2*i+j, avg_assignment_grades[j]);
+                close(TA_pipe[0]);
+            }
+            else if( TA_PID == 0 ) {
+                int arr[100];
+                int temp[100];
+                int k = 0; 
+                FILE* f2 = fopen("sample_in_grades.txt" , "r");
+                if (NULL != f2)
+                {
+                    char lineBuf[100];
+                    while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
+                    {
+                        int col = 0;
+                        // Get column elements from lineBuf here into elements[row][col]
+                        //  locating the next column parsing for delimiters.
+                        // This depends on the file format
+                        const char *colData = lineBuf;
+                        char delim[] = " ";
+                        char *str = strtok(lineBuf, delim);
+                        while(str != NULL) { 
+                            temp[col] = atoi(str); // convert temp into array of column values
+                            col++;
+                            str = strtok(NULL, delim);
+                        }
+                        arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
+                        k++;
+                    }
+                    fclose(f2);
+                }
+                
+                close(TA_pipe[0]); // close unused reading end
+                write(TA_pipe[1], &arr, k*sizeof(int)); // sends k bites to read
+                close(TA_pipe[1]);
                 return 0;
             }
-            wait();
+            else {
+                printf("Layer 2 TA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
+                perror("error"); //fork()
+            }
         }
     }
-
     return 0;
 
     // Teacher Process 
