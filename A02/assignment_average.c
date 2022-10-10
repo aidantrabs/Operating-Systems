@@ -90,12 +90,12 @@ int main(int argc, char *argv[]) {
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
-                            printf("%s ", str);
                             temp[col] = atoi(str); // convert temp into array of column values
+                            printf("%s ", temp[col]);
                             col++;
                             str = strtok(NULL, delim);
                         }
-                        
+
                         printf("\n");
                         fflush(stdout);
                     }
