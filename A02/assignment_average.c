@@ -25,8 +25,6 @@ int main(int argc, char *argv[]) {
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
-    FILE* f2 = fopen("sample_in_grades.txt" , "r");
-
 
     // Parent process spawns 3 GTA processes
     int GTA_pid, TA_PID;
@@ -59,7 +57,7 @@ int main(int argc, char *argv[]) {
             if(TA_PID > 0) {        // inside of Teacher process
                 wait(NULL);         // Wait for GTA process completion
                 close(TA_pipe[1]); 
-
+                FILE* f2 = fopen("sample_in_grades.txt" , "r");
                 int arr[100];        
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
@@ -98,6 +96,7 @@ int main(int argc, char *argv[]) {
                             fflush(stdout);
                         }
                     }
+                    fclose(f2);
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
                 }
@@ -113,7 +112,6 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    fclose(f2);
 
     printf("\n");
     fflush(stdout);
