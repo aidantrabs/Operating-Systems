@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
                 wait(NULL);         // Wait for GTA process completion
                 close(TA_pipe[1]); 
 
-                int arr[10];        
+                int arr[100];        
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
