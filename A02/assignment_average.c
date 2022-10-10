@@ -99,8 +99,8 @@ int main(int argc, char *argv[]) {
                         printf("\n");
                         fflush(stdout);
                     }
-                    printf("2*i+j = %d ")
-                    printf("temp[2*i+j]%d \n", temp[2*i+j])
+                    printf("2*i+j = %d ");
+                    printf("temp[2*i+j]%d \n", temp[2*i+j]);
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
                     fclose(f2);
