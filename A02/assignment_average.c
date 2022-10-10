@@ -78,11 +78,11 @@ int main(int argc, char *argv[]) {
                 FILE* f2 = fopen("sample_in_grades.txt" , "r");
                 if (NULL != f2)
                 {
+                    printf("Inside of File Reading \n");
                     char lineBuf[100];
                     while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
                     {
                         int col = 0;
-                        printf("Inside of File Reading");
                         // Get column elements from lineBuf here into elements[row][col]
                         //  locating the next column parsing for delimiters.
                         // This depends on the file format
