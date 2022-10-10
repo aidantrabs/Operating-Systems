@@ -64,15 +64,15 @@ int main(int argc, char *argv[]) {
                 printf("TA_piped_array size: %d\n", n);
                 int k = 0;
                 float total = 0;
-                float num_grades = n/4; 
+                int num_grades = n/4; 
                 printf("num_grades: %d", num_grades);
                 for ( k = 0;k < num_grades; k++) { // GTA processing goes here 
                     total = total + arr[k];
                     fflush(stdout);
                 }
-                printf("total assignment grades: %d \n", total); 
+                printf("total assignment grades: %f \n", total); 
                 avg_assignment_grades[j] = total / num_grades;
-                printf("avg assignment grades: %d for %d assignments\n", avg_assignment_grades[j], num_grades);
+                printf("avg assignment grades: %f for %d assignments\n", avg_assignment_grades[j], num_grades);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
