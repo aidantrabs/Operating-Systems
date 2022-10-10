@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     // GTA processes spawns 3 TA processes
-     
+    float avg_assignment_grades[2];
     if (GTA_pid == 0) {
         int j = 0; 
         for (j = 0; j < 2; j++) {
@@ -62,12 +62,14 @@ int main(int argc, char *argv[]) {
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
-                // int k = 0;
-                // for ( k = 0;k < n/4; k++) { // GTA processing goes here 
-                //     printf("%d ", arr[k]); 
-                //     if (k == n/4) printf("\n");
-                //     fflush(stdout);
-                // }
+                int k = 0;
+                int total = 0;
+                for ( k = 0;k < n/4; k++) { // GTA processing goes here 
+                    total = total + arr[k];
+                    fflush(stdout);
+                }
+                printf("total assignment grades: %d \n", total); 
+                avg_assignment_grades[j] = ((float) total) / n;
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
