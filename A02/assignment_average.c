@@ -92,9 +92,10 @@ int main(int argc, char *argv[]) {
                         while(str != NULL) { 
                             printf("%s ", str);
                             temp[col] = atoi(str); // convert temp into array of column values
-                            col++
+                            col++;
                             str = strtok(NULL, delim);
                         }
+                        
                         printf("\n");
                         fflush(stdout);
                     }
