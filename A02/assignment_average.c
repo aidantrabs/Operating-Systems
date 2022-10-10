@@ -70,9 +70,9 @@ int main(int argc, char *argv[]) {
                     total = total + arr[k];
                     fflush(stdout);
                 }
-                printf("total assignment grades: %f \n", total); 
+                printf("total assignment grades: %.1f \n", total); 
                 avg_assignment_grades[j] = total / num_grades;
-                printf("avg assignment grades: %f for %d assignments\n", avg_assignment_grades[j], num_grades);
+                printf("avg assignment grades: %.1f for %d assignments\n", avg_assignment_grades[j], num_grades);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
