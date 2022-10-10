@@ -90,18 +90,12 @@ int main(int argc, char *argv[]) {
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
-                            printf("%s", str);
+                            printf("%s ", str);
                             temp[col++] = atoi(str); // convert temp into array of column values
                             str = strtok(NULL, delim);
                         }
-                        
-                        int l = 0;
-                        int n = sizeof(temp)/sizeof(temp[0]);
-                        for ( l = 0;l < n/4; l++) { // GTA processing goes here 
-                            printf("%d ", arr[l]); 
-                            if (l == n/4) printf("\n");
-                            fflush(stdout);
-                        }
+                        printf("\n");
+                        fflush(stdout);
                     }
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
