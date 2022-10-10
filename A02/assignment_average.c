@@ -91,7 +91,8 @@ int main(int argc, char *argv[]) {
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
                             printf("%s ", str);
-                            temp[col++] = atoi(str); // convert temp into array of column values
+                            temp[col] = atoi(str); // convert temp into array of column values
+                            col++
                             str = strtok(NULL, delim);
                         }
                         printf("\n");
