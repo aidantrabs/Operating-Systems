@@ -71,7 +71,7 @@ int main(int argc, char *argv[]) {
                 }
                 printf("total assignment grades: %d \n", total); 
                 avg_assignment_grades[j] = ((float) total) / num_grades;
-                printf("avg assignment grades: %d \n", avg_assignment_grades[j]);
+                printf("avg assignment grades: %d for %d assignments\n", avg_assignment_grades[j], num_grades);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
