@@ -18,15 +18,6 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 
 int main(int argc, char *argv[]) { 
-    if (argc != 1) { 
-        printf("Program must be run with only one arg being fileName");
-        exit(EXIT_FAILURE);
-    }
-
-    // const char *name = "sample_in_grades.txt";	// file name
-
-    
-
     // Teacher Process spawns GTA processes
 
     // int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
@@ -47,7 +38,6 @@ int main(int argc, char *argv[]) {
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
-            printf("i in GTA generating loop: %d \n", i);
             wait(NULL); // wait for execution of child process to complete
             // Pipe Ta_pipe_string up to Teacher
         }
@@ -94,6 +84,7 @@ int main(int argc, char *argv[]) {
                     while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
                     {
                         int col = 0;
+                        printf("Inside of File Reading");
                         // Get column elements from lineBuf here into elements[row][col]
                         //  locating the next column parsing for delimiters.
                         // This depends on the file format
