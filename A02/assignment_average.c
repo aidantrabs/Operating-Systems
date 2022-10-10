@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
                         const char *colData = lineBuf;
                         temp[col++] = atoi(colData); // convert temp into array of column values
                         int l = 0;
-                        int n = 0;
+                        int n = sizeof(temp)/sizeof(temp[0]);
                         for ( l = 0;l < n/4; l++) { // GTA processing goes here 
                             printf("%d ", arr[l]); 
                             if (l == n/4) printf("\n");
