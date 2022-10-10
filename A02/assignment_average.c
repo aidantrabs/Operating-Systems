@@ -20,11 +20,12 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 int main(int argc, char *argv[]) { 
     // Teacher Process spawns GTA processes
 
-    // int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
+    int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
+    pipe(GTA_pipe);
 
     // Parent process spawns 3 GTA processes
     int GTA_pid, TA_PID;
@@ -32,11 +33,15 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < 3; i++) {
         GTA_pid = fork();
         if (GTA_pid == 0) {
-            printf("Layer 1 GTA: PID: %d; PPID: %d\n", getpid(), getppid());
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
-            wait(NULL); // wait for execution of child process to complete
+            wait(NULL);         // Wait for GTA process completion
+            close(TA_pipe[1]); 
+
+            int arr[2];        
+            // n stores the total bytes read successfully
+            int n = read(TA_pipe[0], arr, sizeof(arr));
             // Pipe Ta_pipe_string up to Teacher
         }
         else {
@@ -61,11 +66,9 @@ int main(int argc, char *argv[]) {
                 int arr[100];        
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
-                printf("TA_piped_array size: %d\n", n);
                 int k = 0;
                 float total = 0;
                 int num_grades = n/4; 
-                printf("num_grades: %d", num_grades);
                 for ( k = 0;k < num_grades; k++) { // GTA processing goes here 
                     total = total + arr[k];
                     fflush(stdout);
@@ -73,17 +76,17 @@ int main(int argc, char *argv[]) {
                 printf("total assignment grades: %.1f \n", total); 
                 avg_assignment_grades[j] = total / num_grades;
                 printf("avg assignment grades: %.1f for %d assignments\n", avg_assignment_grades[j], num_grades);
+                printf("\n");
+                fflush(stdout);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
-                printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
                 int arr[100];
                 int temp[100];
                 int k = 0; 
                 FILE* f2 = fopen("sample_in_grades.txt" , "r");
                 if (NULL != f2)
                 {
-                    printf("Inside of File Reading \n");
                     char lineBuf[100];
                     while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
                     {
@@ -96,7 +99,6 @@ int main(int argc, char *argv[]) {
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
                             temp[col] = atoi(str); // convert temp into array of column values
-                            // printf("%d ", temp[col]);
                             col++;
                             str = strtok(NULL, delim);
                         }
@@ -118,8 +120,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    printf("\n");
-    fflush(stdout);
     printf("\n");
     fflush(stdout);
     return 0;
