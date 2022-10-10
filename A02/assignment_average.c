@@ -87,7 +87,13 @@ int main(int argc, char *argv[]) {
                         //  locating the next column parsing for delimiters.
                         // This depends on the file format
                         const char *colData = lineBuf;
-                        temp[col++] = atoi(colData); // convert temp into array of column values
+                        char delim[] = " ";
+                        char *str = strtok(lineBuf, delim);
+                        while(str != NULL) { 
+                            temp[col++] = atoi(str); // convert temp into array of column values
+                            str = strtok(NULL, delim);
+                        }
+                        
                         int l = 0;
                         int n = sizeof(temp)/sizeof(temp[0]);
                         for ( l = 0;l < n/4; l++) { // GTA processing goes here 
