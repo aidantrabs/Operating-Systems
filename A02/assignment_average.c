@@ -89,21 +89,21 @@ int main(int argc, char *argv[]) {
                         const char *colData = lineBuf;
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
-                        // while(str != NULL) { 
-                        //     temp[col] = atoi(str); // convert temp into array of column values
-                        //     printf("%d ", temp[col]);
-                        //     col++;
-                        //     str = strtok(NULL, delim);
-                        // }
+                        while(str != NULL) { 
+                            temp[col] = atoi(str); // convert temp into array of column values
+                            // printf("%d ", temp[col]);
+                            col++;
+                            str = strtok(NULL, delim);
+                        }
 
-                        // printf("\n");
-                        // fflush(stdout);
+                        printf("\n");
+                        fflush(stdout);
                     }
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
                     fclose(f2);
                 }  
-                for (int l = 0; l < sizeof(arr)/sizeof(arr[0])) {
+                for (int l = 0; l < sizeof(arr)/sizeof(arr[0]); l++) {
                     printf("%d ", arr[l]);
                 }
                 printf("\n");
