@@ -37,11 +37,11 @@ int main(int argc, char *argv[]) {
         }
         else if (GTA_pid > 0) { 
             wait(NULL);         // Wait for GTA process completion
-            close(TA_pipe[1]); 
+            // close(TA_pipe[1]); 
 
-            int arr[2];        
-            // n stores the total bytes read successfully
-            int n = read(TA_pipe[0], arr, sizeof(arr));
+            // int arr[2];        
+            // // n stores the total bytes read successfully
+            // int n = read(TA_pipe[0], arr, sizeof(arr));
             // Pipe Ta_pipe_string up to Teacher
         }
         else {
