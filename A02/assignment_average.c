@@ -75,11 +75,11 @@ int main(int argc, char *argv[]) {
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
                 int k = 0;
-                for ( k = 0;k < n/4; k++) { // GTA processing goes here 
-                    printf("%d ", arr[k]); 
-                    if (k == n/4) printf("\n");
-                    fflush(stdout);
-                }
+                // for ( k = 0;k < n/4; k++) { // GTA processing goes here 
+                //     printf("%d ", arr[k]); 
+                //     if (k == n/4) printf("\n");
+                //     fflush(stdout);
+                // }
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
@@ -101,6 +101,12 @@ int main(int argc, char *argv[]) {
                         temp[col++] = atoi(colData); // convert temp into array of column values
                     }
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
+                    int l = 0;
+                    for ( l = 0;l < n/4; l++) { // GTA processing goes here 
+                        printf("%d ", arr[l]); 
+                        if (l == n/4) printf("\n");
+                        fflush(stdout);
+                    }
                     k++;
                 }
                 
