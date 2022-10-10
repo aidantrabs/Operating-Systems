@@ -95,19 +95,14 @@ int main(int argc, char *argv[]) {
                             col++;
                             str = strtok(NULL, delim);
                         }
-                        printf("2*i+j = %d ", 2*i+j);
-                        printf("temp[2*i+j]: %d \n", temp[2*i+j]);
                         arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                         k++;
                     }
                     fclose(f2);
-                } 
-                printf("\n");
-                fflush(stdout);
-
+                }
                 
                 close(TA_pipe[0]); // close unused reading end
-                write(TA_pipe[1], &arr, sizeof(arr));
+                write(TA_pipe[1], &arr, k*sizeof(int)); // sends k bites to read
                 close(TA_pipe[1]);
                 return 0;
             }
