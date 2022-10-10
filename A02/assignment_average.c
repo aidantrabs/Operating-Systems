@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
             if(TA_PID > 0) {        // inside of Teacher process
                 wait(NULL);         // Wait for GTA process completion
                 close(TA_pipe[1]); 
-                FILE* f2 = fopen("sample_in_grades.txt" , "r");
+
                 int arr[100];        
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
                 int arr[100];
                 int temp[100];
                 int k = 0; 
-
+                FILE* f2 = fopen("sample_in_grades.txt" , "r");
                 if (NULL != f2)
                 {
                     char lineBuf[100];
@@ -96,9 +96,9 @@ int main(int argc, char *argv[]) {
                             fflush(stdout);
                         }
                     }
-                    fclose(f2);
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
+                    fclose(f2);
                 }
                 
                 close(TA_pipe[0]); // close unused reading end
