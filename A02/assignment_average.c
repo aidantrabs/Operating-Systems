@@ -34,6 +34,8 @@ int main(int argc, char *argv[]) {
     // char* TA_pipe_string; // string used to read/write for TA pipe
     // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
+    FILE* f2 = fopen("sample_in_grades.txt" , "r");
+
 
     // Parent process spawns 3 GTA processes
     int GTA_pid, TA_PID;
@@ -86,13 +88,11 @@ int main(int argc, char *argv[]) {
                 int temp[100];
                 int k = 0; 
 
-                FILE f2 = fopen("sample_in_grades.txt" , "r");
                 if (NULL != f2)
                 {
-                    int row = 0;
                     char lineBuf[100];
-                    while (NULL != fgets(buf, sizeof(lineBuf), f2))
-                    { 
+                    while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
+                    {
                         int col = 0;
                         // Get column elements from lineBuf here into elements[row][col]
                         //  locating the next column parsing for delimiters.
@@ -101,10 +101,9 @@ int main(int argc, char *argv[]) {
                         temp[col++] = atoi(colData); // convert temp into array of column values
                     }
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
-                    fclose(f2);
                     k++;
                 }
-
+                
                 close(TA_pipe[0]); // close unused reading end
                 write(TA_pipe[1], &arr, sizeof(arr));
                 close(TA_pipe[1]);
@@ -116,8 +115,8 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-    // close(GTA_pipe[0]);
-    // close(GTA_pipe[0]);
+    fclose(f2);
+
     printf("\n");
     fflush(stdout);
     printf("\n");
