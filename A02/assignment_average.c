@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
-                int k = 0;
+                // int k = 0;
                 // for ( k = 0;k < n/4; k++) { // GTA processing goes here 
                 //     printf("%d ", arr[k]); 
                 //     if (k == n/4) printf("\n");
@@ -99,16 +99,14 @@ int main(int argc, char *argv[]) {
                         printf("\n");
                         fflush(stdout);
                     }
+                    printf("2*i+j = %d ")
+                    printf("temp[2*i+j]%d \n", temp[2*i+j])
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
                     k++;
                     fclose(f2);
-                }  
-                for (int l = 0; l < sizeof(arr)/sizeof(arr[0]); l++) {
-                    printf("%d ", arr[l]);
-                }
+                } 
                 printf("\n");
                 fflush(stdout);
-
 
                 
                 close(TA_pipe[0]); // close unused reading end
