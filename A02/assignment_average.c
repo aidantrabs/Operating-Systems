@@ -58,7 +58,8 @@ int main(int argc, char *argv[]) {
     // GTA processes spawns 3 TA processes
      
     if (GTA_pid == 0) {
-        for (i = 0; i < 2; i++) {
+        int j = 0; 
+        for (j = 0; j < 2; j++) {
             if (GTA_pid == 0) {
                 pipe(TA_pipe); // open pipe between parent and child
                 TA_PID = fork();
@@ -71,22 +72,42 @@ int main(int argc, char *argv[]) {
                 // n stores the total bytes read successfully
                 int n = read(TA_pipe[0], arr, sizeof(arr));
                 printf("TA_piped_array size: %d\n", n);
-                int j = 0;
-                for ( j = 0;j < n/4; j++) { // GTA processing goes here 
-                    printf("%d ", arr[j]); 
-                    if (j == 4) printf("\n");
+                int k = 0;
+                for ( k = 0;k < n/4; k++) { // GTA processing goes here 
+                    printf("%d ", arr[k]); 
+                    if (k == n/4) printf("\n");
                     fflush(stdout);
                 }
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
                 printf("Layer 2 TA: PID: %d; PPID: %d\n", getpid(), getppid());
-                int arr[] = {1, 2, 3, 4, 5};
-                
-                close(TA_pipe[0]); // close unused reading end 
-                 
+                int arr[100];
+                int temp[100];
+                int k = 0; 
+
+                FILE f2 = fopen("sample_in_grades.txt" , "r");
+                if (NULL != f2)
+                {
+                    int row = 0;
+                    char lineBuf[100];
+                    while (NULL != fgets(buf, sizeof(lineBuf), f2))
+                    { 
+                        int col = 0;
+                        // Get column elements from lineBuf here into elements[row][col]
+                        //  locating the next column parsing for delimiters.
+                        // This depends on the file format
+                        const char *colData = lineBuf;
+                        temp[col++] = atoi(colData); // convert temp into array of column values
+                    }
+                    arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
+                    fclose(f2);
+                    k++;
+                }
+
+                close(TA_pipe[0]); // close unused reading end
                 write(TA_pipe[1], &arr, sizeof(arr));
-                close(TA_pipe[1]); 
+                close(TA_pipe[1]);
                 return 0;
             }
             else {
