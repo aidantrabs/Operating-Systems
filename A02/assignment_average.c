@@ -73,7 +73,7 @@ int main(int argc, char *argv[]) {
                     total = total + arr[k];
                     fflush(stdout);
                 }
-                printf("Assignment Num: %d of Chapter: %d", j+1, i+1);
+                printf("Assignment Num: %d of Chapter: %d \n", j+1, i+1);
                 printf("total assignment grades: %.1f \n", total); 
                 avg_assignment_grades[j] = total / num_grades;
                 printf("avg assignment grades: %.1f for %d assignments\n", avg_assignment_grades[j], num_grades);
