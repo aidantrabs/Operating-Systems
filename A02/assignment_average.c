@@ -90,6 +90,7 @@ int main(int argc, char *argv[]) {
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
+                            printf(str);
                             temp[col++] = atoi(str); // convert temp into array of column values
                             str = strtok(NULL, delim);
                         }
