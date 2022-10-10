@@ -65,6 +65,7 @@ int main(int argc, char *argv[]) {
                 int k = 0;
                 int total = 0;
                 int num_grades = n/4; 
+                printf("num_grades: %d", num_grades);
                 for ( k = 0;k < num_grades; k++) { // GTA processing goes here 
                     total = total + arr[k];
                     fflush(stdout);
