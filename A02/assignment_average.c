@@ -99,14 +99,15 @@ int main(int argc, char *argv[]) {
                         // This depends on the file format
                         const char *colData = lineBuf;
                         temp[col++] = atoi(colData); // convert temp into array of column values
+                        int l = 0;
+                        int n = 0;
+                        for ( l = 0;l < n/4; l++) { // GTA processing goes here 
+                            printf("%d ", arr[l]); 
+                            if (l == n/4) printf("\n");
+                            fflush(stdout);
+                        }
                     }
                     arr[k] = temp[2*i+j]; // 2*i+j => i == (curr_num_GTA - 1) and j == (num_TA for this GTA - 1)
-                    int l = 0;
-                    for ( l = 0;l < n/4; l++) { // GTA processing goes here 
-                        printf("%d ", arr[l]); 
-                        if (l == n/4) printf("\n");
-                        fflush(stdout);
-                    }
                     k++;
                 }
                 
