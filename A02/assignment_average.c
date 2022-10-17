@@ -104,4 +104,3 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
-C:\Users\aleks\Documents\CP386\386\A02\assignment_average.c
