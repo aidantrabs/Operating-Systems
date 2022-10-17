@@ -19,15 +19,10 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 
 int main(int argc, char *argv[]) { 
-    // Teacher Process spawns GTA processes
-
     int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
-    // char* TA_pipe_string; // string used to read/write for TA pipe
-    // char* GTA_pipe_string; // string used to read/write for GTA pipe
 
     pipe(GTA_pipe);
-
     // Parent process spawns 3 GTA processes
     int GTA_pid, TA_PID;
     int i;  
@@ -37,17 +32,11 @@ int main(int argc, char *argv[]) {
             break; // GTA process doesn't continue operation
         }
         else if (GTA_pid > 0) { 
-            wait(NULL);         // Wait for GTA process completion
-            // close(TA_pipe[1]); 
-
-            // int arr[2];        
-            // // n stores the total bytes read successfully
-            // int n = read(TA_pipe[0], arr, sizeof(arr));
-            // Pipe Ta_pipe_string up to Teacher
+            wait(NULL);// Wait for GTA process completion
         }
         else {
             printf("Layer 1 GTA Failure: PID: %d; PPID: %d\n", getpid(), getppid());
-            perror("error"); //fork()
+            perror("error");
         }
     }
 
@@ -114,21 +103,4 @@ int main(int argc, char *argv[]) {
         }
     }
     return 0;
-
-    // Teacher Process 
-        // info pull from pipe
-        // Spawn GTA Child Process
-            // get information 
-            // print information
-
-    // GTA Process
-        // info pull from pipe
-        // spawn child processes and have them write to their memory space 
-    
-    // TA Process
-        // Open and read memory space 
-        // Open and read file 
-        // Read starting char -> increment to same char at next line up until no more file 
-        // Increment total -> get average
-        // pass up through pipe
 }
