@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
                     fflush(stdout);
                 }
                 avg_assignment_grades[j] = total / num_grades;
-                printf("Assignment %d - Average = %.1f\n", 2*i+j, avg_assignment_grades[j]);
+                printf("Assignment %d - Average = %.6f\n", 2*i+j + 1, avg_assignment_grades[j]);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
@@ -104,3 +104,4 @@ int main(int argc, char *argv[]) {
     }
     return 0;
 }
+C:\Users\aleks\Documents\CP386\386\A02\assignment_average.c
