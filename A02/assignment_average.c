@@ -14,6 +14,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <errno.h>
 
 
@@ -88,10 +89,6 @@ int main(int argc, char *argv[]) {
                     while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
                     {
                         int col = 0;
-                        // Get column elements from lineBuf here into elements[row][col]
-                        //  locating the next column parsing for delimiters.
-                        // This depends on the file format
-                        const char *colData = lineBuf;
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
