@@ -14,6 +14,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <errno.h>
 
 
@@ -63,7 +64,7 @@ int main(int argc, char *argv[]) {
                     fflush(stdout);
                 }
                 avg_assignment_grades[j] = total / num_grades;
-                printf("Assignment %d - Average = %.6f\n", 2*i+j + 1, avg_assignment_grades[j]);
+                printf("Assignment %d - Average = %.6f\n", 2*i+j+1, avg_assignment_grades[j]);
                 close(TA_pipe[0]);
             }
             else if( TA_PID == 0 ) {
@@ -77,7 +78,6 @@ int main(int argc, char *argv[]) {
                     while (NULL != fgets(lineBuf, sizeof(lineBuf), f2))
                     {
                         int col = 0;
-                        const char *colData = lineBuf;
                         char delim[] = " ";
                         char *str = strtok(lineBuf, delim);
                         while(str != NULL) { 
