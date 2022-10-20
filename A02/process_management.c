@@ -113,7 +113,6 @@ void handle_shm_cmd(char *shm_base_ptr) {
           }
 
           char *result_pointer = strtok(result, "\r\n");
-          char result[SHM_SIZE];
 
           while (shm_base) {
                /* SHOULD WRITE OUTPUT TO PIPE HERE */
