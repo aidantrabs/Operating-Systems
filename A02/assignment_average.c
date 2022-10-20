@@ -19,6 +19,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 
 int main(int argc, char *argv[]) { 
+
     int GTA_pipe[2]; // Used for pipe between Teacher process and GTA process
     int TA_pipe[2];  // Used for pipe between GTA process and TA process
 
@@ -70,8 +71,14 @@ int main(int argc, char *argv[]) {
             else if( TA_PID == 0 ) {
                 int arr[100];
                 int temp[100];
-                int k = 0; 
-                FILE* f2 = fopen("sample_in_grades.txt" , "r");
+                int k = 0;
+                 FILE* f2; 
+                if (argc == 1) {
+                    f2 = fopen("sample_in_grades.txt" , "r");
+                } else { 
+                    f2 = fopen(argv[1] , "r");
+                }
+                    
                 if (NULL != f2)
                 {
                     char lineBuf[100];
