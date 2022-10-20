@@ -18,7 +18,6 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <unistd.h>
 #include <errno.h>
 
-int main(int argc, char *argv[]);
 char *handle_file_shm();
 void write_file_shm(char *memory_pointer, char *filename, int length);
 void write_output(char *command, char *output);
@@ -29,10 +28,10 @@ const int SHM_SIZE = 4096;
 const char *SHM_FILE = "shm_file";
 const char *OUTPUT_FILE = "output.txt";
 
-int main(int argc, char *args[]) {
+int main(int argc, char *argv[]) {
     if (argc > 1) {
         char *shm_base = handle_file_shm();
-        char *filename = args[1];
+        char *filename = argv[1];
         write_file_shm(shm_base, filename, strlen(filename));
         handle_shm_cmd(shm_base);
     } else {
