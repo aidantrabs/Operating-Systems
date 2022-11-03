@@ -147,9 +147,8 @@ int main(int argc, char *argv[]) {
 
     int validResult[3];
     struct ThreadStruct values; 
-    // values->sudoku = sudoku;
-    values->validArray = validResult;
     memcpy(&values.sudoku, &sudoku, 81*sizeof(int));
+    memcpy(&values.validArray, &sudoku, 3*sizeof(int));
 
     pthread_t tid1, tid2, tid3; 
     pthread_create(&tid1, NULL, checkRowsThread, (void *)&values);
