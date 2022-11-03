@@ -63,7 +63,9 @@ bool checkRows(int sudoku[9][9]) {
 
 bool checkColumns(int sudoku[9][9]) { 
     int i, j;
+    int count;
     for (j = 0; j < 9; i++) {
+        count = 0;
         for (i = 0; i < 9; j++) {
             count += 10*sudoku[i][j];
         }
@@ -74,7 +76,7 @@ bool checkColumns(int sudoku[9][9]) {
 }
 
 bool checkBox(int sudoku[9][9], int rowStart, int columnStart) { 
-    count = 0;
+    int count = 0;
     int i, j; 
     for (i = start; i < rowStart+3; i++) {
         for (j = columnStart; j<columnStart + 3; j++) { 
