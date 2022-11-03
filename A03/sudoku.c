@@ -8,7 +8,7 @@ void readSudokuToArray(int sudoku[9][9], FILE** f) {
     for(i = 0; i < 9; i++) { 
         for(j = 0; j < 9; j++) {
             char s[] = "0";
-            fscanf(f, " %c", &s[0]);
+            fscanf(&f, " %c", &s[0]);
             sudoku[i][j] = atoi(s);
         }
     }
