@@ -113,12 +113,15 @@ int main(int argc, char *argv[]) {
 
     int validResult[3];
     if (checkRows(sudoku)) {
+        printf("Check Rows Successful \n");
         validResult[0] = 1;
     }
     if (checkColumns(sudoku)) {
+        printf("Check Columns Successful \n");
         validResult[1] = 1;
     }
     if (checkBoxes(sudoku)) {
+        printf("Check Columns Successful \n");
         validResult[2] = 1;
     }
 
