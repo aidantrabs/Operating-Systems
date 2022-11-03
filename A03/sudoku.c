@@ -48,13 +48,16 @@ void spawnThread() {
 }
 
 bool checkRows(int sudoku[9][9]) {
+    printf("Inside of checkRows \n");
     int i, j;
     int count;
     for (i = 0; i < 9; i++) {
         count = 0;
         for (j = 0; j < 9; j++) {
             count += 10*sudoku[i][j];
+            printf("Row: %d Column: %d", i, j);
         }
+        printf("\n");
         if (count != 111111111)
             return false;
     }
