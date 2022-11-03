@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
     int validResult[3];
     struct ThreadStruct values; 
     memcpy(&values.sudoku, &sudoku, 81*sizeof(int));
-    memcpy(&values.validArray, &sudoku, 3*sizeof(int));
+    memcpy(&values.validArray, &validResult, 3*sizeof(int));
 
     // run threads
     pthread_t tid[3]; 
