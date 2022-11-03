@@ -109,8 +109,8 @@ bool checkBoxes(int sudoku[9][9]) {
 
 
 void * checkColumnsThread(struct ThreadStruct* input) {
-    int sudoku[9][9] = input->sudoku;
-    int validResult[3] = input->validArray; 
+    int sudoku[9][9] = input.sudoku;
+    int validResult[3] = input.validArray; 
     if (checkRows(sudoku)) {
         printf("Check Rows Successful \n");
         validResult[0] = 1;
@@ -118,8 +118,8 @@ void * checkColumnsThread(struct ThreadStruct* input) {
 }
 
 void * checkRowsThread(struct ThreadStruct* input) { 
-    int sudoku[9][9] = input->sudoku;
-    int validResult[3] = input->validArray;
+    int sudoku[9][9] = input.sudoku;
+    int validResult[3] = input.validArray;
     if (checkColumns(sudoku)) {
         printf("Check Columns Successful \n");
         validResult[1] = 1;
@@ -127,8 +127,8 @@ void * checkRowsThread(struct ThreadStruct* input) {
 }
 
 void * checkBoxesThread(struct ThreadStruct* input) {
-    int sudoku[9][9] = input->sudoku;
-    int validResult[3] = input->validArray; 
+    int sudoku[9][9] = input.sudoku;
+    int validResult[3] = input.validArray; 
     if (checkBoxes(sudoku)) {
         printf("Check Boxes Successful \n");
         validResult[2] = 1;
