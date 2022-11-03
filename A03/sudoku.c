@@ -48,22 +48,6 @@ void printSudoku(int sudoku[9][9]) {
     return;
 }
 
-void spawnThread() { 
-    // int threads = 5, i = 0, ret = -1;
-
-    // pthread_t * thread = malloc(sizeof(pthread_t)*threads);
-
-    // int i;
-    // for (i = 0; i < threads; i++) {
-    //     ret = pthread_create(&thread[i], NULL, &foobar_function, NULL);
-
-    //     if(ret != 0) {
-    //         printf ("Create pthread error!\n");
-    //         exit (1);
-    //     }
-    // }
-}
-
 bool checkRows(int sudoku[9][9]) {
     int i, j;
     int count;

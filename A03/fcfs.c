@@ -46,27 +46,27 @@ int main(int argc, char *argv[]) {
           i++;
      }
 
-     printf("Thread ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
+     // printf("Thread ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
 
-     for (int j = 0; j < i; j++) {
-          thread->p_id = thread[j].p_id;
-          thread->arr_time = thread[j].arr_time;
-          thread->burst_time = thread[j].burst_time;
-          thread->waiting_time = thread[j].waiting_time;
-          thread->turn_around_time = thread[j].turn_around_time;
-          burst_count += thread[j].burst_time;
-          thread[j].turn_around_time = burst_count - thread[j].arr_time;
-          thread[j].waiting_time = thread[j].turn_around_time - thread[j].burst_time;
-          total_waiting_time += thread[j].waiting_time;
-          total_turn_around_time += thread[j].turn_around_time;
+     // for (int j = 0; j < i; j++) {
+     //      thread->p_id = thread[j].p_id;
+     //      thread->arr_time = thread[j].arr_time;
+     //      thread->burst_time = thread[j].burst_time;
+     //      thread->waiting_time = thread[j].waiting_time;
+     //      thread->turn_around_time = thread[j].turn_around_time;
+     //      burst_count += thread[j].burst_time;
+     //      thread[j].turn_around_time = burst_count - thread[j].arr_time;
+     //      thread[j].waiting_time = thread[j].turn_around_time - thread[j].burst_time;
+     //      total_waiting_time += thread[j].waiting_time;
+     //      total_turn_around_time += thread[j].turn_around_time;
 
-          printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
-               thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
-               burst_count, thread[j].turn_around_time, thread[j].waiting_time);
-     }
+     //      printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
+     //           thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
+     //           burst_count, thread[j].turn_around_time, thread[j].waiting_time);
+     // }
 
-     printf("The average waiting time: %0.2f\n", (float)total_waiting_time / i);
-     printf("The average turn-around time: %0.2f\n", (float)total_turn_around_time / i);
+     // printf("The average waiting time: %0.2f\n", (float)total_waiting_time / i);
+     // printf("The average turn-around time: %0.2f\n", (float)total_turn_around_time / i);
 
      return 0;
 }
