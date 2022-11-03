@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <math.h>
 
-struct threadStruct {
+struct ThreadStruct {
     int[9][9] sudoku;
     int[3] validArray; 
 };
@@ -52,6 +52,29 @@ void spawnThread() {
     //     }
     // }
 }
+
+
+void * checkColumnsThread(ThreadStruct* input) { 
+    if (checkRows(sudoku)) {
+        printf("Check Rows Successful \n");
+        validResult[0] = 1;
+    }
+}
+
+void * checkRowsThread(ThreadStruct* input) { 
+    if (checkColumns(sudoku)) {
+        printf("Check Columns Successful \n");
+        validResult[1] = 1;
+    }
+}
+
+void * checkBoxesThread(ThreadStruct* input) { 
+    if (checkBoxes(sudoku)) {
+        printf("Check Boxes Successful \n");
+        validResult[2] = 1;
+    }
+}
+
 
 bool checkRows(int sudoku[9][9]) {
     int i, j;
@@ -107,27 +130,6 @@ bool checkBoxes(int sudoku[9][9]) {
     return true;
 }
 
-void *checkColumnsThread(threadStruct input) { 
-    if (checkRows(sudoku)) {
-        printf("Check Rows Successful \n");
-        validResult[0] = 1;
-    }
-}
-
-void *checkRowsThread(threadStruct input) { 
-    if (checkColumns(sudoku)) {
-        printf("Check Columns Successful \n");
-        validResult[1] = 1;
-    }
-}
-
-void *checkBoxesThread(threadStruct input) { 
-    if (checkBoxes(sudoku)) {
-        printf("Check Boxes Successful \n");
-        validResult[2] = 1;
-    }
-}
-
 int main(int argc, char *argv[]) { 
     FILE* f; 
     if (argc == 1) {
@@ -141,12 +143,12 @@ int main(int argc, char *argv[]) {
     printSudoku(sudoku);
 
     int validResult[3];
-    threadStruct values; 
+    ThreadStruct values; 
     values->sudoku = sudoku;
     values->validArray = validResult;
 
     pthread_t tid1, tid2, tid3; 
-    pthread_create(&tid1, NULL, checkRowsThread, (void *)&threadStruct);
+    pthread_create(&tid1, NULL, checkRowsThread, (void *)&values);
     // if (checkRows(sudoku)) {
     //     printf("Check Rows Successful \n");
     //     validResult[0] = 1;
