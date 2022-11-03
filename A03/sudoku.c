@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 void readSudokuToArray(int sudoku[9][9], FILE** f) { 
-    for(i = 0; i < 9; i++) {
+    int i, j; 
+    for(i = 0; i < 9; i++) { 
         for(j = 0; j < 9; j++) {
             char s[] = "0";
             fscanf(file1, " %c", &s[0]);
@@ -16,13 +18,31 @@ void readSudokuToArray(int sudoku[9][9], FILE** f) {
 
 void printSudoku(int sudoku[9][9]) { 
     printf("Sudoku Puzzle Solution is:\n");
-
-    for (i = 0; i < row; i++) {
-        for (j = 0; j < col; j++) {
+    int i, j;
+    for (i = 0; i < 9; i++) {
+        for (j = 0; j < 9; j++) {
             printf("%c ", grid[i][j]);
         }
         printf("\n");
         fflush(stdout);
+    }
+
+    return
+}
+
+void spawnThread() { 
+    int threads = 5, i = 0, ret = -1;
+
+    pthread_t * thread = malloc(sizeof(pthread_t)*threads);
+
+    int i;
+    for (i = 0; i < threads; i++) {
+        ret = pthread_create(&thread[i], NULL, &foobar_function, NULL);
+
+        if(ret != 0) {
+            printf ("Create pthread error!\n");
+            exit (1);
+        }
     }
 }
 
@@ -37,6 +57,4 @@ int main(int argc, char *argv[]) {
     int sudoku[9][9];
     readSudokuToArray(sudoku, &f);
     printSudoku(sudoku);
-    
-
 }
