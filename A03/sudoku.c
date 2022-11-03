@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
+#include <stdbool.h>
 
 void readSudokuToArray(int sudoku[9][9], FILE** f) { 
     int i, j; 
@@ -110,13 +111,13 @@ int main(int argc, char *argv[]) {
 
     int validResult[3];
     if (checkRows(sudoku)) {
-        validResult[0] = 1
+        validResult[0] = 1;
     }
     if (checkColumns(sudoku)) {
-        validResult[1] = 1
+        validResult[1] = 1;
     }
     if (checkBoxes(sudoku)) {
-        validResult[2] = 1
+        validResult[2] = 1;
     }
 
     for (int i = 0; i < 3; i ++) { 
