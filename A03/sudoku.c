@@ -59,9 +59,8 @@ bool checkRows(int sudoku[9][9]) {
             count += pow(10, sudoku[i][j]);
             printf("Count: %d \n", count);
         }
-        printf("\n");
         printf("About to compare count");
-        if (count != 111111111)
+        if (count != 1111111110)
             return false;
     }
     return true;
@@ -75,7 +74,7 @@ bool checkColumns(int sudoku[9][9]) {
         for (i = 0; i < 9; j++) {
             count += pow(10, sudoku[i][j]);
         }
-        if (count != 111111111)
+        if (count != 1111111110)
             return false;
     }
     return true;
@@ -89,7 +88,7 @@ bool checkBox(int sudoku[9][9], int rowStart, int columnStart) {
             count += pow(10, sudoku[i][j]);
         }
     }
-    if (count != 111111111)
+    if (count != 1111111110)
         return false;
     return true;
 }
