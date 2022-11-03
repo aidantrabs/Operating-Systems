@@ -138,34 +138,31 @@ int main(int argc, char *argv[]) {
     } else { 
         f = fopen(argv[1] , "r");
     }
-
+    // set sudoku and get values
     int sudoku[9][9];
     readSudokuToArray(sudoku, &f);
     printSudoku(sudoku);
 
+    // create struct to input values to thread
     int validResult[3];
     struct ThreadStruct values; 
     memcpy(&values.sudoku, &sudoku, 81*sizeof(int));
     memcpy(&values.validArray, &sudoku, 3*sizeof(int));
 
-    pthread_t tid1, tid2, tid3; 
-    pthread_create(&tid1, NULL, checkRowsThread, (void *)&values);
-    // if (checkRows(sudoku)) {
-    //     printf("Check Rows Successful \n");
-    //     validResult[0] = 1;
-    // }
-    if (checkColumns(sudoku)) {
-        printf("Check Columns Successful \n");
-        validResult[1] = 1;
-    }
-    if (checkBoxes(sudoku)) {
-        printf("Check Boxes Successful \n");
-        validResult[2] = 1;
+    // run threads
+    pthread_t tid[3]; 
+    pthread_create(&tid[0], NULL, checkRowsThread, (void *)&values);
+    pthread_create(&tid[1], NULL, checkColumnsThread, (void *)&values);
+    pthread_create(&tid[2], NULL, checkBoxesThread, (void *)&values);
+
+    // await thread completion
+    int i;
+    for (i = 0; i < 3; i++) { 
+        pthread_join(tid[i], NULL);
     }
 
-    pthread_exit(NULL);
-
-    for (int i = 0; i < 3; i ++) { 
+    // check if result has been set to valid for each
+    for (i = 0; i < 3; i ++) { 
         if (validResult[i] != 1) { 
             printf("Sudoku puzzle is not valid \n");
             return 1;
