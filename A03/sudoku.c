@@ -6,8 +6,8 @@
 #include <math.h>
 
 struct ThreadStruct {
-    int[9][9] sudoku;
-    int[3] validArray; 
+    int sudoku[9][9];
+    int validArray[3]; 
 };
 
 void readSudokuToArray(int sudoku[9][9], FILE** f) { 
