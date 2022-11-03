@@ -54,21 +54,21 @@ void spawnThread() {
 }
 
 
-void * checkColumnsThread(ThreadStruct* input) { 
+void * checkColumnsThread(struct ThreadStruct* input) { 
     if (checkRows(sudoku)) {
         printf("Check Rows Successful \n");
         validResult[0] = 1;
     }
 }
 
-void * checkRowsThread(ThreadStruct* input) { 
+void * checkRowsThread(struct ThreadStruct* input) { 
     if (checkColumns(sudoku)) {
         printf("Check Columns Successful \n");
         validResult[1] = 1;
     }
 }
 
-void * checkBoxesThread(ThreadStruct* input) { 
+void * checkBoxesThread(struct ThreadStruct* input) { 
     if (checkBoxes(sudoku)) {
         printf("Check Boxes Successful \n");
         validResult[2] = 1;
