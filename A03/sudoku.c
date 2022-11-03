@@ -69,9 +69,9 @@ bool checkColumns(int sudoku[9][9]) {
     printf("Inside of checkColumns \n");
     int i, j;
     int count;
-    for (j = 0; j < 9; i++) {
+    for (j = 0; j < 9; j++) {
         count = 0;
-        for (i = 0; i < 9; j++) {
+        for (i = 0; i < 9; i++) {
             count += pow(10, sudoku[i][j]);
         }
         if (count != 1111111110) { 
