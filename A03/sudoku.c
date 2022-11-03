@@ -8,12 +8,12 @@ void readSudokuToArray(int sudoku[9][9], FILE** f) {
     for(i = 0; i < 9; i++) { 
         for(j = 0; j < 9; j++) {
             char s[] = "0";
-            fscanf(file1, " %c", &s[0]);
+            fscanf(f, " %c", &s[0]);
             sudoku[i][j] = atoi(s);
         }
     }
 
-    return
+    return;
 }
 
 void printSudoku(int sudoku[9][9]) { 
@@ -21,29 +21,29 @@ void printSudoku(int sudoku[9][9]) {
     int i, j;
     for (i = 0; i < 9; i++) {
         for (j = 0; j < 9; j++) {
-            printf("%c ", grid[i][j]);
+            printf("%c ", sudoku[i][j]);
         }
         printf("\n");
         fflush(stdout);
     }
 
-    return
+    return;
 }
 
 void spawnThread() { 
-    int threads = 5, i = 0, ret = -1;
+    // int threads = 5, i = 0, ret = -1;
 
-    pthread_t * thread = malloc(sizeof(pthread_t)*threads);
+    // pthread_t * thread = malloc(sizeof(pthread_t)*threads);
 
-    int i;
-    for (i = 0; i < threads; i++) {
-        ret = pthread_create(&thread[i], NULL, &foobar_function, NULL);
+    // int i;
+    // for (i = 0; i < threads; i++) {
+    //     ret = pthread_create(&thread[i], NULL, &foobar_function, NULL);
 
-        if(ret != 0) {
-            printf ("Create pthread error!\n");
-            exit (1);
-        }
-    }
+    //     if(ret != 0) {
+    //         printf ("Create pthread error!\n");
+    //         exit (1);
+    //     }
+    // }
 }
 
 int main(int argc, char *argv[]) { 
