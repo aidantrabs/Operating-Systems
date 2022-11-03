@@ -54,8 +54,9 @@ bool checkRows(int sudoku[9][9]) {
     for (i = 0; i < 9; i++) {
         count = 0;
         for (j = 0; j < 9; j++) {
+            printf("Row: %d Column: %d ", i, j);
             count += 10*sudoku[i][j];
-            printf("Row: %d Column: %d", i, j);
+            printf("Count: %d \n", count);
         }
         printf("\n");
         if (count != 111111111)
