@@ -10,7 +10,6 @@ void readSudokuToArray(int sudoku[9][9], FILE** f) {
             char s[] = "0";
             fscanf(*f, " %c", &s[0]);
             sudoku[i][j] = atoi(s);
-            printf("%d ", sudoku[i][j]);
         }
     }
 
