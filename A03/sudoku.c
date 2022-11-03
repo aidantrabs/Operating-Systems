@@ -111,7 +111,7 @@ void * checkColumnsThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkColumns((*input_struct).sudoku)) {
         printf("Check Columns Successful \n");
-        (*input_struct).validArray[1] = 1;
+        (*input_struct).validArray[0] = 1;
     }
 }
 
@@ -127,7 +127,7 @@ void * checkBoxesThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkBoxes((*input_struct).sudoku)) {
         printf("Check Columns Successful \n");
-        (*input_struct).validArray[1] = 1;
+        (*input_struct).validArray[2] = 1;
     }
 }
 
@@ -161,6 +161,9 @@ int main(int argc, char *argv[]) {
         pthread_join(tid[i], NULL);
     }
 
+    for (i = 0; i < 3; i ++) { 
+        printf("validResult[%d]: %d", i, validResult[i]);
+    }
     // check if result has been set to valid for each
     for (i = 0; i < 3; i ++) { 
         if (validResult[i] != 1) { 
