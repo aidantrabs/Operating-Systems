@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
     }
 
     for (i = 0; i < 3; i ++) { 
-        printf("validResult[%d]: %d", i, validResult[i]);
+        printf("validResult[%d]: %d \n", i, validResult[i]);
     }
     // check if result has been set to valid for each
     for (i = 0; i < 3; i ++) { 
