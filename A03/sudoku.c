@@ -164,9 +164,6 @@ int main(int argc, char *argv[]) {
         pthread_join(tid[i], NULL);
     }
 
-    for (i = 0; i < 3; i ++) { 
-        printf("validResult[%d]: %d \n", i, values.validArray[i]);
-    }
     // check if result has been set to valid for each
     for (i = 0; i < 3; i ++) { 
         if (values.validArray[i] != 1) { 
