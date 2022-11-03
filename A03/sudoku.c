@@ -49,7 +49,6 @@ void spawnThread() {
 }
 
 bool checkRows(int sudoku[9][9]) {
-    printf("Inside of checkRows \n");
     int i, j;
     int count;
     for (i = 0; i < 9; i++) {
@@ -60,13 +59,11 @@ bool checkRows(int sudoku[9][9]) {
         if (count != 1111111110) { 
             return false;
         }
-        printf("Row: %d is valid \n", i);
     }
     return true;
 }
 
 bool checkColumns(int sudoku[9][9]) { 
-    printf("Inside of checkColumns \n");
     int i, j;
     int count;
     for (j = 0; j < 9; j++) {
@@ -77,7 +74,6 @@ bool checkColumns(int sudoku[9][9]) {
         if (count != 1111111110) { 
             return false;
         }
-        printf("Column: %d is valid \n", j);
     }
     return true;
 }
@@ -128,16 +124,16 @@ int main(int argc, char *argv[]) {
         validResult[1] = 1;
     }
     if (checkBoxes(sudoku)) {
-        printf("Check Columns Successful \n");
+        printf("Check Boxes Successful \n");
         validResult[2] = 1;
     }
 
     for (int i = 0; i < 3; i ++) { 
         if (validResult[i] != 1) { 
-            printf("Sudoku puzzle is not valid");
+            printf("Sudoku puzzle is not valid \n");
             return 1;
         }
     }
-    printf("Sudoku puzzle is valid");
+    printf("Sudoku puzzle is valid \n");
     return 1;
 }
