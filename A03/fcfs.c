@@ -60,7 +60,9 @@ int main(int argc, char *argv[]) {
           total_waiting_time += thread[j].waiting_time;
           total_turn_around_time += thread[j].turn_around_time;
 
-          printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", thread[j].p_id, thread[j].arr_time, thread[j].burst_time, burst_count, thread[j].turn_around_time, thread[j].waiting_time);
+          printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
+               thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
+               burst_count, thread[j].turn_around_time, thread[j].waiting_time);
      }
 
      printf("The average waiting time: %0.2f\n", (float)total_waiting_time / i);
