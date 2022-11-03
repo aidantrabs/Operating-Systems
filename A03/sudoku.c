@@ -8,6 +8,9 @@
 struct ThreadStruct {
     int sudoku[9][9];
     int validArray[3]; 
+    int columnsValid; 
+    int rowsValid; 
+    int boxesValid;
 };
 
 void readSudokuToArray(int sudoku[9][9], FILE** f) { 
@@ -118,7 +121,7 @@ void * checkColumnsThread(void * input) {
 void * checkRowsThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkRows((*input_struct).sudoku)) {
-        printf("Check Columns Successful \n");
+        printf("Check Rows Successful \n");
         (*input_struct).validArray[1] = 1;
     }
 }
@@ -126,7 +129,7 @@ void * checkRowsThread(void * input) {
 void * checkBoxesThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkBoxes((*input_struct).sudoku)) {
-        printf("Check Columns Successful \n");
+        printf("Check Boxes Successful \n");
         (*input_struct).validArray[2] = 1;
     }
 }
@@ -162,11 +165,11 @@ int main(int argc, char *argv[]) {
     }
 
     for (i = 0; i < 3; i ++) { 
-        printf("validResult[%d]: %d \n", i, validResult[i]);
+        printf("validResult[%d]: %d \n", i, values.validArray[i]);
     }
     // check if result has been set to valid for each
     for (i = 0; i < 3; i ++) { 
-        if (validResult[i] != 1) { 
+        if (values.validArray[i] != 1) { 
             printf("Sudoku puzzle is not valid \n");
             return 1;
         }
