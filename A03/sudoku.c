@@ -46,6 +46,56 @@ void spawnThread() {
     // }
 }
 
+bool checkRows(int sudoku[9][9]) {
+    int i, j;
+    int count;
+    for (i = 0; i < 9; i++) {
+        count = 0;
+        for (j = 0; j < 9; j++) {
+            count += 10*sudoku[i][j];
+        }
+        if (count != 111111111)
+            return false;
+    }
+    return true;
+}
+
+bool checkColumns(int sudoku[9][9]) { 
+    int i, j;
+    for (j = 0; j < 9; i++) {
+        for (i = 0; i < 9; j++) {
+            count += 10*sudoku[i][j];
+        }
+        if (count != 111111111)
+            return false;
+    }
+    return true;
+}
+
+bool checkBox(int sudoku[9][9], int rowStart, int columnStart) { 
+    count = 0;
+    int i, j; 
+    for (i = start; i < rowStart+3; i++) {
+        for (j = columnStart; j<columnStart + 3; j++) { 
+            count += 10*sudoku[i][j];
+        }
+    }
+    if (count != 111111111)
+        return false;
+    return true;
+}
+
+bool checkBoxes(int sudoku[9][9]) { 
+    int i;
+    int count; 
+    for (i = 0; i < 9; i+= 3) { // decides starting row of box
+        if (!checkBox(sudoku, i, 0)) return false;
+        if (!checkBox(sudoku, i, 3)) return false;
+        if (!checkBox(sudoku, i, 6)) return false;
+    }
+    return true;
+}
+
 int main(int argc, char *argv[]) { 
     FILE* f; 
     if (argc == 1) {
@@ -57,4 +107,24 @@ int main(int argc, char *argv[]) {
     int sudoku[9][9];
     readSudokuToArray(sudoku, &f);
     printSudoku(sudoku);
+
+    int validResult[3];
+    if (checkRows(sudoku)) {
+        validResult[0] = 1
+    }
+    if (checkColumns(sudoku)) {
+        validResult[1] = 1
+    }
+    if (checkBoxes(sudoku)) {
+        validResult[2] = 1
+    }
+
+    for (int i = 0; i < 3; i ++) { 
+        if (validResult[i] != 1) { 
+            printf("Sudoku puzzle is not valid");
+            return 1;
+        }
+    }
+    printf("Sudoku puzzle is valid");
+    return 1;
 }
