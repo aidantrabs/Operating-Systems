@@ -115,7 +115,7 @@ void * checkColumnsThread(void * input) {
     }
 }
 
-void * checkRowsThread(struct ThreadStruct* input) {
+void * checkRowsThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkRows((*input_struct).sudoku)) {
         printf("Check Columns Successful \n");
@@ -123,7 +123,7 @@ void * checkRowsThread(struct ThreadStruct* input) {
     }
 }
 
-void * checkBoxesThread(struct ThreadStruct* input) {
+void * checkBoxesThread(void * input) {
     struct ThreadStruct *input_struct = (struct ThreadStruct*)input;
     if (checkBoxes((*input_struct).sudoku)) {
         printf("Check Columns Successful \n");
