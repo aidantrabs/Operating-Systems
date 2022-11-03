@@ -53,29 +53,6 @@ void spawnThread() {
     // }
 }
 
-
-void * checkColumnsThread(struct ThreadStruct* input) { 
-    if (checkRows(sudoku)) {
-        printf("Check Rows Successful \n");
-        validResult[0] = 1;
-    }
-}
-
-void * checkRowsThread(struct ThreadStruct* input) { 
-    if (checkColumns(sudoku)) {
-        printf("Check Columns Successful \n");
-        validResult[1] = 1;
-    }
-}
-
-void * checkBoxesThread(struct ThreadStruct* input) { 
-    if (checkBoxes(sudoku)) {
-        printf("Check Boxes Successful \n");
-        validResult[2] = 1;
-    }
-}
-
-
 bool checkRows(int sudoku[9][9]) {
     int i, j;
     int count;
@@ -130,6 +107,28 @@ bool checkBoxes(int sudoku[9][9]) {
     return true;
 }
 
+
+void * checkColumnsThread(struct ThreadStruct* input) { 
+    if (checkRows(sudoku)) {
+        printf("Check Rows Successful \n");
+        validResult[0] = 1;
+    }
+}
+
+void * checkRowsThread(struct ThreadStruct* input) { 
+    if (checkColumns(sudoku)) {
+        printf("Check Columns Successful \n");
+        validResult[1] = 1;
+    }
+}
+
+void * checkBoxesThread(struct ThreadStruct* input) { 
+    if (checkBoxes(sudoku)) {
+        printf("Check Boxes Successful \n");
+        validResult[2] = 1;
+    }
+}
+
 int main(int argc, char *argv[]) { 
     FILE* f; 
     if (argc == 1) {
@@ -143,7 +142,7 @@ int main(int argc, char *argv[]) {
     printSudoku(sudoku);
 
     int validResult[3];
-    ThreadStruct values; 
+    struct ThreadStruct values; 
     values->sudoku = sudoku;
     values->validArray = validResult;
 
