@@ -55,18 +55,18 @@ bool checkRows(int sudoku[9][9]) {
     for (i = 0; i < 9; i++) {
         count = 0;
         for (j = 0; j <= 8; j++) {
-            printf("Row: %d Column: %d ", i, j);
             count += pow(10, sudoku[i][j]);
-            printf("Count: %d \n", count);
         }
-        printf("About to compare count");
-        if (count != 1111111110)
+        if (count != 1111111110) { 
             return false;
+        }
+        printf("Row: %d is valid \n", i);
     }
     return true;
 }
 
 bool checkColumns(int sudoku[9][9]) { 
+    printf("Inside of checkColumns \n");
     int i, j;
     int count;
     for (j = 0; j < 9; i++) {
@@ -74,8 +74,10 @@ bool checkColumns(int sudoku[9][9]) {
         for (i = 0; i < 9; j++) {
             count += pow(10, sudoku[i][j]);
         }
-        if (count != 1111111110)
+        if (count != 1111111110) { 
             return false;
+        }
+        printf("Column: %d is valid \n", j);
     }
     return true;
 }
