@@ -53,7 +53,6 @@ int main(int argc, char *argv[]) {
           j = 0;
           token = strtok(line[i], ", ");
           while (token != NULL) {
-               printf("j: %d token: %s", j, token);
                if (j == 0) {
                     printf("p_id: %d ", atoi(token));
                     threads[i].p_id = atoi(token);
@@ -61,7 +60,7 @@ int main(int argc, char *argv[]) {
                     printf("arr_time: %d", atoi(token));
                     threads[i].arr_time = atoi(token);
                } else if (j == 2) {
-                    printf("burst_time: %d ", atoi(token));
+                    printf("burst_time: %d \n", atoi(token));
                     threads[i].burst_time = atoi(token);
                }
                j++;
@@ -75,8 +74,8 @@ int main(int argc, char *argv[]) {
 
      for (i = 0; i < num_lines; i++) {
           printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
-               threads[j].p_id, threads[j].arr_time, threads[j].burst_time, 
-               burst_count, threads[j].turn_around_time, threads[j].waiting_time);
+               threads[i].p_id, threads[i].arr_time, threads[i].burst_time, 
+               burst_count, threads[i].turn_around_time, threads[i].waiting_time);
      }
           
 
