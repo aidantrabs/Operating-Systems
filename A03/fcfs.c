@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
      while (fgets(line[i], sizeof(line), file)) {
           token = strtok(line[i], ", ");
           while (token != NULL) {
-               printf("j: %d \n", j);
+               printf("j: %d token: %s", j, token);
                if (j == 0) {
                     printf("p_id: %d ", atoi(token));
                     threads[i].p_id = atoi(token);
@@ -64,9 +64,10 @@ int main(int argc, char *argv[]) {
                     threads[i].burst_time = atoi(token);
                }
                j++;
+               if (j == 3) { 
+                    break;
+               }
           }
-          if (token == NULL)
-               printf("Token is Null %c \n", token);
           i++;
      }
 
