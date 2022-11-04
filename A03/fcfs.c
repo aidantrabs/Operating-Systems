@@ -63,6 +63,7 @@ int main(int argc, char *argv[]) {
                     threads[i].burst_time = atoi(token);
                }
                token = strtok(NULL, ", ");
+               printf("token: %c \n", token);
                j++;
           }
           i++;
