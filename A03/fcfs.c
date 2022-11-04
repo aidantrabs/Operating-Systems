@@ -53,10 +53,13 @@ int main(int argc, char *argv[]) {
           token = strtok(line[i], ", ");
           while (token != NULL) {
                if (j == 0) {
+                    printf("p_id: %d ", atoi(token));
                     threads[i].p_id = atoi(token);
                } else if (j == 1) {
+                    printf("arr_time: %d", atoi(token));
                     threads[i].arr_time = atoi(token);
                } else if (j == 2) {
+                    printf("burst_time: %d ", atoi(token));
                     threads[i].burst_time = atoi(token);
                }
                token = strtok(NULL, ", ");
