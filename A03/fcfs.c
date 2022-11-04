@@ -50,6 +50,7 @@ int main(int argc, char *argv[]) {
      int total_turn_around_time = 0;
 
      while (fgets(line[i], sizeof(line), file)) {
+          j = 0;
           token = strtok(line[i], ", ");
           while (token != NULL) {
                printf("j: %d token: %s", j, token);
