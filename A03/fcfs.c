@@ -38,7 +38,7 @@ int countOfLinesFromFile(char *filename) {
 int main(int argc, char *argv[]) {
      int num_lines = countOfLinesFromFile(argv[1]);                        // count number of lines in file
 
-     THREADINFO* threads = malloc(sizeof(struct threadInfo) * num_lines);  // Allocate threadinfo struct == num lines
+     THREADINFO* threads = malloc(sizeof(THREADINFO) * num_lines);  // Allocate threadinfo struct == num lines
      FILE *file = fopen(argv[1], "r");
 
      int i = 0;
@@ -66,10 +66,12 @@ int main(int argc, char *argv[]) {
      }
 
 
-     for (i = 0; i < num_lines)
+     for (i = 0; i < num_lines) {
           printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
                threads[j].p_id, threads[j].arr_time, threads[j].burst_time, 
                burst_count, threads[j].turn_around_time, threads[j].waiting_time);
+     }
+          
 
      // printf("threads ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
 
