@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
      }
 
 
-     for (i = 0; i < num_lines) {
+     for (i = 0; i < num_lines; i++) {
           printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
                threads[j].p_id, threads[j].arr_time, threads[j].burst_time, 
                burst_count, threads[j].turn_around_time, threads[j].waiting_time);
