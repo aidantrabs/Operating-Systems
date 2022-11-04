@@ -10,16 +10,35 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <stdlib.h>
 #include <string.h>
 
-struct threadInfo {
+typedef struct {
      int p_id;
      int arr_time;
      int burst_time;
      int waiting_time;
      int turn_around_time;
-};
+} THREADINFO;
+
+int countOfLinesFromFile(char *filename) {
+     FILE* myfile = fopen(filename, "r");
+     int ch, number_of_lines = 0;
+
+     do{
+          ch = fgetc(myfile);
+          if(ch == '\n')
+               number_of_lines++;
+     } while (ch != EOF);
+
+     if(ch != '\n' && number_of_lines != 0)
+          number_of_lines++;
+
+     fclose(myfile);
+     return number_of_lines;
+}
 
 int main(int argc, char *argv[]) {
-     struct threadInfo *thread = malloc(sizeof(struct threadInfo) * 3);
+     int num_lines = countOfLinesFromFile(argv[1]);                        // count number of lines in file
+
+     THREADINFO* threads = malloc(sizeof(struct threadInfo) * num_lines);  // Allocate threadinfo struct == num lines
      FILE *file = fopen(argv[1], "r");
 
      int i = 0;
@@ -45,6 +64,12 @@ int main(int argc, char *argv[]) {
           }
           i++;
      }
+
+
+     for (i = 0; i < num_lines)
+          printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
+               thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
+               burst_count, thread[j].turn_around_time, thread[j].waiting_time);
 
      // printf("Thread ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
 
