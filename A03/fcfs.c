@@ -53,11 +53,11 @@ int main(int argc, char *argv[]) {
           token = strtok(line[i], ", ");
           while (token != NULL) {
                if (j == 0) {
-                    thread[i].p_id = atoi(token);
+                    threads[i].p_id = atoi(token);
                } else if (j == 1) {
-                    thread[i].arr_time = atoi(token);
+                    threads[i].arr_time = atoi(token);
                } else if (j == 2) {
-                    thread[i].burst_time = atoi(token);
+                    threads[i].burst_time = atoi(token);
                }
                token = strtok(NULL, ", ");
                j++;
@@ -68,26 +68,26 @@ int main(int argc, char *argv[]) {
 
      for (i = 0; i < num_lines)
           printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
-               thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
-               burst_count, thread[j].turn_around_time, thread[j].waiting_time);
+               threads[j].p_id, threads[j].arr_time, threads[j].burst_time, 
+               burst_count, threads[j].turn_around_time, threads[j].waiting_time);
 
-     // printf("Thread ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
+     // printf("threads ID\t Arrival Time\t\tBurst Time\t Completition Time  Turn-Around Time\t Waiting Time\n");
 
      // for (int j = 0; j < i; j++) {
-     //      thread->p_id = thread[j].p_id;
-     //      thread->arr_time = thread[j].arr_time;
-     //      thread->burst_time = thread[j].burst_time;
-     //      thread->waiting_time = thread[j].waiting_time;
-     //      thread->turn_around_time = thread[j].turn_around_time;
-     //      burst_count += thread[j].burst_time;
-     //      thread[j].turn_around_time = burst_count - thread[j].arr_time;
-     //      thread[j].waiting_time = thread[j].turn_around_time - thread[j].burst_time;
-     //      total_waiting_time += thread[j].waiting_time;
-     //      total_turn_around_time += thread[j].turn_around_time;
+     //      threads->p_id = threads[j].p_id;
+     //      threads->arr_time = threads[j].arr_time;
+     //      threads->burst_time = threads[j].burst_time;
+     //      threads->waiting_time = threads[j].waiting_time;
+     //      threads->turn_around_time = threads[j].turn_around_time;
+     //      burst_count += threads[j].burst_time;
+     //      threads[j].turn_around_time = burst_count - threads[j].arr_time;
+     //      threads[j].waiting_time = threads[j].turn_around_time - threads[j].burst_time;
+     //      total_waiting_time += threads[j].waiting_time;
+     //      total_turn_around_time += threads[j].turn_around_time;
 
      //      printf("%d\t\t %10d\t\t %5d\t\t %5d\t\t %10d\t\t %2d\n", \
-     //           thread[j].p_id, thread[j].arr_time, thread[j].burst_time, 
-     //           burst_count, thread[j].turn_around_time, thread[j].waiting_time);
+     //           threads[j].p_id, threads[j].arr_time, threads[j].burst_time, 
+     //           burst_count, threads[j].turn_around_time, threads[j].waiting_time);
      // }
 
      // printf("The average waiting time: %0.2f\n", (float)total_waiting_time / i);
