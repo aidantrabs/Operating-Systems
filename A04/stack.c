@@ -11,6 +11,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <pthread.h>
 #define NUM_THREADS 10
 
+// Stack struct
 typedef struct Node {
      int data;
      struct Node *next;
@@ -24,6 +25,7 @@ int pop(StackNode **top);
 int is_empty(StackNode *top);
 pthread_mutex_t lock;
 
+// Push function
 void push(int v, StackNode **top) {
     StackNode *new_node;
     printf("Thread is running Push() operation for value: %d\n", v);
@@ -33,6 +35,7 @@ void push(int v, StackNode **top) {
     *top = new_node;     
 }
 
+// Pop function
 int pop(StackNode **top) {
 	StackNode *temp;
     if (is_empty(*top)) {
@@ -48,6 +51,7 @@ int pop(StackNode **top) {
     }
 }
 
+// Is empty function
 int is_empty(StackNode *top) {
      if (top == NULL) {
           return 1;
@@ -56,6 +60,7 @@ int is_empty(StackNode *top) {
      }
 }
 
+// Threaded push function
 void* thread_push(void *args) {
      pthread_mutex_trylock(&lock);
      int i;
@@ -66,6 +71,7 @@ void* thread_push(void *args) {
      return NULL;
 }
 
+// Threaded pop function
 void* thread_pop() {
      pthread_mutex_trylock(&lock);
      pop(&top);
@@ -74,6 +80,7 @@ void* thread_pop() {
      return NULL;
 }
 
+// Main
 int main(void) {
     StackNode *top = NULL;
     pthread_t threads_push[NUM_THREADS];
