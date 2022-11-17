@@ -143,7 +143,7 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 
         // ALEKS 
         // assign semaphore0 and semaphore1 
-        int value 
+        int value;
         (*threads)[k].sem[0] = &sem0;
         sem_getvalue((*threads)[k].sem[0], &value);
         printf("The initial value of sem[0] upon initialization is %d\n", value); 
