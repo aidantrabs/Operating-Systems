@@ -131,7 +131,7 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 				strcpy((*threads)[k].tid, token);       // thread ID assignment
                 char two_digits[3];
                 strncpy(two_digits, &token[1], 3);
-                (*threads)[k].isOdd = (two_digits)%2;   // assign thread as odd or even
+                (*threads)[k].isOdd = atoi(two_digits)%2;   // assign thread as odd or even
 			if (j == 1)
 				(*threads)[k].startTime = atoi(token);  // int assignment of startTime
 			j++;
@@ -178,14 +178,14 @@ void* threadRun(void *t) //implement this function in a suitable way
 {
 	logStart(((Thread*) t)->tid);
     
-    if ((*threads)[k].isOdd) {  // case 1: odd thread attempts to access
+    if ((*t).isOdd) {  // case 1: odd thread attempts to access
         // access semaphore[1] then semaphore[0]
-        sem_wait((*threads)[k].sem[1]);
-        sem_wait((*threads)[k].sem[0]);   
+        sem_wait((*t).sem[1]);
+        sem_wait((*t).sem[0]);   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
-        sem_wait((*threads)[k].sem[0]);
-        sem_wait((*threads)[k].sem[1]);   
+        sem_wait((*t).sem[0]);
+        sem_wait((*t).sem[1]);   
     }
 	//critical section starts here
 	printf("[%ld] Thread %s is in its critical section\n", getCurrentTime(),
@@ -193,14 +193,14 @@ void* threadRun(void *t) //implement this function in a suitable way
 	//critical section ends here
 
 //synchronization release logic will appear here
-    if ((*threads)[k].isOdd) {  // case : odd thread completes
+    if ((*t).isOdd) {  // case : odd thread completes
         // release semaphore[0] then release semaphore[1]
-        sem_post((*threads)[k].sem[0]);
-        sem_post((*threads)[k].sem[1]);   
+        sem_post((*t).sem[0]);
+        sem_post((*t).sem[1]);   
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
-        sem_post((*threads)[k].sem[1]);
-        sem_post((*threads)[k].sem[0]);  
+        sem_post((*t).sem[1]);
+        sem_post((*t).sem[0]);  
     }
 
 	logFinish(((Thread*) t)->tid);
