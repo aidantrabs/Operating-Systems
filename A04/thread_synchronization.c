@@ -177,15 +177,24 @@ int threadToStart(Thread *threads, int threadCount) {
 void* threadRun(void *t) //implement this function in a suitable way
 {
 	logStart(((Thread*) t)->tid);
+
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         // access semaphore[1] then semaphore[0]
-        sem_wait(((Thread*) t)->sem[1]);
-        sem_wait(((Thread*) t)->sem[0]);   
+        if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
+            printf("error setting sem[1] to wait in odd case \n");
+        }
+        if (sem_wait(((Thread*) t)->sem[0])< 0) { 
+            printf("error setting sem[0] to wait in odd case \n");
+        }   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
-        sem_wait(((Thread*) t)->sem[0]);
-        sem_wait(((Thread*) t)->sem[1]);   
+        if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
+            printf("error setting sem[0] to wait in even case \n");
+        }   
+        if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
+            printf("error setting sem[1] to wait in odd case \n");
+        }      
     }
 	//critical section starts here
 	printf("[%ld] Thread %s is in its critical section\n", getCurrentTime(),
@@ -199,7 +208,7 @@ void* threadRun(void *t) //implement this function in a suitable way
         // release semaphore[0] then release semaphore[1]
         sem_post(((Thread*) t)->sem[0]);
 
-        
+
         printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
                 ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[1]);   
