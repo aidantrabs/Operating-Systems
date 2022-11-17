@@ -182,17 +182,27 @@ void* threadRun(void *t) //implement this function in a suitable way
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         // access semaphore[1] then semaphore[0]
+        sem_getvalue(((Thread*) t)->sem[1], &value);
+        printf("The initial value of sem[1] prior to sem_wait is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
             printf("error setting sem[1] to wait in odd case \n");
         }
+
+        sem_getvalue(((Thread*) t)->sem[0], &value);
+        printf("The initial value of sem[0] prior to sem_wait is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[0])< 0) { 
             printf("error setting sem[0] to wait in odd case \n");
         }   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
+        sem_getvalue(((Thread*) t)->sem[0], &value);
+        printf("The initial value of sem[0] prior to sem_wait is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
             printf("error setting sem[0] to wait in even case \n");
         }   
+
+        sem_getvalue(((Thread*) t)->sem[1], &value);
+        printf("The initial value of sem[1] prior to sem_wait is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
             printf("error setting sem[1] to wait in odd case \n");
         }      
