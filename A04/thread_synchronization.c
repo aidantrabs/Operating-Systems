@@ -220,6 +220,9 @@ void* threadRun(void *t) //implement this function in a suitable way
         // release semaphore[1] then release semaphore[0] 
         printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
             ((Thread*) t)->tid);
+
+        sem_getvalue(((Thread*) t)->sem[1], &value);
+        printf("The initial value of sem[1] is %d\n", value);
         sem_post(((Thread*) t)->sem[1]);
         printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
                 ((Thread*) t)->tid);
