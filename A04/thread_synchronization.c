@@ -147,6 +147,7 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
         (*threads)[k].sem[0] = &sem0;
         sem_getvalue((*threads)[k].sem[0], &value);
         printf("The initial value of sem[0] upon initialization is %d\n", value); 
+
         (*threads)[k].sem[1] = &sem1;
         sem_getvalue((*threads)[k].sem[1], &value);
         printf("The initial value of sem[1] upon initialization is %d\n", value); 
@@ -186,9 +187,9 @@ void* threadRun(void *t) //implement this function in a suitable way
 
 
     Thread* thread = (Thread*) t;
-    sem_getvalue((*thread).sem[1], &value);
+    sem_getvalue(&sem1, &value);
         printf("The initial value of sem[1] prior to sem_wait is %d\n", value);
-    sem_getvalue((*thread).sem[0], &value);
+    sem_getvalue(&sem0, &value);
         printf("The initial value of sem[0] prior to sem_wait is %d\n", value);
     
     
