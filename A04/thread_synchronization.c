@@ -197,7 +197,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             }
             sem_wait(&running); // wait if something else is using the semaphore
             value = sem_getvalue(&running, &value);
-        } while (value < 0)
+        } while (value < 0);
 
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
@@ -210,7 +210,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             }  
             sem_wait(&running); // wait if something else is using the semaphore
             value = sem_getvalue(&running, &value);
-        } while (value < 0 )    
+        } while (value < 0);
     }
     
 	//critical section starts here
