@@ -135,6 +135,7 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
                 char two_digits[3];
                 strncpy(two_digits, &token[1], 3);
                 (*threads)[k].isOdd = atoi(two_digits)%2;   // assign thread as odd or even
+                printf("%s has isOdd = %d", (*threads)[k].isOdd);
 			if (j == 1)
 				(*threads)[k].startTime = atoi(token);  // int assignment of startTime
 			j++;
