@@ -1,3 +1,33 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Codespaces
+Marketplace
+Explore
+ 
+@AleksandarNe11 
+aidantrabs
+/
+386
+Private
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+386/A04/thread_synchronization.c
+@AleksandarNe11
+AleksandarNe11 while loop on sem_post
+Latest commit a1352cd 20 minutes ago
+ History
+ 2 contributors
+@AleksandarNe11@aidantrabs
+246 lines (215 sloc)  8.58 KB
+
 /**
 --------------------------------------
 Authors: Aidan Traboulay & Aleksander Neceski
@@ -87,7 +117,6 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
     //create semaphore0 and semahphore1
     sem_init(&sem0, 0, 1); // initialized to 1 to automatically start work on first wait() call
     sem_init(&sem1, 0, 1);
-    sem_init(&running, 0, 1);
 
 	struct stat st;
 	fstat(fileno(in), &st);
@@ -191,37 +220,22 @@ void* threadRun(void *t) //implement this function in a suitable way
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         sem_getvalue(((Thread*) t)->sem[1], &value);
         printf("The value of sem1 upon entry to odd case is %d\n", value);
-        do { 
-            if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
+        if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
             printf("error setting sem[1] to wait in odd case \n");
-            }
-            sem_wait(&running); // wait if something else is using the semaphore
-            value = sem_getvalue(&running, &value);
-        } while (value < 0);
-
+        }
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
         sem_getvalue(((Thread*) t)->sem[0], &value);
         printf("The value of sem0 upon entry of even case is %d\n", value);
-        
-        do { 
-            if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
+        if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
             printf("error setting sem[0] to wait in even case \n");
-            }  
-            sem_wait(&running); // wait if something else is using the semaphore
-            value = sem_getvalue(&running, &value);
-        } while (value < 0);
+        }      
     }
-    
 	//critical section starts here
 	printf("[%ld] Thread %s is in its critical section\n", getCurrentTime(),
 			((Thread*) t)->tid);
 	//critical section ends here
 
-    value = sem_getvalue(&running, &value);
-    while(value < 1) { 
-        sem_wait(&running);
-    }
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
         // release semaphore[0] then release semaphore[1]
