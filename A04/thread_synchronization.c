@@ -132,10 +132,10 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 			(*threads)[k].state = 0;                    // ready state assignment
 			if (j == 0)
 				strcpy((*threads)[k].tid, token);       // thread ID assignment
-                char two_digits[3];
+                char two_digits[2];
                 strncpy(two_digits, &token[2], 2);
                 (*threads)[k].isOdd = atoi(two_digits)%2;   // assign thread as odd or even
-                printf("%s has isOdd = %d \n", token, (*threads)[k].isOdd);
+                printf("%s has isOdd = %d \n", two_digits, (*threads)[k].isOdd);
 			if (j == 1)
 				(*threads)[k].startTime = atoi(token);  // int assignment of startTime
 			j++;
