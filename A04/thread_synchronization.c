@@ -209,6 +209,7 @@ void* threadRun(void *t) //implement this function in a suitable way
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
         // release semaphore[0] then release semaphore[1]
+        sem_getvalue(((Thread*) t)->sem[0], &value);
         while (value < 1) { 
             sem_post(((Thread*) t)->sem[0]);
             sem_getvalue(((Thread*) t)->sem[0], &value);
