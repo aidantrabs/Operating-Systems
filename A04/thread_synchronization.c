@@ -12,6 +12,8 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <pthread.h>
 #include <sys/stat.h>
 #include <time.h>
+#include <semaphore.h>
+#include <stdbool.h>
 
 sem_t running;
 sem_t even;
@@ -31,7 +33,8 @@ typedef struct thread //represents a single thread, you can add more members if 
 	int state;
 	pthread_t handle;
 	int retVal;
-    int semaphores[2]; // added semaphore array to track even and odd activity
+    int isOdd;
+    sem_t* sem[2]; // added semaphore array to track even and odd activity
 } Thread;
 
 //you can add more functions here if required
@@ -59,12 +62,10 @@ int main(int argc, char *argv[]) {
 
 		int i = 0;
 		while ((i = threadToStart(threads, threadCount)) > -1) {
-			//you can add some suitable code anywhere in this loop if required
-
-			threads[i].state = 1;
-			threads[i].retVal = pthread_create(&(threads[i].handle), NULL,
-					threadRun, &threads[i]);
-		}
+            threads[i].state = 1;
+            threads[i].retVal = pthread_create(&(threads[i].handle), NULL,
+                    threadRun, &threads[i]);
+            }
 	}
 	return 0;
 }
@@ -77,6 +78,12 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 				"Child A: Error in opening input file...exiting with error code -1\n");
 		return -1;
 	}
+
+    //create semaphore0 and semahphore1
+    sem_t sem0;
+    sem_t sem1;
+    sem_init(&sem0, 0, 1); // initialized to 1 to automatically start work on first wait() call
+    sem_init(&sem1, 0, 1);
 
 	struct stat st;
 	fstat(fileno(in), &st);
@@ -119,20 +126,25 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 		int j = 0;                                      
 		token = strtok(lines[k], ";");                  // get token id 
 		while (token != NULL) {
-//if you have extended the Thread struct then here
-//you can do initialization of those additional members
-//or any other action on the Thread members
-
-            // *TODO: extend struct with even and odd semaphore references
-
 			(*threads)[k].state = 0;                    // ready state assignment
 			if (j == 0)
 				strcpy((*threads)[k].tid, token);       // thread ID assignment
+                char two_digits[3];
+                strncpy(two_digits, &token[1], 3);
+                (*threads)[k].isOdd = (two_digits)%2;   // assign thread as odd or even
 			if (j == 1)
 				(*threads)[k].startTime = atoi(token);  // int assignment of startTime
 			j++;
 			token = strtok(NULL, ";");
 		}
+        //if you have extended the Thread struct then here
+        //you can do initialization of those additional members
+        //or any other action on the Thread members
+
+        // ALEKS 
+        // assign semaphore0 and semaphore1 
+        (*threads)[k].sem[0] = &sem0; 
+        (*threads)[k].sem[1] = &sem1;
 	}
 	return threadCount;
 }
@@ -165,23 +177,31 @@ int threadToStart(Thread *threads, int threadCount) {
 void* threadRun(void *t) //implement this function in a suitable way
 {
 	logStart(((Thread*) t)->tid);
-
-//your synchronization logic will appear here
-
-    // case 1: even semaphore is ready and odd semaphore is notReady
-        // case a: even semaphore exists 
-    // case 2: odd semaphore is ready and even semaphore is notReady 
-
-    // case 3: both are ready
-
-    // case 4: neither are ready 
-
+    
+    if ((*threads)[k].isOdd) {  // case 1: odd thread attempts to access
+        // access semaphore[1] then semaphore[0]
+        sem_wait((*threads)[k].sem[1]);
+        sem_wait((*threads)[k].sem[0]);   
+    } else {                    // case 2: even thread attempts to access
+        // access semaphore[0] then semaphore[1]
+        sem_wait((*threads)[k].sem[0]);
+        sem_wait((*threads)[k].sem[1]);   
+    }
 	//critical section starts here
 	printf("[%ld] Thread %s is in its critical section\n", getCurrentTime(),
 			((Thread*) t)->tid);
 	//critical section ends here
 
-//your synchronization logic will appear here
+//synchronization release logic will appear here
+    if ((*threads)[k].isOdd) {  // case : odd thread completes
+        // release semaphore[0] then release semaphore[1]
+        sem_post((*threads)[k].sem[0]);
+        sem_post((*threads)[k].sem[1]);   
+    } else {                    // case 1: even thread completes
+        // release semaphore[1] then release semaphore[0] 
+        sem_post((*threads)[k].sem[1]);
+        sem_post((*threads)[k].sem[0]);  
+    }
 
 	logFinish(((Thread*) t)->tid);
 	((Thread*) t)->state = -1;
@@ -192,7 +212,7 @@ void startClock() {
 	programClock = time(NULL);
 }
 
-long getCurrentTime() //invoke this method whenever you want check how much time units passed
+long getCurrentTime() //invoke this method whenever you want check how much time units passe 
 //since you invoked startClock()
 {
 	time_t now;
