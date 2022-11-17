@@ -67,6 +67,9 @@ int main(int argc, char *argv[]) {
                     threadRun, &threads[i]);
             }
 	}
+
+    sem_destroy(&sem0);
+    sem_destroy(&sem1);
 	return 0;
 }
 
@@ -143,12 +146,7 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
         // assign semaphore0 and semaphore1 
         int value;
         (*threads)[k].sem[0] = &sem0;
-        sem_getvalue((*threads)[k].sem[0], &value);
-        printf("The initial value of sem[0] upon initialization is %d\n", value); 
-
         (*threads)[k].sem[1] = &sem1;
-        sem_getvalue((*threads)[k].sem[1], &value);
-        printf("The initial value of sem[1] upon initialization is %d\n", value); 
 	}
 	return threadCount;
 }
