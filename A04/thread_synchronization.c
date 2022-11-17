@@ -18,6 +18,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 sem_t running;
 sem_t sem0;
 sem_t sem1;
+int threadsRemaining; 
 
 void logStart(char *tID); //function to log that a new thread is started
 void logFinish(char *tID); //function to log that a thread has finished its time
@@ -54,6 +55,7 @@ int main(int argc, char *argv[]) {
 
 	Thread *threads = NULL;
 	int threadCount = readFile(argv[1], &threads);
+    threadsRemaining = threadCount;
 
 	startClock();
 	while (threadsLeft(threads, threadCount) > 0) //put a suitable condition here to run your program - What does he mean???
@@ -184,22 +186,14 @@ void* threadRun(void *t) //implement this function in a suitable way
     
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
-        // access semaphore[1] then semaphore[0]
-        
+        // access semaphore[1]
         if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
             printf("error setting sem[1] to wait in odd case \n");
         }
-        if (sem_wait(((Thread*) t)->sem[0])< 0) { 
-            printf("error setting sem[0] to wait in odd case \n");
-        }   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
         if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
             printf("error setting sem[0] to wait in even case \n");
-        }   
-
-        if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
-            printf("error setting sem[1] to wait in odd case \n");
         }      
     }
 	//critical section starts here
@@ -210,12 +204,12 @@ void* threadRun(void *t) //implement this function in a suitable way
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
         // release semaphore[0] then release semaphore[1]
-        sem_post(((Thread*) t)->sem[0]);
-        sem_post(((Thread*) t)->sem[1]);   
+        sem_post(((Thread*) t)->sem[0]); 
+        // if no future threads release  
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
         sem_post(((Thread*) t)->sem[1]);
-        sem_post(((Thread*) t)->sem[0]);  
+        // if no future threads release both 
     }
 
 	logFinish(((Thread*) t)->tid);
