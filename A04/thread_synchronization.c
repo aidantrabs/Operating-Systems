@@ -214,10 +214,13 @@ void* threadRun(void *t) //implement this function in a suitable way
 
         sem_post(&running);
     } else { 
-        sem_getvalue(&even, &value);
+        sem_getvalue(&sem0, &value);
         if (value == 0)
             sem_post(((Thread*) t)->sem[0]);
-        sem_post(((Thread*) t)->sem[0]);
+
+        sem_getvalue(&sem1, &value);
+        if (value == 0)
+            sem_post(((Thread*) t)->sem[1]);
 
         sem_post(&running);
     }
