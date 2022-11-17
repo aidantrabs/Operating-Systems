@@ -177,6 +177,7 @@ int threadToStart(Thread *threads, int threadCount) {
 void* threadRun(void *t) //implement this function in a suitable way
 {
 	logStart(((Thread*) t)->tid);
+    int value;
 
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
@@ -205,6 +206,9 @@ void* threadRun(void *t) //implement this function in a suitable way
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
         printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
                 ((Thread*) t)->tid);
+
+        sem_getvalue(((Thread*) t)->sem[0], &value);
+        printf("The initial value of sem[0] is %d\n", value);
         // release semaphore[0] then release semaphore[1]
         sem_post(((Thread*) t)->sem[0]);
 
