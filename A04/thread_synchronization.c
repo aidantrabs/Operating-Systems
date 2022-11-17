@@ -205,15 +205,18 @@ void* threadRun(void *t) //implement this function in a suitable way
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
         // release semaphore[0] then release semaphore[1]
-        sem_post(((Thread*) t)->sem[0]);
         sem_getvalue(((Thread*) t)->sem[0], &value);
+        if (value == 0)
+            sem_post(((Thread*) t)->sem[0]);
         printf("The value of sem0 upon completion of odd thread is %d\n", value);  
         // if no future threads release  
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
-        sem_post(((Thread*) t)->sem[1]);
         sem_getvalue(((Thread*) t)->sem[1], &value);
+        if (value == 0)
+            sem_post(((Thread*) t)->sem[1]);
         printf("The value of sem1 upon completion of even thread is %d\n", value); 
+        
         // if no future threads release both 
     }
 
