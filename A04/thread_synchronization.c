@@ -186,8 +186,6 @@ void* threadRun(void *t) //implement this function in a suitable way
 
     Thread* thread = (Thread*) t;
     int value;   
-
-    printf("Case %d \n", ((Thread*) t)->isOdd);
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         sem_getvalue(((Thread*) t)->sem[1], &value);
