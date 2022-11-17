@@ -194,12 +194,22 @@ void* threadRun(void *t) //implement this function in a suitable way
 
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
+        printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
+                ((Thread*) t)->tid);
         // release semaphore[0] then release semaphore[1]
         sem_post(((Thread*) t)->sem[0]);
+
+        
+        printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
+                ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[1]);   
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
+        printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
+            ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[1]);
+        printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
+                ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[0]);  
     }
 
