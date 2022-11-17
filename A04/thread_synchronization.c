@@ -16,8 +16,8 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <stdbool.h>
 
 sem_t running;
-sem_t even;
-sem_t odd;
+sem_t sem0;
+sem_t sem1;
 
 void logStart(char *tID); //function to log that a new thread is started
 void logFinish(char *tID); //function to log that a thread has finished its time
@@ -80,8 +80,6 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 	}
 
     //create semaphore0 and semahphore1
-    sem_t sem0;
-    sem_t sem1;
     sem_init(&sem0, 0, 1); // initialized to 1 to automatically start work on first wait() call
     sem_init(&sem1, 0, 1);
 
