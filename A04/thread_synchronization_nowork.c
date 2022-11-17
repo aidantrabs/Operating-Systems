@@ -18,7 +18,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 sem_t running;
 sem_t sem0;
 sem_t sem1;
-int threadsRemaining; 
+int threadsCompleted = 0;
 
 void logStart(char *tID); //function to log that a new thread is started
 void logFinish(char *tID); //function to log that a thread has finished its time
@@ -70,6 +70,8 @@ int main(int argc, char *argv[]) {
             }
 	}
 
+    threadsCompleted = 1; 
+
     sem_destroy(&sem0);
     sem_destroy(&sem1);
 	return 0;
@@ -85,8 +87,9 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 	}
 
     //create semaphore0 and semahphore1
-    sem_init(&sem0, 0, 1); // initialized to 1 to automatically start work on first wait() call
-    sem_init(&sem1, 0, 1);
+    sem_init(&sem0, 0, 0); // initialized to 1 to automatically start work on first wait() call
+    sem_init(&sem1, 0, 0);
+    sem_init(&running, 0, 1);
 
 	struct stat st;
 	fstat(fileno(in), &st);
@@ -187,41 +190,44 @@ void* threadRun(void *t) //implement this function in a suitable way
     Thread* thread = (Thread*) t;
     int value;   
     
-    if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
-        sem_wait(((Thread*) t)->sem[1]) < 0
+    if (!threadsCompleted) { 
+		if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
+        	sem_wait(((Thread*) t)->sem[1]);
+		} else {                    // case 2: even thread attempts to access
+			sem_wait(((Thread*) t)->sem[0]);
+		}
+        sem_wait(&running);
+	}
 
-    } else {                    // case 2: even thread attempts to access
-        // access semaphore[0] then semaphore[1]
-        sem_getvalue(((Thread*) t)->sem[0], &value);
-        printf("The value of sem0 upon entry of even case is %d\n", value);
-        if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
-            printf("error setting sem[0] to wait in even case \n");
-        }      
-    }
-	//critical section starts here
+    //critical section starts here
 	printf("[%ld] Thread %s is in its critical section\n", getCurrentTime(),
 			((Thread*) t)->tid);
 	//critical section ends here
 
-//synchronization release logic will appear here
-    if (((Thread*) t)->isOdd) {  // case : odd thread completes
-        // release semaphore[0] then release semaphore[1]
-        sem_getvalue(((Thread*) t)->sem[0], &value);
-        while (value < 1) { 
+    //synchronization release logic will appear here
+    if (!threadsCompleted) { 
+        if (((Thread*) t)->isOdd) {  // case : odd thread completes
             sem_post(((Thread*) t)->sem[0]);
-            sem_getvalue(((Thread*) t)->sem[0], &value);
-        } 
-        // if no future threads release  
-    } else {                    // case 1: even thread completes
-        // release semaphore[1] then release semaphore[0] 
-        sem_getvalue(((Thread*) t)->sem[1], &value);
-        while (value < 1) { 
-            sem_post(((Thread*) t)->sem[1]);
-            sem_getvalue(((Thread*) t)->sem[1], &value);
+        } else {
+            sem_post(((Thread*) t)->sem[0]);
         }
-        
-        // if no future threads release both 
+
+        sem_post(&running);
+    } else { 
+        sem_getvalue(&sem0, &value);
+        if (value == 0)
+            sem_post(((Thread*) t)->sem[0]);
+
+        sem_getvalue(&sem1, &value);
+        if (value == 0)
+            sem_post(((Thread*) t)->sem[1]);
+
+        sem_post(&running);
     }
+    }
+
+
+
 
 	logFinish(((Thread*) t)->tid);
 	((Thread*) t)->state = -1;
