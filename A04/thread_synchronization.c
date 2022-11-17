@@ -179,14 +179,8 @@ int threadToStart(Thread *threads, int threadCount) {
 void* threadRun(void *t) //implement this function in a suitable way
 {
 	logStart(((Thread*) t)->tid);
-    int value;
-
 
     Thread* thread = (Thread*) t;
-    sem_getvalue(&sem1, &value);
-        printf("The initial value of sem[1] prior to sem_wait is %d\n", value);
-    sem_getvalue(&sem0, &value);
-        printf("The initial value of sem[0] prior to sem_wait is %d\n", value);
     
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
@@ -196,7 +190,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             printf("error setting sem[1] to wait in odd case \n");
         }
         if (sem_wait(((Thread*) t)->sem[0])< 0) { 
-            printf("error setting sem[0] to wait in odd case \n");
+            printf("error setting sem[0] to wait in odd case \n");sem[1]
         }   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
@@ -215,28 +209,12 @@ void* threadRun(void *t) //implement this function in a suitable way
 
 //synchronization release logic will appear here
     if (((Thread*) t)->isOdd) {  // case : odd thread completes
-        printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
-                ((Thread*) t)->tid);
-
-        sem_getvalue(((Thread*) t)->sem[0], &value);
-        printf("The initial value of sem[0] is %d\n", value);
         // release semaphore[0] then release semaphore[1]
         sem_post(((Thread*) t)->sem[0]);
-
-
-        printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
-                ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[1]);   
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
-        printf("[%ld] Thread %s is releasing semaphore 1\n", getCurrentTime(),
-            ((Thread*) t)->tid);
-
-        sem_getvalue(((Thread*) t)->sem[1], &value);
-        printf("The initial value of sem[1] is %d\n", value);
         sem_post(((Thread*) t)->sem[1]);
-        printf("[%ld] Thread %s is releasing semaphore 0\n", getCurrentTime(),
-                ((Thread*) t)->tid);
         sem_post(((Thread*) t)->sem[0]);  
     }
 
