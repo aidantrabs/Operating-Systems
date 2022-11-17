@@ -190,7 +190,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             printf("error setting sem[1] to wait in odd case \n");
         }
         if (sem_wait(((Thread*) t)->sem[0])< 0) { 
-            printf("error setting sem[0] to wait in odd case \n");sem[1]
+            printf("error setting sem[0] to wait in odd case \n");
         }   
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
