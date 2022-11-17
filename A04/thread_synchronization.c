@@ -143,8 +143,12 @@ int readFile(char *fileName, Thread **threads) //do not modify this method
 
         // ALEKS 
         // assign semaphore0 and semaphore1 
-        (*threads)[k].sem[0] = &sem0; 
+        (*threads)[k].sem[0] = &sem0;
+        sem_getvalue((*threads)[k].sem[0], &value);
+        printf("The initial value of sem[0] upon initialization is %d\n", value); 
         (*threads)[k].sem[1] = &sem1;
+        sem_getvalue((*threads)[k].sem[1], &value);
+        printf("The initial value of sem[1] upon initialization is %d\n", value); 
 	}
 	return threadCount;
 }
@@ -182,7 +186,7 @@ void* threadRun(void *t) //implement this function in a suitable way
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         // access semaphore[1] then semaphore[0]
-        sem_getvalue(((Thread*) t)->sem[1], &value);
+        sem_getvalue(&(((Thread*) t)->sem[1]), &value);
         printf("The initial value of sem[1] prior to sem_wait is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[1]) < 0) { 
             printf("error setting sem[1] to wait in odd case \n");
