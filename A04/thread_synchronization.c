@@ -213,7 +213,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             sem_post(((Thread*) t)->sem[0]);
             sem_getvalue(((Thread*) t)->sem[0], &value);
         }
-        printf("The value of sem0 upon completion of thread %s is %d\n", value, ((Thread*) t)->tid);  
+        printf("The value of sem0 upon completion of thread %s is %d\n", ((Thread*) t)->tid, value);  
         // if no future threads release  
     } else {                    // case 1: even thread completes
         // release semaphore[1] then release semaphore[0] 
@@ -222,7 +222,7 @@ void* threadRun(void *t) //implement this function in a suitable way
             sem_post(((Thread*) t)->sem[1]);
             sem_getvalue(((Thread*) t)->sem[1], &value);
         }
-        printf("The value of sem1 upon completion of thread %s is %d\n", value, ((Thread*) t)->tid); 
+        printf("The value of sem1 upon completion of thread %s is %d\n", ((Thread*) t)->tid, value); 
         
         // if no future threads release both 
     }
