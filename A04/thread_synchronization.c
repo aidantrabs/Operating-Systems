@@ -184,6 +184,8 @@ void* threadRun(void *t) //implement this function in a suitable way
 
     Thread* thread = (Thread*) t;
     int value;   
+
+    printf("Case %d \n", ((Thread*) t)->isOdd);
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         sem_getvalue(((Thread*) t)->sem[1], &value);
@@ -194,7 +196,7 @@ void* threadRun(void *t) //implement this function in a suitable way
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
         sem_getvalue(((Thread*) t)->sem[0], &value);
-        printf("The value of sem0 upon completion of even case is %d\n", value);
+        printf("The value of sem0 upon entry of even case is %d\n", value);
         if (sem_wait(((Thread*) t)->sem[0]) < 0) { 
             printf("error setting sem[0] to wait in even case \n");
         }      
