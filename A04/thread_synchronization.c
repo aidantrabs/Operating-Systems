@@ -188,7 +188,7 @@ void* threadRun(void *t) //implement this function in a suitable way
     int value;   
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
-        sem_wait(((Thread*) t)->sem[1])
+        sem_wait(((Thread*) t)->sem[1]);
     } else {                    // case 2: even thread attempts to access
         // access semaphore[0] then semaphore[1]
         sem_getvalue(((Thread*) t)->sem[0], &value);
