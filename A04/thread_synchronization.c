@@ -184,7 +184,12 @@ void* threadRun(void *t) //implement this function in a suitable way
 
     Thread* thread = (Thread*) t;
     int value; 
-    
+
+    sem_getvalue(((Thread*) t)->sem[1], &value);
+    printf("The value of sem1 upon completion of even thread is %d\n", value); 
+
+    sem_getvalue(((Thread*) t)->sem[0], &value);
+    printf("The value of sem0 upon completion of odd thread is %d\n", value);  
     
     if (((Thread*) t)->isOdd) {  // case 1: odd thread attempts to access
         // access semaphore[1]
