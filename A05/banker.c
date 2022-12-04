@@ -20,6 +20,19 @@ int ** t_curr_arr;
 int t_arr_len = 0;
 int num_resources = 0;
 
+int* getMaxResourceFromLine(char *line) { 
+    int * t_arr = malloc(sizeof(int) * num_resources);
+    int i = 0;
+    char* token = strtok(line, " ");
+    t_arr[i] = atoi(token);
+    while ((token = strtok(NULL, " "))) {    
+        i += 1;
+        t_arr[i] = atoi(token);
+    }
+
+    return t_arr;
+}
+
 void readFileToMaxArrAlloc(FILE** f) { 
     ssize_t read;
     size_t len = 0;
@@ -38,23 +51,10 @@ void readFileToMaxArrAlloc(FILE** f) {
     int i = 0; 
     while ((read = getline(&line, &len, f)) != -1) { 
         t_arr = getMaxResourceFromLine(&line);
-        t_max_arr[i] = &t_arr;
+        t_max_arr[i] = t_arr;
     }
 
     return;
-}
-
-int* getMaxResourceFromLine(char *line) { 
-    int * t_arr = malloc(sizeof(int) * num_resources);
-    int i = 0;
-    char* token = strtok(line, " ");
-    t_arr[i] = atoi(token);
-    while ((token = strtok(NULL, " "))) {    
-        i += 1;
-        t_arr[i] = atoi(token);
-    }
-
-    return t_arr;
 }
 
 void invoke_command(char* prefix, char* buf, int* resources) { 
