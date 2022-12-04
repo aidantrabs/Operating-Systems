@@ -22,8 +22,8 @@ void invoke_command();
 void define_resources(); 
 void getMaxResourceFromLine();
 
-int * t_max_arr; [[1, 2, 3, 4], [4, 5, 6, 7]]
-int * t_curr_arr;   
+int ** t_max_arr;
+int ** t_curr_arr;   
 int t_arr_len = 0;
 int num_resources = 0;
 
@@ -66,8 +66,9 @@ void readFileToMaxArrAlloc(FILE** f) {
         t_arr_len += 1;
     }
     // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
-    
-    malloc(t_arr_len * sizeof(int[]))
+    t_max_arr = (int **)malloc(n * sizeof(int *));
+    rewind(f);
+
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, f)) != -1) { 
