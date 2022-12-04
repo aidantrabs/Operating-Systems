@@ -49,8 +49,8 @@ void readFileToMaxArrAlloc(FILE** f) {
 
     // allocate lines and assign to index in array
     int i = 0; 
-    while ((read = getline(&line, &len, f)) != -1) { 
-        t_arr = getMaxResourceFromLine(&line);
+    while ((read = getline(&line, &len, &f)) != -1) { 
+        t_arr = getMaxResourceFromLine(line);
         t_max_arr[i] = t_arr;
     }
 
@@ -149,7 +149,7 @@ int main(int argc, char** argv) {
     int resources[argc - 1];
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
-            resources[i] = argv[i];
+            resources[i] = atoi(argv[i]);
             num_resources += 1; 
         }
     } else { 
