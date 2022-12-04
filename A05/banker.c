@@ -40,16 +40,16 @@ void readFileToMaxArrAlloc(FILE** f) {
     int * t_arr;
 
     // count number of lines
-    while ((read = getline(&line, &len, f)) != -1) { 
+    while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr_len += 1;
     }
     // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
     t_max_arr = (int **)malloc(n * sizeof(int *));
-    rewind(f);
+    rewind(*f);
 
     // allocate lines and assign to index in array
     int i = 0; 
-    while ((read = getline(&line, &len, &f)) != -1) { 
+    while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr = getMaxResourceFromLine(line);
         t_max_arr[i] = t_arr;
     }
