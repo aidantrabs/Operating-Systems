@@ -118,13 +118,13 @@ int main(int argc, char** argv) {
         exit();
     }
 
-    readFileToMaxArrAlloc(*f);
+    readFileToMaxArrAlloc(&f);
 
     while (1) {
         char buf[MAXC];                  
         
         fputs ("enter string: ", stdout);   /* prompt */
-        while (fgets(buf, MAXC, stdin);) {   // fgets
+        while (fgets(buf, MAXC, stdin)) {   // fgets
             char * prefix = strtok(buf, " ");
             invoke_command(prefix, buf, resources);
         }
