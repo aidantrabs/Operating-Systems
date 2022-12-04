@@ -24,7 +24,6 @@ void readFileToMaxArrAlloc(FILE** f) {
     ssize_t read;
     size_t len = 0;
     char * line;
-    char * token;
     int * t_arr;
 
     // count number of lines
@@ -48,9 +47,9 @@ void readFileToMaxArrAlloc(FILE** f) {
 int* getMaxResourceFromLine(char *line) { 
     int * t_arr = malloc(sizeof(int) * num_resources);
     int i = 0;
-    char* token = strtok(s, " ");
+    char* token = strtok(line, " ");
     t_arr[i] = atoi(token);
-    while (token = strtok(NULL, " ")) {    
+    while ((token = strtok(NULL, " "))) {    
         i += 1;
         t_arr[i] = atoi(token);
     }
@@ -154,7 +153,7 @@ int main(int argc, char** argv) {
             num_resources += 1; 
         }
     } else { 
-        exit();
+        exit(0);
     }
 
     readFileToMaxArrAlloc(&f);
