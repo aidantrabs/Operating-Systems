@@ -11,6 +11,8 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <unistd.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <stdbool.h>
+
 #define MAXC 21
 
 int ** t_max_arr;
@@ -26,7 +28,7 @@ void readFileToMaxArrAlloc(FILE** f) {
     int * t_arr;
 
     // count number of lines
-    while ((read = getline(&line, &len, fp)) != -1) { 
+    while ((read = getline(&line, &len, f)) != -1) { 
         t_arr_len += 1;
     }
     // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
@@ -43,13 +45,13 @@ void readFileToMaxArrAlloc(FILE** f) {
     return;
 }
 
-int* getMaxResourceFromLine(char * line) { 
-    int * t_arr = malloc(sizeof(int) * num_resources)
-    int i = 0
+int* getMaxResourceFromLine(char *line) { 
+    int * t_arr = malloc(sizeof(int) * num_resources);
+    int i = 0;
     char* token = strtok(s, " ");
     t_arr[i] = atoi(token);
     while (token = strtok(NULL, " ")) {    
-        i += 1
+        i += 1;
         t_arr[i] = atoi(token);
     }
 
@@ -72,6 +74,43 @@ void invoke_command(char* prefix, char* buf, int* resources) {
     }
 }
 
+bool safety_algorithm(int *available, int **max, int **allocated, int **needed, int num_processes, int num_resources) {
+    int *work = malloc(sizeof(int) * num_resources);
+    int *is_done = malloc(sizeof(int) * num_processes);
+    int i, j, k, count = 0;
+
+    for (i = 0; i < num_resources; i++) {
+        work[i] = available[i];
+    }
+
+    for (i = 0; i < num_processes; i++) {
+        is_done[i] = 0;
+    }
+
+    for (i = 0; i < num_processes; i++) {
+        for (j = 0; j < num_processes; j++) {
+            if (is_done[j] == 0) {
+                for (k = 0; k < num_resources; k++) {
+                    if (needed[j][k] > work[k]) {
+                        break;
+                    }
+                }
+                if (k == num_resources) {
+                    for (k = 0; k < num_resources; k++) {
+                        work[k] += allocated[j][k];
+                    }
+                    is_done[j] = 1;
+                }
+            }
+        }
+    }
+
+    if (count == num_processes) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 /* RQ Command */
 void request_resources() {
