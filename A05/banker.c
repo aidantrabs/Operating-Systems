@@ -11,8 +11,6 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <unistd.h>
 #include <string.h>
 #include <sys/stat.h>
-#include <pthread.h>
-#include <semaphore.h>
 #define MAXC 21
 
 void request_resources();
@@ -22,6 +20,7 @@ void run();
 void exit();
 void invoke_command();
 void define_resources(); 
+void getMaxResourceFromLine();
 
 int * t_max_arr;
 int * t_curr_arr;
@@ -53,17 +52,43 @@ int main(int argc, char** argv) {
 }
 
 void readFileToMaxArrAlloc(FILE** f) { 
-    int arr_len =
-    int i, j; 
-    for(i = 0; i < 9; i++) { 
-        for(j = 0; j < 9; j++) {
-            char s[] = "0";
-            fscanf(*f, " %c", &s[0]);
-            sudoku[i][j] = atoi(s);
+    ssize_t read;
+    size_t len = 0;
+    char * line;
+    char * token;
+
+    // get num tokens in first line to know how long 
+    // each resource array should be
+    read = getline(&line, &len, fp)
+    if (read != -1) { 
+        // get count of how many resources each will need
+        char* token = strtok(s, " ");
+        t_arr_len += 1 
+        while (token = strtok(NULL, " ")) { 
+            t_arr_len += 1
         }
+
+        // assign the first array values
+        getMaxResourceFromLine(&line);
+    }
+    while ((read = getline(&line, &len, f)) != -1) { 
+
     }
 
     return;
+}
+
+int* getMaxResourceFromLine(char * line) { 
+    int * t_arr = malloc(sizeof(int) * t_arr_len)
+    int i = 0
+    char* token = strtok(s, " ");
+    t_arr[i] = atoi(token);
+    while (token = strtok(NULL, " ")) {    
+        i += 1
+        t_arr[i] = atoi(token);
+    }
+
+    return t_arr;
 }
 
 void invoke_command(char* prefix, char* buf, int* resources) { 
