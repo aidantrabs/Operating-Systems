@@ -25,14 +25,16 @@ void define_resources();
 int* getMaxResourceFromLine(char *line);
 bool safety_algorithm(int *available, int **max, int **allocated, int **needed, int num_processes, int num_resources);
 
+
 int *t_max_arr;
 int *t_curr_arr;
+
 int t_arr_len = 0;
 int num_resources = 0;
 
 int main(int argc, char** argv) {
     FILE* f;
-    f = fopen("sample_in_sudoku.txt" , "r");
+    f = fopen("sample_in_baker.txt" , "r");
 
     int resources[argc - 1];
 
@@ -44,6 +46,8 @@ int main(int argc, char** argv) {
     } else { 
         exit();
     }
+
+    readFileToMaxArrAlloc(*f);
 
     while (1) {
         char buf[MAXC];                  
@@ -68,7 +72,8 @@ void readFileToMaxArrAlloc(FILE** f) {
         t_arr_len += 1;
     }
     // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
-
+    
+    malloc(t_arr_len * sizeof(int[]))
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, f)) != -1) { 
