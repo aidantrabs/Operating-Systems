@@ -34,7 +34,8 @@ int main(int argc, char** argv) {
     if (argc > 1) {
         int resources[argc - 1];
         for (int i = 1; i < argc; i++) { 
-            resources[i] = argv[i]
+            resources[i] = argv[i];
+            num_resources += 1; 
         }
     } else { 
         exit();
@@ -56,30 +57,26 @@ void readFileToMaxArrAlloc(FILE** f) {
     size_t len = 0;
     char * line;
     char * token;
+    int * t_arr;
 
-    // get num tokens in first line to know how long 
-    // each resource array should be
-    read = getline(&line, &len, fp)
-    if (read != -1) { 
-        // get count of how many resources each will need
-        char* token = strtok(s, " ");
-        t_arr_len += 1 
-        while (token = strtok(NULL, " ")) { 
-            t_arr_len += 1
-        }
-
-        // assign the first array values
-        getMaxResourceFromLine(&line);
+    // count number of lines
+    while ((read = getline(&line, &len, fp)) != -1) { 
+        t_arr_len += 1;
     }
-    while ((read = getline(&line, &len, f)) != -1) { 
+    // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
 
+    // allocate lines and assign to index in array
+    int i = 0; 
+    while ((read = getline(&line, &len, f)) != -1) { 
+        t_arr = getMaxResourceFromLine(&line);
+        t_max_arr[i] = &t_arr;
     }
 
     return;
 }
 
 int* getMaxResourceFromLine(char * line) { 
-    int * t_arr = malloc(sizeof(int) * t_arr_len)
+    int * t_arr = malloc(sizeof(int) * num_resources)
     int i = 0
     char* token = strtok(s, " ");
     t_arr[i] = atoi(token);
