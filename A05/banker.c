@@ -130,11 +130,11 @@ void release_resources(char* buf) {
     char* token = strtok(buf, " ");
     printf("%s \n", token);
     int temp[num_resources];
-    token = strtok(NULL, " "); // get thread num
+    token = strtok(NULL, buf); // get thread num
     int thread_num = atoi(token);
     printf("thread_num: %d", thread_num);
     int i = 0;
-    while ((token = strtok(NULL, " "))) { 
+    while ((token = strtok(NULL, buf))) { 
         printf("token%d: %s", i, token);   
         temp[i] = atoi(token);
         i++;
