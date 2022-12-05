@@ -255,7 +255,7 @@ void run() {
                 release_thread_resources(thread_num);
             }
         }
-        printf('Completed loop: %d', counter + 1);
+        printf("Completed loop: %d", counter + 1);
         counter++;
     }
 }
