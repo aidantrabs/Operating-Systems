@@ -138,7 +138,7 @@ void release_resources(char* buf) {
 
     printf("thread_num: %d \n", thread_num);
     for (int j = 0; j < num_resources; j++) { 
-        printf("To release: \n")
+        printf("To release: \n");
         printf("%d ", temp[j]);
     }
     printf("\n");
