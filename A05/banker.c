@@ -42,7 +42,7 @@ void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) {
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) {
-        *(t_max_arr[i]) = malloc(sizeof(int)*num_resources);
+        *(t_max_arr + i) = malloc(sizeof(int)*num_resources);
         t_arr = getMaxResourceFromLine(line);
         memcpy(t_max_arr[i], t_arr, sizeof(int) * num_resources);
         i+=1;
