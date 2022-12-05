@@ -169,6 +169,13 @@ int main(int argc, char** argv) {
     int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);;
     readFileToMaxArrAlloc(&f, t_max_arr);
 
+    for (int i = 0; i < t_arr_len; i++) { 
+        for (int j = 0; j < num_resources; j++) { 
+            printf("%d ", t_max_arr[i][j]);
+        }
+        printf("\n");
+    }
+
     while (1) {
         char buf[MAXC];                  
         
