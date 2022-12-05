@@ -155,6 +155,8 @@ int main(int argc, char** argv) {
     FILE* f;
     f = fopen("sample_in_baker.txt" , "r");
 
+    printf("Opened File");
+
     int resources[argc - 1];
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
@@ -165,9 +167,15 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
+    printf("Wrote resources array");
+
     determine_t_arr_len(&f);
-    int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);;
+
+    printf("Determined thread count");
+    int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);
     readFileToMaxArrAlloc(&f, t_max_arr);
+
+    printf("Read file to 2d array");
 
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
