@@ -196,13 +196,13 @@ void release_thread_resources(int thread_num) {
     printf("--> Customer/Thread %d \n", thread_num);
     printf("    Allocated resources: ");
     for (int i = 0; i < num_resources; i++) { 
-        printf("%d ", allocated[thread_num][i])
+        printf("%d ", allocated[thread_num][i]);
     }
     printf(" \n");
 
     printf("    Needed: ");
     for (int i = 0; i < num_resources; i++) { 
-        printf("%d ", max[thread_num][i] -  allocated[thread_num][i])
+        printf("%d ", max[thread_num][i] -  allocated[thread_num][i]);
     }
     printf(" \n");
 
@@ -210,7 +210,7 @@ void release_thread_resources(int thread_num) {
     printf("    Thread has finished \n");
     printf("    Thread is releasing resources \n");
     for (int i = 0; i < num_resources; i++) { 
-        available[i] += allocated[thread_num][i]
+        available[i] += allocated[thread_num][i];
     }
 }
 
