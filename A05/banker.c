@@ -152,7 +152,6 @@ bool safety_algorithm(int *available, int **max, int **allocated, int **needed, 
 }
 
 /* RQ Command */
-void request_resources() {
     // BANKERS ALGORITHM CONCEPT 
         // never allocate resources to a process when there 
         // aren't enough remaining processes for it to complete
@@ -164,6 +163,59 @@ void request_resources() {
 
     // if deny = false 
         // iterate over resources and allocate
+void request_resources(int *resources, int *available, int **max, int **allocated, int **needed, int num_processes, int num_resources) {
+    int *request = malloc(sizeof(int) * num_resources);
+    int *available_temp = malloc(sizeof(int) * num_resources);
+    int *allocated_temp = malloc(sizeof(int) * num_resources);
+    int *needed_temp = malloc(sizeof(int) * num_resources);
+    bool deny = false;
+    int i, j, k;
+
+    for (i = 0; i < num_resources; i++) {
+        request[i] = resources[i];
+    }
+
+    for (i = 0; i < num_processes; i++) {
+        for (j = 0; j < num_resources; j++) {
+            if (request[j] > needed[i][j]) {
+                deny = true;
+                break;
+            }
+        }
+    }
+
+    if (deny == false) {
+        for (i = 0; i < num_resources; i++) {
+            if (request[i] > available[i]) {
+                deny = true;
+                break;
+            }
+        }
+    }
+
+    if (deny == false) {
+        for (i = 0; i < num_resources; i++) {
+            available_temp[i] = available[i] - request[i];
+            allocated_temp[i] = allocated[i] + request[i];
+            needed_temp[i] = needed[i] - request[i];
+        }
+
+        if (safety_algorithm(available_temp, max, allocated_temp, needed_temp, num_processes, num_resources) == true) {
+            for (i = 0; i < num_resources; i++) {
+                available[i] = available_temp[i];
+                allocated[i] = allocated_temp[i];
+                needed[i] = needed_temp[i];
+            }
+        } else {
+            deny = true;
+        }
+    }
+
+    if (deny == true) {
+        fprintf(stdout, "State is not safe, and request is not satisfied \n");
+    } else {
+        fprintf(stdout, "State is safe, and request is satisfied \n");
+    }
 }
 
 /* RL Command */
