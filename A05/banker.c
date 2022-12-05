@@ -15,8 +15,7 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 #define MAXC 21
 
-int ** t_max_arr;
-int ** t_curr_arr;   
+
 int t_arr_len = 0;
 int num_resources = 0;
 
@@ -33,26 +32,34 @@ int* getMaxResourceFromLine(char *line) {
     return t_arr;
 }
 
-void readFileToMaxArrAlloc(FILE** f) { 
+int** readFileToMaxArrAlloc(FILE** f) { 
     ssize_t read;
     size_t len = 0;
     char * line;
-    int * t_arr;
+    int * t_arr; 
 
-    // count number of lines
-    while ((read = getline(&line, &len, *f)) != -1) { 
-        t_arr_len += 1;
-    }
     // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
-    t_max_arr = (int **)malloc(n * sizeof(int *));
-    rewind(*f);
-
+    int t_max_arr[t_arr_len][num_resources];
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr = getMaxResourceFromLine(line);
         t_max_arr[i] = t_arr;
     }
+
+    return t_max_arr;
+}
+
+void determine_t_arr_len(FILE** f) { 
+    ssize_t read;
+    size_t len = 0;
+    char * line;
+    int * t_arr; 
+    // count number of lines
+    while ((read = getline(&line, &len, *f)) != -1) { 
+        t_arr_len += 1;
+    }
+    rewind(*f);
 
     return;
 }
@@ -156,7 +163,9 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    readFileToMaxArrAlloc(&f);
+    determine_t_arr_len(&f);
+    int* t_max_arr[t_arr_len][num_resources] = 
+        readFileToMaxArrAlloc(&f);
 
     while (1) {
         char buf[MAXC];                  
