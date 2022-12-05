@@ -31,7 +31,6 @@ int* getmaxResourceFromLine(char *line) {
     while ((token = strtok(NULL, ","))) {    
         i += 1;
         t_arr[i] = atoi(token);
-        
     }
 
     return t_arr;
@@ -193,7 +192,7 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
-        // release_resources(&temp);
+        release_resources(buf);
         printf("Not Implemented Yet \n");
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
