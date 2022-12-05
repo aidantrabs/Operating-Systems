@@ -25,13 +25,13 @@ int* getMaxResourceFromLine(char *line) {
     int i = 0;
     char* token = strtok(line, " ");
     t_arr[i] = atoi(token);
-    while ((token = strtok(NULL, " "))) {    
+    while ((token = strtok(NULL, line))) {    
         i += 1;
         t_arr[i] = atoi(token);
         printf("%d \n", t_arr[i]);
     }
 
-    return t_arr;
+    return *t_arr;
 }
 
 void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) { 
@@ -70,6 +70,7 @@ void determine_t_arr_len(FILE** f) {
 }
 
 void invoke_command(char* prefix, char* buf, int* resources) { 
+    printf("%s", prefix);
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
