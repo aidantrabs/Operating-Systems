@@ -126,15 +126,13 @@ void request_resources() {
 
 /* RL Command */
 void release_resources(char* buf) {
-    printf("buf: %s \n", buf);
     char* token = strtok(buf, " ");
-    printf("%s \n", token);
     int temp[num_resources];
-    token = strtok(NULL, buf); // get thread num
+    token = strtok(NULL, " "); // get thread num
     int thread_num = atoi(token);
     printf("thread_num: %d", thread_num);
     int i = 0;
-    while ((token = strtok(NULL, buf))) { 
+    while ((token = strtok(NULL, " "))) { 
         printf("token%d: %s", i, token);   
         temp[i] = atoi(token);
         i++;
@@ -142,7 +140,7 @@ void release_resources(char* buf) {
 
     printf("thread_num: %d \n", thread_num);
     for (int j = 0; j < num_resources; j++) { 
-        printf("%d", temp[j]);
+        printf("%d ", temp[j]);
     }
     printf("\n");
 }
