@@ -73,7 +73,7 @@ void determine_t_arr_len(FILE** f) {
     return;
 }
 
-void invoke_command(char* prefix, char* buf, int* resources) { 
+void invoke_command(char* prefix, char* buf) { 
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
@@ -222,7 +222,7 @@ int main(int argc, char** argv) {
         fputs ("enter string: ", stdout);   /* prompt */
         while (fgets(buf, neededC, stdin)) {   // fgets
             char * prefix = strtok(buf, " \n");
-            invoke_command(prefix, buf, resources);
+            invoke_command(prefix, buf);
             fputs ("enter string: ", stdout);
         }
     }
