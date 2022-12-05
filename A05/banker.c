@@ -220,7 +220,7 @@ void run() {
 
     // create array to hold all remaining threads
     int remaining_threads[t_arr_len];
-    int remaining_thread_count = num_threads;
+    int remaining_thread_count = t_arr_len;
     for (int i = 0; i < t_arr_len; i++) { 
         remaining_threads[i] = i;
     }
@@ -238,7 +238,7 @@ void run() {
                 // record thread num
                 thread_num = remaining_threads[i];
                 // pop element from remaining threads
-                for (i; i<remaining_thread_count - 1; i++) { 
+                for (i<remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
                 }
                 i++;
