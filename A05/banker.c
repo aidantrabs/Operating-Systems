@@ -44,7 +44,7 @@ int** readFileToMaxArrAlloc(FILE** f) {
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr = getMaxResourceFromLine(line);
-        t_max_arr[i] = t_arr;
+        memcpy(t_max_arr[i], t_arr);
     }
 
     return t_max_arr;
