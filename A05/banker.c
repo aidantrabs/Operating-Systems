@@ -215,7 +215,7 @@ void release_thread_resources(int thread_num) {
 
     printf("    New available \n");
     for (int i = 0; i < num_resources; i++) { 
-        available[i] += allocated[thread_num][i];
+        printf("%d ", allocated[thread_num][i]);
     }
 }
 
@@ -254,7 +254,7 @@ void run() {
                 // invoke print and release function on that index array
                 release_thread_resources(thread_num);
             }
-
+            printf()
             counter++;
         }
     }
