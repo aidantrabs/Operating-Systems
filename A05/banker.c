@@ -164,7 +164,7 @@ int main(int argc, char** argv) {
     }
 
     determine_t_arr_len(&f);
-    int* t_max_arr[t_arr_len][num_resources] = 
+    int t_max_arr[t_arr_len][num_resources] = 
         readFileToMaxArrAlloc(&f);
 
     while (1) {
