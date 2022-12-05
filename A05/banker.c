@@ -33,18 +33,19 @@ int* getMaxResourceFromLine(char *line) {
     return t_arr;
 }
 
-int** readFileToMaxArrAlloc(FILE** f) { 
+int** readFileToMaxArrAlloc(FILE** f, ** t_max_arr) { 
     ssize_t read;
     size_t len = 0;
     char * line;
     int * t_arr; 
 
-    int t_max_arr[t_arr_len][num_resources];
     // allocate lines and assign to index in array
     int i = 0; 
-    while ((read = getline(&line, &len, *f)) != -1) { 
+    while ((read = getline(&line, &len, *f)) != -1) {
+        *(t_max_arr[i]) = malloc(sizeof(int)*num_resources);
         t_arr = getMaxResourceFromLine(line);
         memcpy(t_max_arr[i], t_arr, sizeof(int) * num_resources);
+        i+=1;
     }
 
     return &t_max_arr;
@@ -165,8 +166,8 @@ int main(int argc, char** argv) {
     }
 
     determine_t_arr_len(&f);
-    int t_max_arr[t_arr_len][num_resources] = 
-        readFileToMaxArrAlloc(&f);
+    int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);;
+    readFileToMaxArrAlloc(&f, t_max_arr);
 
     while (1) {
         char buf[MAXC];                  
