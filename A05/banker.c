@@ -126,9 +126,9 @@ void request_resources() {
 
 /* RL Command */
 void release_resources(char* buf) {
-    printf("buf: %s", buf);
+    printf("buf: %s \n", buf);
     char* token = strtok(buf, " ");
-    printf("%s", token);
+    printf("%s \n", token);
     int temp[num_resources];
     token = strtok(NULL, " "); // get thread num
     int thread_num = atoi(token);
@@ -138,10 +138,11 @@ void release_resources(char* buf) {
         i++;
     }
 
-    printf("thread_num: %d", thread_num);
+    printf("thread_num: %d \n", thread_num);
     for (int j = 0; j < num_resources; j++) { 
         printf("%d", temp[j]);
     }
+    printf("\n");
 }
 
 /* Status Command */
@@ -194,8 +195,8 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
-        printf("About to invoke release_resources");
-        printf("buf: %s", buf);
+        printf("About to invoke release_resources \n");
+        printf("buf: %s \n", buf);
         release_resources(buf);
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
