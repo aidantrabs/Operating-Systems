@@ -178,18 +178,16 @@ int main(int argc, char** argv) {
 
     printf("Opened File \n");
     available = malloc(sizeof(int) * num_resources);
-    int resources[argc - 1];
+    max = malloc(sizeof(int)*(argc - 1));
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
-            resources[i] = atoi(argv[i]);
-            available[i] = resources[i];
+            max[i] = atoi(argv[i]);
+            available[i] = max[i];
             num_resources += 1; 
         }
     } else { 
         exit(0);
     }
-
-    max = *resources;
 
     printf("Wrote resources array \n");
     printf("num_resources: %d \n", num_resources);
