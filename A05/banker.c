@@ -193,19 +193,19 @@ int main(int argc, char** argv) {
     t_curr_arr = malloc(sizeof(int*)*t_arr_len);
 
     for (int i = 0; i < t_arr_len; i++) { 
-        t_curr_arr = calloc(num_resources, sizeof(int));
+        t_curr_arr[i] = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
             printf("%d ", t_max_arr[i][j]);
         }
         printf("\n");
     }
 
-    // for (int i = 0; i < t_arr_len; i++) { 
-    //     for (int j = 0; j < num_resources; j++) { 
-    //         printf("%d ", t_curr_arr[i][j]);
-    //     }
-    //     printf("\n");
-    // }
+    for (int i = 0; i < t_arr_len; i++) { 
+        for (int j = 0; j < num_resources; j++) { 
+            printf("%d ", t_curr_arr[i][j]);
+        }
+        printf("\n");
+    }
 
     while (1) {
         char buf[MAXC];                  
