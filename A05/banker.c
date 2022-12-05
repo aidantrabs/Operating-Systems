@@ -208,7 +208,7 @@ int main(int argc, char** argv) {
     available = malloc(sizeof(int) * num_resources);
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
-            available[i] = atoi(argv[i]);
+            available[i-1] = atoi(argv[i]);
             num_resources += 1; 
         }
     } else { 
