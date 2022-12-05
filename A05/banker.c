@@ -253,7 +253,6 @@ int main(int argc, char** argv) {
         fputs ("enter string: ", stdout);   /* prompt */
         while (fgets(buf, maxC, stdin)) {   // fgets
             char* buff = malloc(sizeof(char)*maxC);
-            printf("")
             strcpy(buff, buf);
             char * prefix = strtok(buf, " \n");
             invoke_command(prefix, buff);
