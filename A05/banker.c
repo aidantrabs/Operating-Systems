@@ -213,8 +213,7 @@ void release_thread_resources(int thread_num) {
         available[i] += allocated[thread_num][i];
     }
 
-    printf("    New available \n");
-    printf("    ");
+    printf("    New available ");
     for (int i = 0; i < num_resources; i++) { 
         printf("%d ", allocated[thread_num][i]);
     }
