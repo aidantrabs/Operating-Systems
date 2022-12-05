@@ -257,7 +257,7 @@ void invoke_command(char* prefix, char* buf) {
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
-        printf("Not Implemented Yet \n");
+        run();
     } else if (strcmp(prefix, "Status") == 0) { 
         status();
     } else if (strcmp(prefix, "RQ") == 0) { 
