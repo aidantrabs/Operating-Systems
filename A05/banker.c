@@ -27,6 +27,7 @@ int* get_max_resource_line(char *line) {
     char* token = strtok(line, ",");
     int * t_arr = malloc(sizeof(int) * num_resources);
     t_arr[i] = atoi(token);
+
     while ((token = strtok(NULL, ","))) {    
         i += 1;
         t_arr[i] = atoi(token);
@@ -40,9 +41,8 @@ void read_file_to_max_arr(FILE** f, int ** max) {
     size_t len = 0;
     char * line;
     int * t_arr; 
-
-    // allocate lines and assign to index in array
     int i = 0; 
+
     while ((read = getline(&line, &len, *f)) != -1) {
         *(max + i) = malloc(sizeof(int)*num_resources);
         t_arr = get_max_resource_line(line);
@@ -62,11 +62,10 @@ void determine_t_arr_len(FILE** f) {
     size_t len = 0;
     char * line;
      
-    // count number of lines
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr_len += 1;
     }
-    // back to top of file
+
     rewind(*f);
 
     return;
@@ -134,7 +133,6 @@ bool safety_algorithm(char *buf) {
     return true;
 }
 
-/* RQ Command */
 void request_resources(char* buf) {
     int i;
     bool deny = false;
@@ -181,11 +179,10 @@ void request_resources(char* buf) {
     return;
 }
 
-/* RL Command */
 void release_resources(char* buf) {
     char* token = strtok(buf, " ");
     int temp[num_resources];
-    token = strtok(NULL, " "); // get thread num
+    token = strtok(NULL, " "); 
     int thread_num = atoi(token);
     int i = 0;
 
@@ -194,8 +191,7 @@ void release_resources(char* buf) {
         i++;
     }
 
-    printf("thread_num: %d \n", thread_num);
-    printf("To release: \n");
+    printf("    To release: ");
     for (int j = 0; j < num_resources; j++) { 
         available[j] += temp[j];
         allocated[thread_num][j] -= temp[j];
@@ -204,14 +200,14 @@ void release_resources(char* buf) {
 
     printf("\n");
 
-    printf("Now Available Resources: \n");
+    printf("    Now Available Resources: ");
     for (int j = 0; j < num_resources; j++) { 
         printf("%d ", available[j]);
     }
 
     printf("\n");
 
-    printf("Resources still held by thread: \n");
+    printf("    Resources still held by thread: ");
     for (int j = 0; j < num_resources; j++) { 
         printf("%d ", allocated[thread_num][j]);
     }
@@ -219,7 +215,6 @@ void release_resources(char* buf) {
     printf("\n");
 }
 
-/* Status Command */
 void status() {
     printf("Available Resources: \n");
     int i, j; 
@@ -291,7 +286,6 @@ void release_thread_resources(int thread_num) {
     printf(" \n");
 }
 
-/* Run Command */
 void run() {
     int thread_valid;
     int remaining_threads[t_arr_len];
@@ -317,26 +311,19 @@ void run() {
             }
 
             if (thread_valid == 1) {
-                // record thread num
                 thread_num = remaining_threads[i];
-                // pop element from remaining threads
-                for (; i<remaining_thread_count - 1; i++) { 
+                for (; i < remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
                 }
 
                 i++;
-                
-                // reduce remaining thread count
                 remaining_thread_count -= 1;
-
-                // invoke print and release function on that index array
                 release_thread_resources(thread_num);
             }
         }
         counter++;
     }
 }
-
 
 void invoke_command(char *prefix, char *buf) { 
     if (strcmp(prefix, "Exit") == 0) {
