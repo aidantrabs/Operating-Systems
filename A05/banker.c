@@ -78,7 +78,7 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "Run") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "Status") == 0) { 
-        printf("Not Implemented Yet\n");
+        status();
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
@@ -188,7 +188,7 @@ void status() {
     printf("Need Resources: \n");
     for (i = 0; i < t_arr_len; i++) { 
         for (j = 0; j < num_resources; j++) { 
-            printf("%d ", allocated[i][j]);
+            printf("%d ", max[i][j] - allocated[i][j]);
         }
         printf("\n");
     }
