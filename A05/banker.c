@@ -44,7 +44,9 @@ void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) {
     while ((read = getline(&line, &len, *f)) != -1) {
         *(t_max_arr + i) = malloc(sizeof(int)*num_resources);
         t_arr = getMaxResourceFromLine(line);
-        memcpy(t_max_arr[i], t_arr, sizeof(int) * num_resources);
+        for (int j = 0; j < num_resources; j++) { 
+            t_max_arr[i][j] = t_arr[j];
+        }
         i+=1;
     }
 
