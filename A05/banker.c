@@ -73,8 +73,8 @@ void invoke_command(char* prefix, char* buf, int* resources) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
         printf("Not Implemented Yet \n");
-    } else if (strcmp(prefix, "Status\n") == 0) { 
-        printf("Not Implemented Yet");
+    } else if (strcmp(prefix, "Status") == 0) { 
+        printf("Not Implemented Yet\n");
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
