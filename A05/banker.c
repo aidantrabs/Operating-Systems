@@ -110,7 +110,7 @@ void determine_t_arr_len(FILE** f) {
 // }
 
 /* RQ Command */
-void request_resources() {
+void request_resources(int customer_number, int *customer_resources) {
     // BANKERS ALGORITHM CONCEPT 
         // never allocate resources to a process when there 
         // aren't enough remaining processes for it to complete
@@ -185,6 +185,25 @@ void run() {
 
 
 void invoke_command(char* prefix, char* buf) { 
+    char* token = strtok(buf, " ");
+    char* command = token;
+    token = strtok(NULL, " ");
+    int customer_number = atoi(token);
+    int customer_resources[num_resources];
+    int i = 0;
+    while ((token = strtok(NULL, " "))) {   
+        customer_resources[i] = atoi(token);
+        i++;
+    }
+
+    // RQ Debugging
+    printf("command: %s \n", command);
+    printf("%d \n", customer_number);
+    for (int j = 0; j < num_resources; j++) { 
+        printf("%d ", customer_resources[j]);
+    }
+
+
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
@@ -192,7 +211,7 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "Status") == 0) { 
         status();
     } else if (strcmp(prefix, "RQ") == 0) { 
-        printf("Not Implemented Yet \n");
+        request_resources(customer_number, customer_resources);
     } else if (strcmp(prefix, "RL") == 0) { 
         printf("About to invoke release_resources \n");
         printf("buf: %s \n", buf);
