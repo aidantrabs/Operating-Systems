@@ -15,81 +15,17 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 #define MAXC 21
 
-void request_resources();
-void release_resources();
-void status();
-void run();
-void exit();
-void invoke_command();
-void define_resources(); 
-int* getMaxResourceFromLine(char *line);
-bool safety_algorithm(int *available, int **max, int **allocated, int **needed, int num_processes, int num_resources);
-
-
-int *t_max_arr;
-int *t_curr_arr;
-
 int t_arr_len = 0;
 int num_resources = 0;
 
-int main(int argc, char** argv) {
-    FILE* f;
-    f = fopen("sample_in_baker.txt" , "r");
-
-    int resources[argc - 1];
-
-    if (argc > 1) {
-        for (int i = 1; i < argc; i++) { 
-            resources[i] = argv[i];
-            num_resources += 1; 
-        }
-    } else { 
-        exit();
-    }
-
-    readFileToMaxArrAlloc(*f);
-
-    while (1) {
-        char buf[MAXC];                  
-        
-        fputs ("enter string: ", stdout);   /* prompt */
-        while (fgets(buf, MAXC, stdin)) {   // fgets
-            char * prefix = strtok(buf, " ");
-            invoke_command(prefix, buf, resources);
-        }
-    }
-}
-
-void readFileToMaxArrAlloc(FILE** f) { 
-    ssize_t read;
-    size_t len = 0;
-    char * line;
-    char * token;
-    int * t_arr;
-
-    // count number of lines
-    while ((read = getline(&line, &len, f)) != -1) { 
-        t_arr_len += 1;
-    }
-    // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
-    
-    malloc(t_arr_len * sizeof(int[]))
-    // allocate lines and assign to index in array
-    int i = 0; 
-    while ((read = getline(&line, &len, f)) != -1) { 
-        t_arr = getMaxResourceFromLine(&line);
-        t_max_arr[i] = &t_arr;
-    }
-
-    return;
-}
+int ** test;
 
 int* getMaxResourceFromLine(char *line) { 
     int * t_arr = malloc(sizeof(int) * num_resources);
     int i = 0;
-    char* token = strtok(s, " ");
+    char* token = strtok(line, ",");
     t_arr[i] = atoi(token);
-    while (token = strtok(NULL, " ")) {    
+    while ((token = strtok(NULL, ","))) {    
         i += 1;
         t_arr[i] = atoi(token);
     }
@@ -97,9 +33,45 @@ int* getMaxResourceFromLine(char *line) {
     return t_arr;
 }
 
+void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) { 
+    ssize_t read;
+    size_t len = 0;
+    char * line;
+    int * t_arr; 
+
+    // allocate lines and assign to index in array
+    int i = 0; 
+    while ((read = getline(&line, &len, *f)) != -1) {
+        *(t_max_arr + i) = malloc(sizeof(int)*num_resources);
+        t_arr = getMaxResourceFromLine(line);
+        for (int j = 0; j < num_resources; j++) { 
+            t_max_arr[i][j] = t_arr[j];
+        }
+        i+=1;
+    }
+
+    return;
+}
+
+void determine_t_arr_len(FILE** f) { 
+    ssize_t read;
+    size_t len = 0;
+    char * line;
+     
+    // count number of lines
+    while ((read = getline(&line, &len, *f)) != -1) { 
+        t_arr_len += 1;
+    }
+    // back to top of file
+    rewind(*f);
+
+    return;
+}
+
 void invoke_command(char* prefix, char* buf, int* resources) { 
+    printf("%s", prefix);
     if (strcmp(prefix, "Exit") == 0) {
-        exit();
+        exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "Status") == 0) { 
@@ -181,7 +153,49 @@ void run() {
 
 }
 
-/* Exit Command */
-void exit() {
-    exit(0);
+
+int main(int argc, char** argv) {
+    FILE* f;
+    f = fopen("sample_in_banker.txt" , "r");
+
+    printf("Opened File \n");
+
+    int resources[argc - 1];
+    if (argc > 1) {
+        for (int i = 1; i < argc; i++) { 
+            resources[i] = atoi(argv[i]);
+            num_resources += 1; 
+        }
+    } else { 
+        exit(0);
+    }
+
+    printf("Wrote resources array \n");
+    printf("num_resources: %d \n", num_resources);
+
+    determine_t_arr_len(&f);
+
+    printf("Determined thread count \n");
+    printf("t_arr_len: %d \n", t_arr_len);
+    int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);
+    readFileToMaxArrAlloc(&f, t_max_arr);
+
+    printf("Read file to 2d array \n");
+
+    for (int i = 0; i < t_arr_len; i++) { 
+        for (int j = 0; j < num_resources; j++) { 
+            printf("%d ", t_max_arr[i][j]);
+        }
+        printf("\n");
+    }
+
+    while (1) {
+        char buf[MAXC];                  
+        
+        fputs ("enter string: ", stdout);   /* prompt */
+        while (fgets(buf, MAXC, stdin)) {   // fgets
+            char * prefix = strtok(buf, " ");
+            invoke_command(prefix, buf, resources);
+        }
+    }
 }
