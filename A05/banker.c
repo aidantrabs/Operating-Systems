@@ -72,23 +72,6 @@ void determine_t_arr_len(FILE** f) {
     return;
 }
 
-void invoke_command(char* prefix, char* buf) { 
-    if (strcmp(prefix, "Exit") == 0) {
-        exit(0);
-    } else if (strcmp(prefix, "Run") == 0) { 
-        printf("Not Implemented Yet \n");
-    } else if (strcmp(prefix, "Status") == 0) { 
-        status();
-    } else if (strcmp(prefix, "RQ") == 0) { 
-        printf("Not Implemented Yet \n");
-    } else if (strcmp(prefix, "RL") == 0) { 
-        // release_resources(&temp);
-        printf("Not Implemented Yet \n");
-    } else { 
-        printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
-    }
-}
-
 // bool safety_algorithm(int *available, int **max, int **allocated, int **max, int num_processes, int num_resources) {
 //     int *work = malloc(sizeof(int) * num_resources);
 //     int *is_done = malloc(sizeof(int) * num_processes);
@@ -199,6 +182,23 @@ void run() {
 
 }
 
+
+void invoke_command(char* prefix, char* buf) { 
+    if (strcmp(prefix, "Exit") == 0) {
+        exit(0);
+    } else if (strcmp(prefix, "Run") == 0) { 
+        printf("Not Implemented Yet \n");
+    } else if (strcmp(prefix, "Status") == 0) { 
+        status();
+    } else if (strcmp(prefix, "RQ") == 0) { 
+        printf("Not Implemented Yet \n");
+    } else if (strcmp(prefix, "RL") == 0) { 
+        // release_resources(&temp);
+        printf("Not Implemented Yet \n");
+    } else { 
+        printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
+    }
+}
 
 int main(int argc, char** argv) {
     FILE* f;
