@@ -232,8 +232,8 @@ void run() {
         remaining_threads[i] = i;
     }
     int thread_num;
-    int counter = t_arr_len;
-    while (remaining_thread_count > 0 && counter < 10) { 
+    int counter = 0;
+    while (remaining_thread_count > 0 && counter < t_arr_len) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
 
