@@ -176,7 +176,7 @@ void status() {
     }
 
     printf("Allocated Resources: \n");
-    for (i = 0; i < t_arr_len; i++) { 
+    for (i = 0; i < t_arr_len; i++) {
         for (j = 0; j < num_resources; j++) { 
             printf("%d ", allocated[i][j]);
         }
@@ -192,9 +192,64 @@ void status() {
     }
 }
 
+release_thread_resources(int thread_num) { 
+    printf("--> Customer/Thread %d \n", thread_num);
+    printf("    Allocated resources: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", allocated[thread_num][i])
+    }
+    printf(" \n");
+
+    printf("    Needed: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", max[thread_num][i] -  allocated[thread_num][i])
+    }
+    printf(" \n");
+
+    printf("    Thread has started \n");
+    printf("    Thread has finished \n");
+    printf("    Thread is releasing resources \n");
+    for (int i = 0; i < num_resources; i++) { 
+        available[i] += allocated[thread_num][i]
+    }
+}
+
 /* Run Command */
 void run() {
+    int thread_valid;
 
+    // create array to hold all remaining threads
+    int remaining_threads[t_arr_len];
+    int remaining_thread_count = num_threads;
+    for (int i = 0; i < t_arr_len; i++) { 
+        remaining_threads[i] = i;
+    }
+    int thread_num;
+
+    while (remaining_thread_count > 0) { 
+        for (int i = 0; i < remaining_thread_count; i++) { 
+            thread_valid = 1;
+
+            for (int j = 0; j < num_resources; j++) { 
+                if (available[j] > (max[i][j] - allocated[i][j])) // if available > needed
+                    thread_valid = 0;
+            }
+            if (thread_valid == 1) { 
+                // record thread num
+                thread_num = remaining_threads[i];
+                // pop element from remaining threads
+                for (i; i<remaining_thread_count - 1; i++) { 
+                    remaining_threads[i] = remaining_threads[i + 1];
+                }
+                i++;
+                // reduce remaining thread count
+                remaining_thread_count -= 1;
+
+                // invoke print and release function on that index array
+                release_thread_resources(thread_num);
+            }
+        }
+    }
 }
 
 
