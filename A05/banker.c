@@ -90,43 +90,43 @@ void invoke_command(char* prefix, char* buf, int* resources) {
     }
 }
 
-bool safety_algorithm(int *available, int **needed, int **allocated, int **needed, int num_processes, int num_resources) {
-    int *work = malloc(sizeof(int) * num_resources);
-    int *is_done = malloc(sizeof(int) * num_processes);
-    int i, j, k, count = 0;
+// bool safety_algorithm(int *available, int **needed, int **allocated, int **needed, int num_processes, int num_resources) {
+//     int *work = malloc(sizeof(int) * num_resources);
+//     int *is_done = malloc(sizeof(int) * num_processes);
+//     int i, j, k, count = 0;
 
-    for (i = 0; i < num_resources; i++) {
-        work[i] = available[i];
-    }
+//     for (i = 0; i < num_resources; i++) {
+//         work[i] = available[i];
+//     }
 
-    for (i = 0; i < num_processes; i++) {
-        is_done[i] = 0;
-    }
+//     for (i = 0; i < num_processes; i++) {
+//         is_done[i] = 0;
+//     }
 
-    for (i = 0; i < num_processes; i++) {
-        for (j = 0; j < num_processes; j++) {
-            if (is_done[j] == 0) {
-                for (k = 0; k < num_resources; k++) {
-                    if (needed[j][k] > work[k]) {
-                        break;
-                    }
-                }
-                if (k == num_resources) {
-                    for (k = 0; k < num_resources; k++) {
-                        work[k] += allocated[j][k];
-                    }
-                    is_done[j] = 1;
-                }
-            }
-        }
-    }
+//     for (i = 0; i < num_processes; i++) {
+//         for (j = 0; j < num_processes; j++) {
+//             if (is_done[j] == 0) {
+//                 for (k = 0; k < num_resources; k++) {
+//                     if (needed[j][k] > work[k]) {
+//                         break;
+//                     }
+//                 }
+//                 if (k == num_resources) {
+//                     for (k = 0; k < num_resources; k++) {
+//                         work[k] += allocated[j][k];
+//                     }
+//                     is_done[j] = 1;
+//                 }
+//             }
+//         }
+//     }
 
-    if (count == num_processes) {
-        return true;
-    } else {
-        return false;
-    }
-}
+//     if (count == num_processes) {
+//         return true;
+//     } else {
+//         return false;
+//     }
+// }
 
 /* RQ Command */
 void request_resources() {
