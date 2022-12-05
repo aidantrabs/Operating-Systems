@@ -231,12 +231,13 @@ void run() {
             thread_valid = 1;
 
             for (int j = 0; j < num_resources; j++) { 
-                if (available[j] > (max[i][j] - allocated[i][j])) // if available > needed
+                if (available[j] < (max[i][j] - allocated[i][j])) // if available > needed
                     thread_valid = 0;
             }
-            if (thread_valid == 1) { 
+            if (thread_valid == 1) {
                 // record thread num
                 thread_num = remaining_threads[i];
+                printf("Thread %d is valid", thread_num);
                 // pop element from remaining threads
                 for (; i<remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
