@@ -153,7 +153,7 @@ void run() {
 
 int main(int argc, char** argv) {
     FILE* f;
-    f = fopen("sample_in_baker.txt" , "r");
+    f = fopen("sample_in_banker.txt" , "r");
 
     printf("Opened File");
 
