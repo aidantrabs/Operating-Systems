@@ -186,7 +186,7 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    *max = resources;
+    max = *resources;
 
     printf("Wrote resources array \n");
     printf("num_resources: %d \n", num_resources);
