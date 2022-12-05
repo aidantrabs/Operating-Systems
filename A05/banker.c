@@ -194,6 +194,8 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
+        printf("About to invoke release_resources");
+        printf("buf: %s", buf);
         release_resources(buf);
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
