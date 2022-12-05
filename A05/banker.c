@@ -195,6 +195,7 @@ int main(int argc, char** argv) {
         while (fgets(buf, MAXC, stdin)) {   // fgets
             char * prefix = strtok(buf, " \n");
             invoke_command(prefix, buf, resources);
+            fputs ("enter string: ", stdout);
         }
     }
 }
