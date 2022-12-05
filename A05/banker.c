@@ -140,7 +140,7 @@ void release_resources(char* buf) {
     printf("To release: \n");
     for (int j = 0; j < num_resources; j++) { 
         available[j] += temp[j];
-        allocated[thread_num][j] += temp[j];
+        allocated[thread_num][j] -= temp[j];
         printf("%d ", temp[j]);
     }
     printf("\n");
