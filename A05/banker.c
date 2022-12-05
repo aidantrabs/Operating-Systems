@@ -71,43 +71,65 @@ void determine_t_arr_len(FILE** f) {
     return;
 }
 
-// bool safety_algorithm(int *available, int **max, int **allocated, int **max, int num_processes, int num_resources) {
-//     int *work = malloc(sizeof(int) * num_resources);
-//     int *is_done = malloc(sizeof(int) * num_processes);
-//     int i, j, k, count = 0;
+bool safety_algorithm(char *buf) {
+    int *request = malloc(sizeof(int) * num_resources);
+    int *work = malloc(sizeof(int) * num_resources);
+    int *is_done = malloc(sizeof(int) * t_arr_len);
+    int counter = 0, i = 0;
 
-//     for (i = 0; i < num_resources; i++) {
-//         work[i] = available[i];
-//     }
+    int i = 0;
+    char* token = strtok(buf, ",");
+    request[i] = atoi(token);
+    while ((token = strtok(NULL, ","))) {    
+        i += 1;
+        request[i] = atoi(token);
+    }
 
-//     for (i = 0; i < num_processes; i++) {
-//         is_done[i] = 0;
-//     }
+    for (int i = 0; i < num_resources; i++) {
+        if (request[i] > available[i]) {
+            return false;
+        }
+    }
 
-//     for (i = 0; i < num_processes; i++) {
-//         for (j = 0; j < num_processes; j++) {
-//             if (is_done[j] == 0) {
-//                 for (k = 0; k < num_resources; k++) {
-//                     if (max[j][k] > work[k]) {
-//                         break;
-//                     }
-//                 }
-//                 if (k == num_resources) {
-//                     for (k = 0; k < num_resources; k++) {
-//                         work[k] += allocated[j][k];
-//                     }
-//                     is_done[j] = 1;
-//                 }
-//             }
-//         }
-//     }
+    for (int i = 0; i < num_resources; i++) {
+        work[i] = available[i];
+    }
 
-//     if (count == num_processes) {
-//         return true;
-//     } else {
-//         return false;
-//     }
-// }
+    for (int i = 0; i < t_arr_len; i++) {
+        is_done[i] = 0;
+    }
+
+    while (counter < t_arr_len) {
+        bool found = false;
+        for (int i = 0; i < t_arr_len; i++) {
+            if (is_done[i] == 0) {
+                int j;
+                for (j = 0; j < num_resources; j++) {
+                    if (max[i][j] - allocated[i][j] > work[j]) {
+                        break;
+                    }
+                }
+                if (j == num_resources) {
+                    for (int k = 0; k < num_resources; k++) {
+                        work[k] += allocated[i][k];
+                    }
+                    is_done[i] = 1;
+                    found = true;
+                }
+            }
+        }
+        if (found == false) {
+            return false;
+        }
+        counter++;
+    }
+
+    for (int i = 0; i < num_resources; i++) {
+        available[i] -= request[i];
+    }
+
+    return true;
+}
 
 /* RQ Command */
 void request_resources(char* buf) {
