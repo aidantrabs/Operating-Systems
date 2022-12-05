@@ -193,7 +193,21 @@ void release_resources(char* buf) {
     printf("thread_num: %d \n", thread_num);
     printf("To release: \n");
     for (int j = 0; j < num_resources; j++) { 
+        available[j] += temp[j];
+        allocated[thread_num][j] -= temp[j];
         printf("%d ", temp[j]);
+    }
+    printf("\n");
+
+    printf("Now Available Resources: \n");
+    for (int j = 0; j < num_resources; j++) { 
+        printf("%d ", available[j]);
+    }
+    printf("\n");
+
+    printf("Resources still held by thread: \n");
+    for (int j = 0; j < num_resources; j++) { 
+        printf("%d ", allocated[thread_num][j]);
     }
     printf("\n");
 }
@@ -216,7 +230,7 @@ void status() {
     }
 
     printf("Allocated Resources: \n");
-    for (i = 0; i < t_arr_len; i++) { 
+    for (i = 0; i < t_arr_len; i++) {
         for (j = 0; j < num_resources; j++) { 
             printf("%d ", allocated[i][j]);
         }
@@ -232,9 +246,73 @@ void status() {
     }
 }
 
+void release_thread_resources(int thread_num) { 
+    printf("--> Customer/Thread %d \n", thread_num);
+    printf("    Allocated resources: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", allocated[thread_num][i]);
+    }
+    printf(" \n");
+
+    printf("    Needed: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", max[thread_num][i] -  allocated[thread_num][i]);
+    }
+    printf(" \n");
+
+    printf("    Thread has started \n");
+    printf("    Thread has finished \n");
+    printf("    Thread is releasing resources \n");
+    for (int i = 0; i < num_resources; i++) { 
+        available[i] += allocated[thread_num][i];
+    }
+
+    printf("    New available ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", allocated[thread_num][i]);
+    }
+    printf(" \n");
+}
+
 /* Run Command */
 void run() {
+    int thread_valid;
 
+    // create array to hold all remaining threads
+    int remaining_threads[t_arr_len];
+    int remaining_thread_count = t_arr_len;
+    for (int i = 0; i < t_arr_len; i++) { 
+        remaining_threads[i] = i;
+    }
+    int thread_num;
+    int counter = 0;
+    while (remaining_thread_count > 0 && counter < t_arr_len) { 
+        for (int i = 0; i < remaining_thread_count; i++) { 
+            thread_valid = 1;
+
+            for (int j = 0; j < num_resources; j++) { 
+                if (available[j] < (max[i][j] - allocated[i][j])) // if available > needed
+                    thread_valid = 0;
+            }
+            if (thread_valid == 1) {
+                // record thread num
+                thread_num = remaining_threads[i];
+                printf("Thread %d is valid", thread_num);
+                // pop element from remaining threads
+                for (; i<remaining_thread_count - 1; i++) { 
+                    remaining_threads[i] = remaining_threads[i + 1];
+                }
+                i++;
+                // reduce remaining thread count
+                remaining_thread_count -= 1;
+
+                // invoke print and release function on that index array
+                release_thread_resources(thread_num);
+            }
+        }
+        printf("Completed loop: %d \n", counter + 1);
+        counter++;
+    }
 }
 
 
@@ -242,7 +320,7 @@ void invoke_command(char* prefix, char* buf) {
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
-        printf("Not Implemented Yet \n");
+        run();
     } else if (strcmp(prefix, "Status") == 0) { 
         status();
     } else if (strcmp(prefix, "RQ") == 0) { 
@@ -271,18 +349,12 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    printf("Wrote resources array \n");
-    printf("num_resources: %d \n", num_resources);
-
     determine_t_arr_len(&f);
-
-    printf("Determined thread count \n");
-    printf("t_arr_len: %d \n", t_arr_len);
     max = malloc(sizeof(int*)*t_arr_len);
     readFileTomaxArrAlloc(&f, max);
-    printf("Read file to 2d array \n");
     allocated = malloc(sizeof(int*)*t_arr_len);
 
+    printf("Max: \n");
     for (int i = 0; i < t_arr_len; i++) { 
         allocated[i] = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
@@ -291,6 +363,7 @@ int main(int argc, char** argv) {
         printf("\n");
     }
 
+    printf("Allocated: \n");
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
             printf("%d ", allocated[i][j]);
