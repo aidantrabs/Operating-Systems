@@ -38,16 +38,15 @@ int** readFileToMaxArrAlloc(FILE** f) {
     char * line;
     int * t_arr; 
 
-    // !TODO: CODE HERE TO GO BACK TO TOP OF FILE
     int t_max_arr[t_arr_len][num_resources];
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr = getMaxResourceFromLine(line);
-        memcpy(t_max_arr[i], t_arr);
+        memcpy(t_max_arr[i], t_arr, sizeof(int) * num_resources);
     }
 
-    return t_max_arr;
+    return **t_max_arr;
 }
 
 void determine_t_arr_len(FILE** f) { 
@@ -59,6 +58,7 @@ void determine_t_arr_len(FILE** f) {
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr_len += 1;
     }
+    // back to top of file
     rewind(*f);
 
     return;
