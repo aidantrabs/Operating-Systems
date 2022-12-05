@@ -79,7 +79,8 @@ void invoke_command(char* prefix, char* buf, int* resources) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
-        release_resources(&temp);
+        // release_resources(&temp);
+        printf("Not Implemented Yet \n");
     }
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
@@ -193,7 +194,7 @@ int main(int argc, char** argv) {
     t_curr_arr = malloc(sizeof(int*)*t_arr_len);
 
     for (int i = 0; i < t_arr_len; i++) { 
-        t_curr_arr = calloc(sizeof(int) * num_resources);
+        t_curr_arr = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
             printf("%d ", t_max_arr[i][j]);
         }
