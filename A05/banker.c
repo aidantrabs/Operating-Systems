@@ -13,28 +13,32 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <sys/stat.h>
 #include <stdbool.h>
 
-#define MAXC 21
+#define neededC 21
 
 int t_arr_len = 0;
 int num_resources = 0;
 
-int ** t_max_arr;
-int ** t_curr_arr;
+int ** needed;
+int ** allocated;
+int * available;
+int * max;
 
-int* getMaxResourceFromLine(char *line) { 
-    int * t_arr = malloc(sizeof(int) * num_resources);
+int* getneededResourceFromLine(char *line) { 
+    
     int i = 0;
     char* token = strtok(line, ",");
+    int * t_arr = malloc(sizeof(int) * num_resources);
     t_arr[i] = atoi(token);
     while ((token = strtok(NULL, ","))) {    
         i += 1;
         t_arr[i] = atoi(token);
+        
     }
 
     return t_arr;
 }
 
-void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) { 
+void readFileToneededArrAlloc(FILE** f, int ** needed) { 
     ssize_t read;
     size_t len = 0;
     char * line;
@@ -43,10 +47,10 @@ void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) {
     // allocate lines and assign to index in array
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) {
-        *(t_max_arr + i) = malloc(sizeof(int)*num_resources);
-        t_arr = getMaxResourceFromLine(line);
+        *(needed + i) = malloc(sizeof(int)*num_resources);
+        t_arr = getneededResourceFromLine(line);
         for (int j = 0; j < num_resources; j++) { 
-            t_max_arr[i][j] = t_arr[j];
+            needed[i][j] = t_arr[j];
         }
         i+=1;
     }
@@ -86,7 +90,7 @@ void invoke_command(char* prefix, char* buf, int* resources) {
     }
 }
 
-bool safety_algorithm(int *available, int **max, int **allocated, int **needed, int num_processes, int num_resources) {
+bool safety_algorithm(int *available, int **needed, int **allocated, int **needed, int num_processes, int num_resources) {
     int *work = malloc(sizeof(int) * num_resources);
     int *is_done = malloc(sizeof(int) * num_processes);
     int i, j, k, count = 0;
@@ -132,7 +136,7 @@ void request_resources() {
 
     // iterate over resources required
 
-        // If current available resources < max required
+        // If current available resources < needed required
             // deny = true
 
     // if deny = false 
@@ -141,14 +145,15 @@ void request_resources() {
 
 /* RL Command */
 void release_resources(int* temp) {
-    // char* token = strtok(buf, " ");
-    // int temp[num_resources];
-    // token = strtok(NULL, " "); // get thread num
-    // int thread_num = atoi(token);
-    // int i = 0;
-    // while ((token = strtok(NULL, " "))) {    
-    //     temp[i] = atoi(token);
-    // }
+    char* token = strtok(buf, " ");
+    int temp[num_resources];
+    token = strtok(NULL, " "); // get thread num
+    int thread_num = atoi(token);
+    int i = 0;
+    while ((token = strtok(NULL, " "))) {    
+        temp[i] = atoi(token);
+        i++;
+    }
 
 
 }
@@ -169,16 +174,19 @@ int main(int argc, char** argv) {
     f = fopen("sample_in_banker.txt" , "r");
 
     printf("Opened File \n");
-
+    available = malloc(sizeof(int) * num_resources);
     int resources[argc - 1];
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
             resources[i] = atoi(argv[i]);
+            available[i] = resources[i];
             num_resources += 1; 
         }
     } else { 
         exit(0);
     }
+
+    max = &resources;
 
     printf("Wrote resources array \n");
     printf("num_resources: %d \n", num_resources);
@@ -187,31 +195,31 @@ int main(int argc, char** argv) {
 
     printf("Determined thread count \n");
     printf("t_arr_len: %d \n", t_arr_len);
-    t_max_arr = malloc(sizeof(int*)*t_arr_len);
-    readFileToMaxArrAlloc(&f, t_max_arr);
+    needed = malloc(sizeof(int*)*t_arr_len);
+    readFileToneededArrAlloc(&f, needed);
     printf("Read file to 2d array \n");
-    t_curr_arr = malloc(sizeof(int*)*t_arr_len);
+    allocated = malloc(sizeof(int*)*t_arr_len);
 
     for (int i = 0; i < t_arr_len; i++) { 
-        t_curr_arr[i] = calloc(num_resources, sizeof(int));
+        allocated[i] = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
-            printf("%d ", t_max_arr[i][j]);
+            printf("%d ", needed[i][j]);
         }
         printf("\n");
     }
 
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
-            printf("%d ", t_curr_arr[i][j]);
+            printf("%d ", allocated[i][j]);
         }
         printf("\n");
     }
 
     while (1) {
-        char buf[MAXC];                  
+        char buf[neededC];                  
         
         fputs ("enter string: ", stdout);   /* prompt */
-        while (fgets(buf, MAXC, stdin)) {   // fgets
+        while (fgets(buf, neededC, stdin)) {   // fgets
             char * prefix = strtok(buf, " \n");
             invoke_command(prefix, buf, resources);
             fputs ("enter string: ", stdout);
