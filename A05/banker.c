@@ -230,7 +230,7 @@ void run() {
         remaining_threads[i] = i;
     }
     int thread_num;
-    int counter;
+    int counter = t_arr_len;
     while (remaining_thread_count > 0 && counter < 10) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
@@ -254,9 +254,9 @@ void run() {
                 // invoke print and release function on that index array
                 release_thread_resources(thread_num);
             }
-            printf()
-            counter++;
         }
+        printf('Completed loop: %d', counter + 1);
+        counter++;
     }
 }
 
