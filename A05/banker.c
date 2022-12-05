@@ -31,7 +31,7 @@ int* getMaxResourceFromLine(char *line) {
         printf("%d \n", t_arr[i]);
     }
 
-    return *t_arr;
+    return t_arr;
 }
 
 void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) { 
