@@ -18,7 +18,8 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 int t_arr_len = 0;
 int num_resources = 0;
 
-int ** test;
+int ** t_max_arr;
+int ** t_curr_arr;
 
 int* getMaxResourceFromLine(char *line) { 
     int * t_arr = malloc(sizeof(int) * num_resources);
@@ -78,7 +79,8 @@ void invoke_command(char* prefix, char* buf, int* resources) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
-        printf("Not Implemented Yet \n");
+        release_resources(&temp);
+    }
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
     }
@@ -138,8 +140,17 @@ void request_resources() {
 }
 
 /* RL Command */
-void release_resources() {
-    //
+void release_resources(int* temp) {
+    char* token = strtok(buf, " ");
+    int temp[num_resources];
+    token = strtok(NULL, " "); // get thread num
+    int thread_num = atoi(token);
+    int i = 0;
+    while ((token = strtok(NULL, " "))) {    
+        temp[i] = atoi(token);
+    }
+
+
 }
 
 /* Status Command */
@@ -176,14 +187,22 @@ int main(int argc, char** argv) {
 
     printf("Determined thread count \n");
     printf("t_arr_len: %d \n", t_arr_len);
-    int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);
+    t_max_arr = malloc(sizeof(int*)*t_arr_len);
     readFileToMaxArrAlloc(&f, t_max_arr);
-
     printf("Read file to 2d array \n");
+    t_curr_arr = malloc(sizeof(int*)*t_arr_len);
+
+    for (int i = 0; i < t_arr_len; i++) { 
+        t_curr_arr = calloc(sizeof(int) * num_resources);
+        for (int j = 0; j < num_resources; j++) { 
+            printf("%d ", t_max_arr[i][j]);
+        }
+        printf("\n");
+    }
 
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
-            printf("%d ", t_max_arr[i][j]);
+            printf("%d ", t_curr_arr[i][j]);
         }
         printf("\n");
     }
