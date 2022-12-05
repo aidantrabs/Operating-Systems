@@ -69,15 +69,12 @@ void determine_t_arr_len(FILE** f) {
 }
 
 void invoke_command(char* prefix, char* buf, int* resources) { 
-    printf("%s \n", prefix);
-    int result = strcmp(prefix, "Exit\n") == 0;
-    printf("%d \n", result);
-    if (strcmp(prefix, "Exit\n") == 0) {
+    if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
         printf("Not Implemented Yet \n");
-    } else if (strcmp(prefix, "Status") == 0) { 
-        printf("Not Implemented Yet \n");
+    } else if (strcmp(prefix, "Status\n") == 0) { 
+        printf("Not Implemented Yet");
     } else if (strcmp(prefix, "RQ") == 0) { 
         printf("Not Implemented Yet \n");
     } else if (strcmp(prefix, "RL") == 0) { 
@@ -196,7 +193,7 @@ int main(int argc, char** argv) {
         
         fputs ("enter string: ", stdout);   /* prompt */
         while (fgets(buf, MAXC, stdin)) {   // fgets
-            char * prefix = strtok(buf, " ");
+            char * prefix = strtok(buf, " \n");
             invoke_command(prefix, buf, resources);
         }
     }
