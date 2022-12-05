@@ -21,12 +21,11 @@ int num_resources = 0;
 int ** test;
 
 int* getMaxResourceFromLine(char *line) { 
-    printf("Line: %s", line);
     int * t_arr = malloc(sizeof(int) * num_resources);
     int i = 0;
-    char* token = strtok(line, " ");
+    char* token = strtok(line, ",");
     t_arr[i] = atoi(token);
-    while ((token = strtok(NULL, line))) {    
+    while ((token = strtok(NULL, ","))) {    
         i += 1;
         t_arr[i] = atoi(token);
         printf("%d \n", t_arr[i]);
