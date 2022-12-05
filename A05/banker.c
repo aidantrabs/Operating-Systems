@@ -214,9 +214,11 @@ void release_thread_resources(int thread_num) {
     }
 
     printf("    New available \n");
+    printf("    ");
     for (int i = 0; i < num_resources; i++) { 
         printf("%d ", allocated[thread_num][i]);
     }
+    printf(" \n");
 }
 
 /* Run Command */
@@ -255,7 +257,7 @@ void run() {
                 release_thread_resources(thread_num);
             }
         }
-        printf("Completed loop: %d", counter + 1);
+        printf("Completed loop: %d \n", counter + 1);
         counter++;
     }
 }
