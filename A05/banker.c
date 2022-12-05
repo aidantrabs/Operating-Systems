@@ -55,7 +55,7 @@ void determine_t_arr_len(FILE** f) {
     ssize_t read;
     size_t len = 0;
     char * line;
-    int * t_arr; 
+     
     // count number of lines
     while ((read = getline(&line, &len, *f)) != -1) { 
         t_arr_len += 1;
