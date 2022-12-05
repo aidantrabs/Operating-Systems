@@ -33,7 +33,7 @@ int* getMaxResourceFromLine(char *line) {
     return t_arr;
 }
 
-int** readFileToMaxArrAlloc(FILE** f, ** t_max_arr) { 
+void readFileToMaxArrAlloc(FILE** f, int ** t_max_arr) { 
     ssize_t read;
     size_t len = 0;
     char * line;
@@ -48,7 +48,7 @@ int** readFileToMaxArrAlloc(FILE** f, ** t_max_arr) {
         i+=1;
     }
 
-    return &t_max_arr;
+    return;
 }
 
 void determine_t_arr_len(FILE** f) { 
