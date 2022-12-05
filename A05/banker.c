@@ -148,7 +148,7 @@ void release_resources(char* buf) {
     char* token = strtok(buf, " ");
     int temp[num_resources];
     token = strtok(NULL, " "); // get thread num
-    int thread_num = atoi(token); uncomment this 
+    int thread_num = atoi(token);
     int i = 0;
     while ((token = strtok(NULL, " ")) != NULL) {    
         temp[i] = atoi(token);
