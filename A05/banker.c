@@ -13,17 +13,16 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 #include <sys/stat.h>
 #include <stdbool.h>
 
-#define maxC 21
+#define MAXCHAR 21
 
 int t_arr_len = 0;
 int num_resources = 0;
 
-int ** max;
-int ** allocated;
-int * available;
+int **max;
+int **allocated;
+int *available;
 
-int* getmaxResourceFromLine(char *line) { 
-    
+int* get_max_resource_line(char *line) { 
     int i = 0;
     char* token = strtok(line, ",");
     int * t_arr = malloc(sizeof(int) * num_resources);
@@ -36,7 +35,7 @@ int* getmaxResourceFromLine(char *line) {
     return t_arr;
 }
 
-void readFileTomaxArrAlloc(FILE** f, int ** max) { 
+void read_file_to_max_arr(FILE** f, int ** max) { 
     ssize_t read;
     size_t len = 0;
     char * line;
@@ -46,11 +45,13 @@ void readFileTomaxArrAlloc(FILE** f, int ** max) {
     int i = 0; 
     while ((read = getline(&line, &len, *f)) != -1) {
         *(max + i) = malloc(sizeof(int)*num_resources);
-        t_arr = getmaxResourceFromLine(line);
+        t_arr = get_max_resource_line(line);
+
         for (int j = 0; j < num_resources; j++) { 
             max[i][j] = t_arr[j];
         }
-        i+=1;
+
+        i += 1;
     }
 
     return;
@@ -77,9 +78,9 @@ bool safety_algorithm(char *buf) {
     int *is_done = malloc(sizeof(int) * t_arr_len);
     int counter = 0, i = 0;
 
-    int i = 0;
     char* token = strtok(buf, ",");
     request[i] = atoi(token);
+    
     while ((token = strtok(NULL, ","))) {    
         i += 1;
         request[i] = atoi(token);
@@ -118,9 +119,11 @@ bool safety_algorithm(char *buf) {
                 }
             }
         }
+
         if (found == false) {
             return false;
         }
+
         counter++;
     }
 
@@ -137,11 +140,11 @@ void request_resources(char* buf) {
     bool deny = false;
     
     char* token = strtok(buf, " ");
-    char* command = token;
     token = strtok(NULL, " ");
     int customer_number = atoi(token);
     int customer_resources[num_resources];
     i = 0;
+
     while ((token = strtok(NULL, " "))) {   
         customer_resources[i] = atoi(token);
         i++;
@@ -170,9 +173,9 @@ void request_resources(char* buf) {
     }
 
     if (deny == true) {
-        printf("Request is satisfied \n"); // TODO: add safe state check from safety algorithm
+        printf("Request is not satisfied \n"); // TODO: add safe state check from safety algorithm
     } else {
-        printf("Request is not satisfied \n");
+        printf("Request is satisfied \n");
     }
 
     return;
@@ -185,6 +188,7 @@ void release_resources(char* buf) {
     token = strtok(NULL, " "); // get thread num
     int thread_num = atoi(token);
     int i = 0;
+
     while ((token = strtok(NULL, " "))) {   
         temp[i] = atoi(token);
         i++;
@@ -197,18 +201,21 @@ void release_resources(char* buf) {
         allocated[thread_num][j] -= temp[j];
         printf("%d ", temp[j]);
     }
+
     printf("\n");
 
     printf("Now Available Resources: \n");
     for (int j = 0; j < num_resources; j++) { 
         printf("%d ", available[j]);
     }
+
     printf("\n");
 
     printf("Resources still held by thread: \n");
     for (int j = 0; j < num_resources; j++) { 
         printf("%d ", allocated[thread_num][j]);
     }
+
     printf("\n");
 }
 
@@ -216,12 +223,12 @@ void release_resources(char* buf) {
 void status() {
     printf("Available Resources: \n");
     int i, j; 
-    for (i=0; i < num_resources; i++) { 
+    for (i = 0; i < num_resources; i++) { 
         printf("%d ", available[i]);
     }
     printf("\n");
 
-    printf("Maximum Resources: \n");
+    printf("Max Resources: \n");
     for (i = 0; i < t_arr_len; i++) { 
         for (j = 0; j < num_resources; j++) { 
             printf("%d ", max[i][j]);
@@ -252,12 +259,21 @@ void release_thread_resources(int thread_num) {
     for (int i = 0; i < num_resources; i++) { 
         printf("%d ", allocated[thread_num][i]);
     }
+    
     printf(" \n");
 
     printf("    Needed: ");
     for (int i = 0; i < num_resources; i++) { 
         printf("%d ", max[thread_num][i] -  allocated[thread_num][i]);
     }
+
+    printf(" \n");
+
+    printf("    Available: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", available[i]);
+    }
+
     printf(" \n");
 
     printf("    Thread has started \n");
@@ -267,42 +283,49 @@ void release_thread_resources(int thread_num) {
         available[i] += allocated[thread_num][i];
     }
 
-    printf("    New available ");
+    printf("    New available: ");
     for (int i = 0; i < num_resources; i++) { 
         printf("%d ", allocated[thread_num][i]);
     }
+
     printf(" \n");
 }
 
 /* Run Command */
 void run() {
     int thread_valid;
-
-    // create array to hold all remaining threads
     int remaining_threads[t_arr_len];
     int remaining_thread_count = t_arr_len;
+    
     for (int i = 0; i < t_arr_len; i++) { 
         remaining_threads[i] = i;
     }
+    
     int thread_num;
     int counter = 0;
+
+    printf("Safe Sequence is: \n");    
+
     while (remaining_thread_count > 0 && counter < t_arr_len) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
 
             for (int j = 0; j < num_resources; j++) { 
-                if (available[j] < (max[i][j] - allocated[i][j])) // if available > needed
+                if (available[j] < (max[i][j] - allocated[i][j])) {
                     thread_valid = 0;
+                }
             }
+
             if (thread_valid == 1) {
                 // record thread num
                 thread_num = remaining_threads[i];
-                printf("Thread %d is valid", thread_num);
                 // pop element from remaining threads
                 for (; i<remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
                 }
+
                 i++;
+                
                 // reduce remaining thread count
                 remaining_thread_count -= 1;
 
@@ -310,13 +333,12 @@ void run() {
                 release_thread_resources(thread_num);
             }
         }
-        printf("Completed loop: %d \n", counter + 1);
         counter++;
     }
 }
 
 
-void invoke_command(char* prefix, char* buf) { 
+void invoke_command(char *prefix, char *buf) { 
     if (strcmp(prefix, "Exit") == 0) {
         exit(0);
     } else if (strcmp(prefix, "Run") == 0) { 
@@ -326,8 +348,6 @@ void invoke_command(char* prefix, char* buf) {
     } else if (strcmp(prefix, "RQ") == 0) { 
         request_resources(buf);
     } else if (strcmp(prefix, "RL") == 0) { 
-        printf("About to invoke release_resources \n");
-        printf("buf: %s \n", buf);
         release_resources(buf);
     } else { 
         printf("Invalid input, use one of RQ, RL, Status, Run, Exit \n");
@@ -338,8 +358,8 @@ int main(int argc, char** argv) {
     FILE* f;
     f = fopen("sample_in_banker.txt" , "r");
 
-    printf("Opened File \n");
     available = malloc(sizeof(int) * num_resources);
+
     if (argc > 1) {
         for (int i = 1; i < argc; i++) { 
             available[i-1] = atoi(argv[i]);
@@ -351,10 +371,18 @@ int main(int argc, char** argv) {
 
     determine_t_arr_len(&f);
     max = malloc(sizeof(int*)*t_arr_len);
-    readFileTomaxArrAlloc(&f, max);
-    allocated = malloc(sizeof(int*)*t_arr_len);
+    read_file_to_max_arr(&f, max);
+    allocated = malloc(sizeof(int*) * t_arr_len);
 
-    printf("Max: \n");
+    printf("Number of Customers: %d \n", t_arr_len);
+    printf("Currently Available Resources: ");
+    for (int i = 0; i < num_resources; i++) { 
+        printf("%d ", available[i]);
+    }
+
+    printf(" \n");
+
+    printf("Maximum resources from file: \n");
     for (int i = 0; i < t_arr_len; i++) { 
         allocated[i] = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
@@ -363,24 +391,16 @@ int main(int argc, char** argv) {
         printf("\n");
     }
 
-    printf("Allocated: \n");
-    for (int i = 0; i < t_arr_len; i++) { 
-        for (int j = 0; j < num_resources; j++) { 
-            printf("%d ", allocated[i][j]);
-        }
-        printf("\n");
-    }
-
     while (1) {
-        char buf[maxC];                  
+        char buf[MAXCHAR];                  
         
-        fputs ("enter string: ", stdout);   /* prompt */
-        while (fgets(buf, maxC, stdin)) {   // fgets
-            char* buff = malloc(sizeof(char)*maxC);
+        fputs ("Enter Command: ", stdout);   
+        while (fgets(buf, MAXCHAR, stdin)) {  
+            char* buff = malloc(sizeof(char) * MAXCHAR);
             strcpy(buff, buf);
             char * prefix = strtok(buf, " \n");
             invoke_command(prefix, buff);
-            fputs ("enter string: ", stdout);
+            fputs ("Enter Command: ", stdout);
         }
     }
 }
