@@ -238,7 +238,7 @@ void run() {
                 // record thread num
                 thread_num = remaining_threads[i];
                 // pop element from remaining threads
-                for (i<remaining_thread_count - 1; i++) { 
+                for (; i<remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
                 }
                 i++;
