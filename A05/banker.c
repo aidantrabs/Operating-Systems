@@ -155,7 +155,7 @@ int main(int argc, char** argv) {
     FILE* f;
     f = fopen("sample_in_banker.txt" , "r");
 
-    printf("Opened File");
+    printf("Opened File \n");
 
     int resources[argc - 1];
     if (argc > 1) {
@@ -167,15 +167,17 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    printf("Wrote resources array");
+    printf("Wrote resources array \n");
+    printf("num_resources: %d \n", num_resources);
 
     determine_t_arr_len(&f);
 
-    printf("Determined thread count");
+    printf("Determined thread count \n");
+    printf("t_arr_len: %d \n", t_arr_len);
     int ** t_max_arr = malloc(sizeof(int*)*t_arr_len);
     readFileToMaxArrAlloc(&f, t_max_arr);
 
-    printf("Read file to 2d array");
+    printf("Read file to 2d array \n");
 
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
