@@ -28,6 +28,7 @@ int* getMaxResourceFromLine(char *line) {
     while ((token = strtok(NULL, " "))) {    
         i += 1;
         t_arr[i] = atoi(token);
+        printf("%d \n", t_arr[i]);
     }
 
     return t_arr;
