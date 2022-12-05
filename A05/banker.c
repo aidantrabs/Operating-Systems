@@ -192,7 +192,7 @@ void status() {
     }
 }
 
-release_thread_resources(int thread_num) { 
+void release_thread_resources(int thread_num) { 
     printf("--> Customer/Thread %d \n", thread_num);
     printf("    Allocated resources: ");
     for (int i = 0; i < num_resources; i++) { 
