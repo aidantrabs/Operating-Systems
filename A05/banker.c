@@ -156,7 +156,9 @@ void release_resources(char* buf) {
     }
 
     printf("thread_num: %d", thread_num);
-
+    for (int j = 0; j < num_resources; j++) { 
+        printf("%d", temp[j]);
+    }
 }
 
 /* Status Command */
