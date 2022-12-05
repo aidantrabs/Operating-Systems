@@ -144,17 +144,18 @@ void request_resources() {
 }
 
 /* RL Command */
-void release_resources(int* temp) {
+void release_resources(char* buf) {
     char* token = strtok(buf, " ");
     int temp[num_resources];
     token = strtok(NULL, " "); // get thread num
-    int thread_num = atoi(token);
+    int thread_num = atoi(token); uncomment this 
     int i = 0;
-    while ((token = strtok(NULL, " "))) {    
+    while ((token = strtok(NULL, " ")) != NULL) {    
         temp[i] = atoi(token);
         i++;
     }
 
+    printf("thread_num: %d", thread_num);
 
 }
 
