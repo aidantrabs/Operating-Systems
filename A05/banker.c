@@ -15,9 +15,10 @@ Emails: trab5590@mylaurier.ca & nece1860@mylaurier.ca
 
 #define MAXC 21
 
-
 int t_arr_len = 0;
 int num_resources = 0;
+
+int ** test;
 
 int* getMaxResourceFromLine(char *line) { 
     int * t_arr = malloc(sizeof(int) * num_resources);
@@ -46,7 +47,7 @@ int** readFileToMaxArrAlloc(FILE** f) {
         memcpy(t_max_arr[i], t_arr, sizeof(int) * num_resources);
     }
 
-    return **t_max_arr;
+    return &t_max_arr;
 }
 
 void determine_t_arr_len(FILE** f) { 
