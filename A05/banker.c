@@ -225,8 +225,8 @@ void run() {
         remaining_threads[i] = i;
     }
     int thread_num;
-
-    while (remaining_thread_count > 0) { 
+    int counter;
+    while (remaining_thread_count > 0 && counter < 10) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
 
@@ -248,6 +248,8 @@ void run() {
                 // invoke print and release function on that index array
                 release_thread_resources(thread_num);
             }
+
+            counter++;
         }
     }
 }
@@ -286,18 +288,12 @@ int main(int argc, char** argv) {
         exit(0);
     }
 
-    printf("Wrote resources array \n");
-    printf("num_resources: %d \n", num_resources);
-
     determine_t_arr_len(&f);
-
-    printf("Determined thread count \n");
-    printf("t_arr_len: %d \n", t_arr_len);
     max = malloc(sizeof(int*)*t_arr_len);
     readFileTomaxArrAlloc(&f, max);
-    printf("Read file to 2d array \n");
     allocated = malloc(sizeof(int*)*t_arr_len);
 
+    printf("Max: \n");
     for (int i = 0; i < t_arr_len; i++) { 
         allocated[i] = calloc(num_resources, sizeof(int));
         for (int j = 0; j < num_resources; j++) { 
@@ -306,6 +302,7 @@ int main(int argc, char** argv) {
         printf("\n");
     }
 
+    printf("Allocated: \n");
     for (int i = 0; i < t_arr_len; i++) { 
         for (int j = 0; j < num_resources; j++) { 
             printf("%d ", allocated[i][j]);
