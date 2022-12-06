@@ -344,10 +344,12 @@ void run() {
     int counter = 0;
 
     printf("Safe Sequence: ");
+    for (int i = 0; i < T_ARR_LEN; i++) { 
+        printf("%d ", remaining_threads[i]);
+    }
     
-
     printf(" \n");
-
+    
     while (remaining_thread_count > 0 && counter < T_ARR_LEN) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
