@@ -279,7 +279,7 @@ void release_thread_resources(int thread_num) {
 
     printf("    New available: ");
     for (int i = 0; i < num_resources; i++) { 
-        printf("%d ", allocated[thread_num][i]);
+        printf("%d ", available[i]);
     }
 
     printf(" \n");
@@ -302,15 +302,15 @@ void run() {
     while (remaining_thread_count > 0 && counter < t_arr_len) { 
         for (int i = 0; i < remaining_thread_count; i++) { 
             thread_valid = 1;
+            thread_num = remaining_threads[i];
 
             for (int j = 0; j < num_resources; j++) { 
-                if (available[j] < (max[i][j] - allocated[i][j])) {
+                if (available[j] < (max[thread_num][j] - allocated[thread_num][j])) {
                     thread_valid = 0;
                 }
             }
 
             if (thread_valid == 1) {
-                thread_num = remaining_threads[i];
                 for (; i < remaining_thread_count - 1; i++) { 
                     remaining_threads[i] = remaining_threads[i + 1];
                 }
