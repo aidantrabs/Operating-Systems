@@ -14,7 +14,7 @@
 - `A02` Processes & Process Management
 - `A03` CPU Scheduling and Threading
 - `A04` Thread synchronization
-- `A05` Banker's algorithm for deadlock advoidance
+- `A05` Banker's algorithm for deadlock avoidance
 
 ## Usage :pencil:
 
