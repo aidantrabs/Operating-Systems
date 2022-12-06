@@ -166,7 +166,6 @@ void request_resources(char* buf) {
         for (i = 0; i < num_resources; i++) {
             available[i] -= customer_resources[i];
             allocated[customer_number][i] += customer_resources[i];
-            max[customer_number][i] -= customer_resources[i];
         }
     }
 
